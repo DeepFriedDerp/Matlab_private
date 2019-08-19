@@ -7,7 +7,7 @@ function [elementalRotationMat] = elementalRotationMatrix(axisName,eulerAng,ndim
 %       OUTPUT elementalRotationMat : The square, elemental rotation matrix of size
 %       ndim
 %
-%       INPUT axisName : The axis name (e.g. 'x' for the x-axis). String type
+%       INPUT axisName : The axis name (e.g. 'x' for the x-axis). char type
 %       that can be either x, y, or z.
 %
 %       INPUT eulerAng : The symbolic function handle for which euler angle you are
@@ -23,11 +23,11 @@ narginchk(2,3);
 
 %setup accepted input argument classes, and any required values and
 %attributes for each argument
-inputClasses = {'string','sym','numeric'};
+inputClasses = {'char','sym','numeric'};
 axisName_AcceptedVals = {'x','X','y','Y','z','Z'};
 ndim_Attributes = {'>',1,'<',4};
 
-%validate the axisName input argument (string)
+%validate the axisName input argument (char)
 validateattributes(axisName,inputClasses(1),{'nonempty'});
 
 %validate the eulerAng input argument (symbolic function handle)
@@ -46,7 +46,7 @@ else
     rotationAxis = validatestring(axisName,axisName_AcceptedVals(5:6));
 end
 
-fprintf('Creating elemental rotation matrix %s\n',rotationAxis)
+fprintf('Creating elemental rotation matrix %c\n',rotationAxis)
 
 % generate the symbolic square matrix that will become the rotation matrix,
 % size of the matrix is determined by the number of dimensions
@@ -54,17 +54,17 @@ if(numberOfDimensions > 2)
     rotationMatrixBuild = sym(eye(3));
     
     %based on the rotation axis name, construct the rest of the rotation matrix
-    if(strcmp(rotationAxis,"x") || strcmp(rotationAxis,"X"))
+    if(rotationAxis == 'x' || rotationAxis == 'x')
         rotationMatrixBuild(2,2) = cos(eulerAng);
         rotationMatrixBuild(3,3) = cos(eulerAng);
         rotationMatrixBuild(3,2) = sin(eulerAng);
         rotationMatrixBuild(2,3) = -sin(eulerAng);
-    elseif(strcmp(rotationAxis,"y") || strcmp(rotationAxis,"Y"))
+    elseif(rotationAxis == 'y' || rotationAxis == 'y')
         rotationMatrixBuild(1,1) = cos(eulerAng);
         rotationMatrixBuild(3,3) = cos(eulerAng);
         rotationMatrixBuild(1,3) = sin(eulerAng);
         rotationMatrixBuild(3,1) = -sin(eulerAng);
-    elseif(strcmp(rotationAxis,"z") || strcmp(rotationAxis,"Z"))
+    elseif(rotationAxis == 'z' || rotationAxis == 'z')
         rotationMatrixBuild(1,1) = cos(eulerAng);
         rotationMatrixBuild(2,2) = cos(eulerAng);
         rotationMatrixBuild(2,1) = sin(eulerAng);
