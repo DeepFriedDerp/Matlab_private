@@ -42,7 +42,8 @@ if(nargin > 2)
     rotationAxis = validatestring(axisName,axisName_AcceptedVals);
     validateattributes(ndim,inputClasses(3),ndim_Attributes);
     numberOfDimensions = ndim;
-else
+end
+if(numberOfDimensions < 3)
     rotationAxis = validatestring(axisName,axisName_AcceptedVals(5:6));
 end
 

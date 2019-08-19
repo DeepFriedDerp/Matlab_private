@@ -1,9 +1,12 @@
-function [rotationMatrixFinal] = frame2frameRotationMatrixGen(rotationSequence,eulerAngles)
-%frame2frameRotationMatrixGen Constructs an reference frame to reference frame rotation matrix
+function [rotationMatrixFinal] = BcA_RotationMatrix(rotationSequence,eulerAngles)
+%frame2frameRotationMatrixGen Constructs n reference frame to reference
+%frame rotation matrix, defined as rotating the B from the A frame about
+%each axis, in order, provided in rotationSequence, magnitudes of each
+%rotation provided by the respective component in eulerAngles. 
 %
-%   DEPENDENCIES : elementalRotationMatrix.m
+%   DEPENDENCIES : BcA_RotationMatrix.m
 %
-%   FORMAT : [rotationMatrixFinal] = frame2frameRotationMatrixGen(rotationSequence,eulerAngles)
+%   FORMAT : [rotationMatrixFinal] = BcA_RotationMatrix(rotationSequence,eulerAngles)
 %
 %   ARGUMENTS :
 %       OUTPUT rotationMatrixFinal : The square, symbolic rotation matrix
@@ -28,7 +31,9 @@ rotationSequence_AcceptedVals = {'x','X','y','Y','z','Z'};
 
 %validate the rotationSequence input argument (char array)
 validateattributes(rotationSequence,inputClasses(1),{'nonempty'});
-rotationSequence = validatestring(rotationSequence,rotationSequence_AcceptedVals);
+for(i = 1:length(rotationSequence))
+    rotationSequence(i) = validatestring(rotationSequence(i),rotationSequence_AcceptedVals);
+end
 
 %valide the eulerAngles input argument
 validateattributes(eulerAngles,inputClasses(2),{'nonempty'});
@@ -41,13 +46,13 @@ fprintf('Starting Rotation Matrix Build for sequence ')
 
 %create the builder matrix for the rotation array
 rotationMatrixBuild = sym(eye(3));
-for(i = 1:size(rotationSequence))
+for(i = 1:length(rotationSequence))
     fprintf(', ')
-    newElementalRotationMatrix = elementalRotationMatrix(rotationSequence(i),eulerAngles(i));
+    newElementalRotationMatrix = elementalRotationMatrix(rotationSequence(i),eulerAngles(i),3);
     rotationMatrixBuild = rotationMatrixBuild * newElementalRotationMatrix;
     fprintf('%c',rotationSequence(i))
 end
-fprintf(
+fprintf('\n')
 
 fprintf('Final Rotation Matrix Constructed...\n')
 rotationMatrixFinal = rotationMatrixBuild;
