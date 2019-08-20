@@ -1,11 +1,11 @@
-function [Addt_q_B] = TransportTheorum_1(vector_q_B, A_omega_B_B)
+function [Adt_q_B] = TransportTheorum_1(vector_q_B, A_omega_B_B)
 %TransportTheorum_1 performs a single time derivative in the A frame on the
 %vector q, which is defined in the B frame
 %   
-%   FORMAT : [vector_dq_B] = TransportTheorum_1(vector_q_B, A_omega_B_B)
+%   FORMAT : [Adt_q_B] = TransportTheorum_1(vector_q_B, A_omega_B_B)
 %
 %   ARGUMENTS :
-%       OUTPUT vector_dq_B : The symbolic column 3-vector representing the
+%       OUTPUT Adt_q_B : The symbolic column 3-vector representing the
 %       A frame time derivative of original 3-vector q.
 %
 %       INPUT vector_q_B : The symbolic column 3-vector q (defined in the B
