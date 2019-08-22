@@ -31,7 +31,7 @@ validateattributes(A_omega_B_B,inputClass,inputAttributes);
 fprintf('Transporting The Theorums all over the place...\n')
 
 % Actually perform the 1st Transport Theorum
-Addt_q_B = diff(vector_q_B) + cross(A_omega_B_B,vector_q_B);
+Adt_q_B = diff(vector_q_B) + cross(A_omega_B_B,vector_q_B);
 
 fprintf('Theorums have been transported!\n')
 
