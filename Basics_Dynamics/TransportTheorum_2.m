@@ -31,22 +31,22 @@ validateattributes(A_omega_B_B,inputClass,inputAttributes);
 fprintf('Transporting The Theorums of The Second Kind...\n')
 
 %determine A_alpha_B
-A_alpha_B = diff(A_omega_B_B);
+A_alpha_B = simplify(diff(A_omega_B_B));
 
 %differentiate vector q one and two times, will plug into transport theorum
 %later
-Q_firstDiff = diff(vector_q_B);
-Q_secondDiff = diff(vector_q_B);
+Q_firstDiff = simplify(diff(vector_q_B));
+Q_secondDiff = simplify(diff(Q_firstDiff));
 
 %perform the cross-product of A_omega_B_B and vector q, the
 %cross-product of A_omega_B_B and Q_firstDiff, and the cross product of 
 %A_alpha_B and vector q. Will plug into transport theorum later
-omegaCrossQ = cross(A_omega_B_B,vector_q_B);
-omegaCrossDq = cross(A_omega_B_B,Q_firstDiff);
-alphaCrossQ = cross(A_alpha_B,vector_q_B);
+omegaCrossQ = simplify(cross(A_omega_B_B,vector_q_B));
+omegaCrossDq = simplify(cross(A_omega_B_B,Q_firstDiff));
+alphaCrossQ = simplify(cross(A_alpha_B,vector_q_B));
 
 %actually perform the 2nd Transport Theorum
-Addt_q_B = Q_secondDiff + alphaCrossQ + (2*omegaCrossDq) + cross(A_omega_B_B,omegaCrossQ);
+Addt_q_B = simplify(Q_secondDiff + alphaCrossQ + (2*omegaCrossDq) + cross(A_omega_B_B,omegaCrossQ));
 
 fprintf('Theorums have been transported!\n')
 end

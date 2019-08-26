@@ -42,7 +42,7 @@ validateattributes(B_omega_C_B,inputClass,inputAttributes);
 
 fprintf('Adding alphas\n')
 
-A_alpha_C = A_alpha_B + B_alpha_C + cross(A_omega_B_A,B_omega_C_B);
+A_alpha_C = simplify(A_alpha_B + B_alpha_C + cross(A_omega_B_A,B_omega_C_B));
 
 fprintf('Alphas have been added!\n')
 end

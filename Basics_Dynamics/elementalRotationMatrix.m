@@ -58,18 +58,18 @@ if(numberOfDimensions > 2)
     if(rotationAxis == 'x' || rotationAxis == 'x')
         rotationMatrixBuild(2,2) = cos(eulerAng);
         rotationMatrixBuild(3,3) = cos(eulerAng);
-        rotationMatrixBuild(3,2) = sin(eulerAng);
-        rotationMatrixBuild(2,3) = -sin(eulerAng);
+        rotationMatrixBuild(3,2) = -sin(eulerAng);
+        rotationMatrixBuild(2,3) = sin(eulerAng);
     elseif(rotationAxis == 'y' || rotationAxis == 'y')
         rotationMatrixBuild(1,1) = cos(eulerAng);
         rotationMatrixBuild(3,3) = cos(eulerAng);
-        rotationMatrixBuild(1,3) = sin(eulerAng);
-        rotationMatrixBuild(3,1) = -sin(eulerAng);
+        rotationMatrixBuild(1,3) = -sin(eulerAng);
+        rotationMatrixBuild(3,1) = sin(eulerAng);
     elseif(rotationAxis == 'z' || rotationAxis == 'z')
         rotationMatrixBuild(1,1) = cos(eulerAng);
         rotationMatrixBuild(2,2) = cos(eulerAng);
-        rotationMatrixBuild(2,1) = sin(eulerAng);
-        rotationMatrixBuild(1,2) = -sin(eulerAng);
+        rotationMatrixBuild(2,1) = -sin(eulerAng);
+        rotationMatrixBuild(1,2) = sin(eulerAng);
     end
 else
     %it doesn't have to be an identity, it just generates a square symbolic 

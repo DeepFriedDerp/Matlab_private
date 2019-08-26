@@ -49,7 +49,7 @@ rotationMatrixBuild = sym(eye(3));
 for(i = 1:length(rotationSequence))
     fprintf(', ')
     newElementalRotationMatrix = elementalRotationMatrix(rotationSequence(i),eulerAngles(i),3);
-    rotationMatrixBuild = rotationMatrixBuild * newElementalRotationMatrix;
+    rotationMatrixBuild = simplify(rotationMatrixBuild * newElementalRotationMatrix);
     fprintf('%c',rotationSequence(i))
 end
 fprintf('\n')

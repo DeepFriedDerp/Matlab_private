@@ -55,7 +55,7 @@ else
 end
 
 %determine the 1st derivative of the AcB rotation matrix
-AcB_dot = diff(AcB);
+AcB_dot = simplify(diff(AcB));
 
 %determine the x,y,z components of the A_omega_B 3-vector, expressed in the
 %B frame
@@ -67,7 +67,7 @@ omega_z_B = [0 1 0]*BcA*AcB_dot*[1;0;0];
 if(strcmpi(outputFramedesired,'B'))
     omegaFinal = [omega_x_B;omega_y_B;omega_z_B];
 else
-    omegaFinal = AcB*[omega_x_B;omega_y_B;omega_z_B];
+    omegaFinal = simplify(AcB*[omega_x_B;omega_y_B;omega_z_B]);
 end
 end
 
