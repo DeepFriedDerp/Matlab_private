@@ -114,7 +114,7 @@ EXTRA = transpose(EXTRA);
 [~] = ODE_FuncGen(EOM,'testfile',EXTRA);
 
 %simulate using ODE solver
-[tsim,xsim] = ode45('testfile',[0 3],[0 0 0 1 1 1 0 0 0 0 0 0]);
+[tsim,xsim] = ode45('testfile',[0 100],[0 0 0 1 1 1 0 0 0 0 0 0]);
 
 %plot the results
 subplot(2,2,1);
