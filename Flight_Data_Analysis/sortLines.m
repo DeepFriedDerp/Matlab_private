@@ -40,21 +40,17 @@ function sortLines(InputFile)
             end
         end
     end
-    
-    fclose(inputFID);
-    
-    [sortedCommonTimes,sortedLineIndex] = sort(commonTime);
+      
+    [~,sortedLineIndex] = sort(commonTime);
     
     for i = 1:size(sortedLineIndex,2)
-        inputFID = fopen(InputFile,'r');
+        fseek(inputFID,0,-1);
         lineToWrite = sortedLineIndex(1,i);
-        for k = 1:lineToWrite
-            line = fgetl(inputFID);
+        for k = 1:(lineToWrite-1)
+            fgetl(inputFID);
         end
-        if contains(line,string(sortedCommonTimes(i)))
-            fprintf(outputFID,"%s\n",line);
-        end
-        fclose(inputFID);
+        line = fgetl(inputFID);
+        fprintf(outputFID,"%s\n",line);
     end
     
     fclose(inputFID);

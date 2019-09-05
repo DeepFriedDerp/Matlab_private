@@ -5,15 +5,10 @@ function sortLines(InputFile)
         else
             input_substring = extractBefore(InputFile,'.txt');
         end
-        if contains(input_substring,"./")
-            filepath = extractAfter(input_substring,'./');
-            OutputFile = append("./GENERATED_DATA/",filepath,"_Sorted.txt");
-        else
             OutputFile = append(input_substring,"_Sorted.txt");
-        end
         
         inputFID = fopen(InputFile,'r');
-        outputFID = fopen(OutputFile,'w')
+        outputFID = fopen(OutputFile,'w');
     else
         error("that input filename/path does not exist")
     end
@@ -45,17 +40,22 @@ function sortLines(InputFile)
             end
         end
     end
-    
-    fclose(inputFID);
-    
+      
     [sortedCommonTimes,sortedLineIndex] = sort(commonTime);
     
-    for i = 1:j
-        fopen(inputFID,'r');
-        lineToWrite = sortedLineIndex(1,j);
-        for k = 1:lineToWrite
-            line = fgetl(inputFID);
+    for i = 1:size(sortedLineIndex,2)
+        fseek(inputFID,0,-1);
+        lineToWrite = sortedLineIndex(1,i);
+        for k = 1:(lineToWrite-1)
+            fgetl(inputFID);
         end
-        if contains(line,sortedCommonTimes(j))
-            
+        line = fgetl(inputFID);
+        if contains(line,string(sortedCommonTimes(i)))
+            fprintf(outputFID,"%s\n",line);
+        end
+
+    end
+    
+    fclose(inputFID);
+    fclose(outputFID);
 end
