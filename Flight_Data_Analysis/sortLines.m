@@ -18,8 +18,8 @@ function sortLines(InputFile)
     GND_STN = 0;
     j = 0;
     commonTime = [0];
+    fullDataLines = ["0"];
     while ischar(line)
-
         j = j + 1;
         line = fgetl(inputFID);
         if size(line,2) > 1
@@ -27,29 +27,25 @@ function sortLines(InputFile)
                 GPS = 1;
             end
 
-            
-            leftovers = "";
             if GPS == 0
                 commaIndex = strfind(line,",");
-                commonTime(1,j) = str2double(extractBefore(commaIndex(1,1)));
+                commonTime(1,j) = str2double(extractBefore(line,commaIndex(1,1)));
             else
                 if contains(line,"$GP")
                     commaIndex = strfind(line,",");
                     commonTime(1,j) = str2double(extractAfter(extractBefore(line,commaIndex(1,2)),commaIndex(1,1)));
                 end
             end
+            
+            fullDataLines(1,j) = line;
         end
     end
       
     [~,sortedLineIndex] = sort(commonTime);
     
     for i = 1:size(sortedLineIndex,2)
-        fseek(inputFID,0,-1);
         lineToWrite = sortedLineIndex(1,i);
-        for k = 1:(lineToWrite-1)
-            fgetl(inputFID);
-        end
-        line = fgetl(inputFID);
+        line = fullDataLines(1,lineToWrite);
         fprintf(outputFID,"%s\n",line);
     end
     
