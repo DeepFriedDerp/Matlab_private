@@ -23,7 +23,6 @@ function gps3VectorPos(InputFile)
     lonMinute = "0";
     latNum = 0;
     lonNum = 0;
-    format longg;
     while ischar(line)
         j = j+1;
         line = fgetl(inputFID);
