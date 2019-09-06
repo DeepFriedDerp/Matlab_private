@@ -1,11 +1,11 @@
-function gps3Vector(InputFile)
+function gps3VectorPos(InputFile)
     if exist(InputFile)
         if contains(InputFile,'.TXT')
             input_substring = extractBefore(InputFile,'.TXT');
         else
             input_substring = extractBefore(InputFile,'.txt');
         end
-            OutputFile = append(input_substring,"_GPS3Vect.txt");
+            OutputFile = append(input_substring,"_GPS3VectPos.txt");
         
         inputFID = fopen(InputFile,'r');
         outputFID = fopen(OutputFile,'w');
