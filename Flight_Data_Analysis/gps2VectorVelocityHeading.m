@@ -25,7 +25,9 @@ function gps2VectorVelocityHeading(InputFile)
             commonTime = extractAfter(extractBefore(line,commaIndex(1,2)),"RMC,");
             velocityString = extractAfter(extractBefore(line,commaIndex(1,8)),commaIndex(1,7));
             headingString = extractAfter(extractBefore(line,commaIndex(1,9)),commaIndex(1,8));
-           
+            
+            velocityString = string(0.514444*str2double(velocityString));
+            
             fprintf(outputFID,"%s,%s,%s\n",commonTime,velocityString,headingString);
         end
     end
