@@ -44,6 +44,7 @@ function getIRF_Grav_Mag(rotationFuncFolder,inputDataFile)
             j = j + 1;
             colonIndex = strfind(line,":");
             eulerVect_string = extractBefore(line,colonIndex(1,1));
+            eulerVect_string = extractAfter(extractBefore(line,colonIndex(1,2)),colonIndex(1,1));
             magVect_string = extractAfter(extractBefore(line,colonIndex(1,3)),colonIndex(1,2));
             gravVect_string = extractAfter(extractBefore(line,colonIndex(1,4)),colonIndex(1,3));
             
@@ -88,7 +89,7 @@ function getIRF_Grav_Mag(rotationFuncFolder,inputDataFile)
         fclose(inputFID);
         fclose(outputFID_mag);
         fclose(outputFID_grav);
-        plot3(gravO
+        plot3(gravO(:,1),gravO(:,2),gravO(:,3));
     end
 end
         
