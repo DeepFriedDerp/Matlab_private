@@ -1,4 +1,4 @@
-function generateQuaternionsFromGravity(InputFile_Grav,InputFile_Mag)
+function generateRotationMatrixVals(InputFile_Grav,InputFile_Mag)
     if exist(InputFile_Grav) && contains(InputFile_Grav,"_Gravity")
         filename = extractBefore(InputFile_Grav,"_Gravity");
     else
@@ -6,40 +6,20 @@ function generateQuaternionsFromGravity(InputFile_Grav,InputFile_Mag)
     end
     if exist(InputFile_Mag) && contains(InputFile_Mag,"_Magnet")
         filename = extractBefore(InputFile_Mag,"_Magnet");
-        outputFilename = append(filename,"_QuatsFromGrav.txt");
+        outputFilename = append(filename,"_RotationMatrix.txt");
     else
         error("InputFile is not a Gravity Vector File.");
     end
-        
+
     inputFID_Grav = fopen(InputFile_Grav,'r');
     inputFID_Mag = fopen(InputFile_Mag,'r');
     outputFID = fopen(outputFilename,'w');
     
-%     syms q1 q2 q3 q4
-%     
-%     eqn1 = q1^2 + q2^2 + q3^2 + q4^2;
-%     
-%     eqn2 = 2*(q2*q4 - q1*q3);
-%     eqn3 = 2*(q3*q4 + q1*q2);
-%     eqn4 = q4^2 + q1^2 - q3^2 - q2^2;
-%     
-%     eqn5 = q1^2 + q2^2 - q3^2 - q4^2;
-%     eqn6 = 2*(q2*q3-q1*q4);
-%     eqn7 = 2*(q2*q4 + q1*q3);
-%     
-%     eqn8 = 2*(q2*q4 + q1*q4);
-%     eqn9 = q1^2 - q2^2 + q3^2 - q4^2;
-%     eqn10 = 2*(q3*q4 - q1*q2);
-%     
-%     BcO = [eqn5,eqn6,eqn7;eqn8,eqn9,eqn10;eqn2,eqn3,eqn4];
-%     OcB = transpose(BcO);
-    syms ph th ps;
-    BcO = BcA_RotationMatrix('zyx',[ps th ph]);
-    OcB = transpose(BcO);
-    
     line_grav = fgetl(inputFID_Grav);
     line_mag = fgetl(inputFID_Mag);
     i = 0;
+    magRotated = [0,0,0];
+    gravRotated = [0,0,0];
     while ischar(line_grav) && ischar(line_mag)
         i = i + 1;
         commaIndex_grav = strfind(line_grav,',');
@@ -63,13 +43,10 @@ function generateQuaternionsFromGravity(InputFile_Grav,InputFile_Mag)
             sprintf("line %u in inputfile\n",i);
             error("magnetometer vector has too many components");
         end
-        
-        
-        
+       
         grav_magnitude = norm(gravVect);
         mag_magnitude = norm(magVect);
-        
-        
+
         %project magnetometer onto gravity vector normal plane
         projMag = magVect - (dot(magVect,gravVect)/(grav_magnitude^2))*gravVect;
         projMag_magnitude = norm(projMag);
@@ -81,20 +58,30 @@ function generateQuaternionsFromGravity(InputFile_Grav,InputFile_Mag)
         pmag_hat = projMag/projMag_magnitude;
         jo_hat = grav_X_mag/cross_magnitude;
         
-        EquationRHS = OcB*(grav_hat+pmag_hat+jo_hat);
-%         EquationRHS = [EquationRHS;eqn1];
-%         EquationLHS = [1;1;1;1];
-        EquationLHS = [1;1;1];
-        TheEquation = EquationLHS == EquationRHS;
+        rotMatrix = [transpose(pmag_hat);transpose(jo_hat);transpose(grav_hat)];
         
-        solveQuats = solve(TheEquation,[ph th ps],'Real',true,'IgnoreAnalyticConstraints',true);
+        magRotated(i,:) = transpose(rotMatrix*magVect);
+        gravRotated(i,:) = transpose(rotMatrix*gravVect);
         
-        fprintf(outputFID,"%s,%s,%s\n",string(simplify(solveQuats.ph)),string(simplify(solveQuats.th)),string(simplify(solveQuats.ps)));
-        
+        for j = 1:3
+            for k = 1:3
+                if k == 3 && j == 3
+                    fprintf(outputFID,"%.4f\n",rotMatrix(j,k));
+                else
+                    if k == 3
+                        fprintf(outputFID,"%.4f:",rotMatrix(j,k));
+                    else
+                        fprintf(outputFID,"%.4f,",rotMatrix(j,k));
+                    end
+                end
+            end
+        end
         line_grav = fgetl(inputFID_Grav);
         line_mag = fgetl(inputFID_Mag);
     end
-end
-        
-        
-        
+    hold on
+    plot3(magRotated(:,1),magRotated(:,2),magRotated(:,3))
+    plot3(gravRotated(:,1),gravRotated(:,2),gravRotated(:,3))
+    fclose(inputFID_Grav);
+    fclose(inputFID_Mag);
+    fclose(outputFID);

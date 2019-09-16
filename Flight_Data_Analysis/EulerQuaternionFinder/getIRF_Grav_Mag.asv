@@ -32,6 +32,7 @@ function getIRF_Grav_Mag(rotationFuncFolder,inputDataFile)
         outputFilepathMag = append("./",outputMagFolder,"/IRFmag_",rotation_sequence(i,:),".txt");
         outputFilepathGrav = append("./",outputGravFolder,"/IRFgrav_",rotation_sequence(i,:),".txt");
         inputFID = fopen(inputDataFile,'r');
+        %inputFID_eul = fopen("constructedEulerAngles_zyx.txt",'r');
         outputFID_mag = fopen(outputFilepathMag,'w');
         outputFID_grav = fopen(outputFilepathGrav,'w');
         
@@ -40,11 +41,13 @@ function getIRF_Grav_Mag(rotationFuncFolder,inputDataFile)
         j = 0;
     
         line = fgetl(inputFID);
+        %line_eul = fgetl(inputFID_eul);
         while ischar(line)
             j = j + 1;
             colonIndex = strfind(line,":");
+            colonIndex_eul = strfind(line_eul,":");
             eulerVect_string = extractBefore(line,colonIndex(1,1));
-            eulerVect_string = extractAfter(extractBefore(line,colonIndex(1,2)),colonIndex(1,1));
+            %eulerVect_string = extractAfter(extractBefore(line_eul,colonIndex_eul(1,3)),colonIndex_eul(1,2));
             magVect_string = extractAfter(extractBefore(line,colonIndex(1,3)),colonIndex(1,2));
             gravVect_string = extractAfter(extractBefore(line,colonIndex(1,4)),colonIndex(1,3));
             
@@ -53,16 +56,17 @@ function getIRF_Grav_Mag(rotationFuncFolder,inputDataFile)
             commaIndex_grav = strfind(gravVect_string,",");
             
             eulX = str2double(extractBefore(eulerVect_string,commaIndex_eul(1,1)));
-            eulX = (eulX/360)*(2*pi());
+            eulX = ((2*pi())/360)*;
             eulY = str2double(extractAfter(extractBefore(eulerVect_string,commaIndex_eul(1,2)),commaIndex_eul(1,1)));
-            eulY = (eulY/360)*(2*pi());
+%            eulY = (eulY/360)*(2*pi());
             eulZ = str2double(extractAfter(eulerVect_string,commaIndex_eul(1,2)));
-            eulZ = (eulZ/360)*(2*pi());
+%            eulZ = (eulZ/360)*(2*pi());
             
             magX = str2double(extractBefore(magVect_string,commaIndex_mag(1,1)));
             magY = str2double(extractAfter(extractBefore(magVect_string,commaIndex_mag(1,2)),commaIndex_mag(1,1)));
             magZ = str2double(extractAfter(magVect_string,commaIndex_mag(1,2)));
             magVect_B = [magX;magY;magZ];
+
             
             gravX = str2double(extractBefore(gravVect_string,commaIndex_grav(1,1)));
             gravY = str2double(extractAfter(extractBefore(gravVect_string,commaIndex_grav(1,2)),commaIndex_grav(1,1)));
@@ -74,16 +78,20 @@ function getIRF_Grav_Mag(rotationFuncFolder,inputDataFile)
             mag_magnitude = norm(magVect_B);
             projMagVect_B = magVect_B - (dot(magVect_B,gravVect_B)/(grav_magnitude^2))*gravVect_B;
             
-            [pmagX_O,pmagY_O,pmagZ_O] = feval(rotationFuncName,eulX,eulY,eulZ,projMagVect_B(1),projMagVect_B(2),projMagVect_B(3));
-            [gravX_O,gravY_O,gravZ_O] = feval(rotationFuncName,eulX,eulY,eulZ,gravX,gravY,gravZ);
+            if eulX ~= 0 && eulY ~= 0 && eulZ ~= 0
             
-            pmagO(j,:) = [pmagX_O,pmagY_O,pmagZ_O];
-            gravO(j,:) = [gravX_O,gravY_O,gravZ_O];
-    
-            fprintf(outputFID_mag,"%.3f,%.3f,%.3f\n",pmagX_O,pmagY_O,pmagZ_O);
-            fprintf(outputFID_grav,"%.3f,%.3f,%.3f\n",gravX_O,gravY_O,gravZ_O);
-            
-            line = fgetl(inputFID);
+                [pmagX_O,pmagY_O,pmagZ_O] = feval(rotationFuncName,eulX,eulY,eulZ,projMagVect_B(1),projMagVect_B(2),projMagVect_B(3));
+                [gravX_O,gravY_O,gravZ_O] = feval(rotationFuncName,eulX,eulY,eulZ,gravX,gravY,gravZ);
+
+                pmagO(j,:) = [pmagX_O,pmagY_O,pmagZ_O];
+                gravO(j,:) = [gravX_O,gravY_O,gravZ_O];
+
+                fprintf(outputFID_mag,"%.3f,%.3f,%.3f\n",pmagX_O,pmagY_O,pmagZ_O);
+                fprintf(outputFID_grav,"%.3f,%.3f,%.3f\n",gravX_O,gravY_O,gravZ_O);
+
+                line = fgetl(inputFID);
+                line_eul = fgetl(inputFID_eul);
+            end
         end
         
         fclose(inputFID);
