@@ -2,7 +2,7 @@ clear;
 
 addpath quaternion_library;
 
-myIMU = MadgwickAHRS_V2('Beta',0.1);
+myIMU = MadgwickAHRS_V2('Beta',1);
 
 inputFID = fopen('AODATA00_TimeConvert_Sorted.txt','r');
 %outputFID = fopen('rotatedMagnet.txt','w');
