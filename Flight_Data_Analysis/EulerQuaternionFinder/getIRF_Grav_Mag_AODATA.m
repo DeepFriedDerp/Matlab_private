@@ -37,12 +37,12 @@ inputDataFile = 'AODATA00_TimeConvert_Sorted.txt';
     euler_angles(4,:) = [pitch,roll,heading];
     euler_angles(5,:) = [roll,heading,pitch];
     euler_angles(6,:) = [roll,pitch,heading];
-    euler_angles(7,:) = [heading,pitch,heading];
-    euler_angles(8,:) = [heading,roll,heading];
-    euler_angles(9,:) = [pitch,heading,pitch];
-    euler_angles(10,:) = [pitch,roll,pitch];
-    euler_angles(11,:) = [roll,heading,roll];
-    euler_angles(12,:) = [roll,pitch,roll];
+    euler_angles(7,:) = [heading,pitch,roll];
+    euler_angles(8,:) = [heading,roll,pitch];
+    euler_angles(9,:) = [pitch,heading,roll];
+    euler_angles(10,:) = [pitch,roll,heading];
+    euler_angles(11,:) = [roll,heading,pitch];
+    euler_angles(12,:) = [roll,pitch,heading];
     hold on;
 
     for i = 1:size(rotation_sequence,1)
@@ -79,13 +79,13 @@ inputDataFile = 'AODATA00_TimeConvert_Sorted.txt';
             euler_angles(4,:) = [pitch,roll,heading];
             euler_angles(5,:) = [roll,heading,pitch];
             euler_angles(6,:) = [roll,pitch,heading];
-            euler_angles(7,:) = [heading,pitch,heading];
-            euler_angles(8,:) = [heading,roll,heading];
-            euler_angles(9,:) = [pitch,heading,pitch];
-            euler_angles(10,:) = [pitch,roll,pitch];
-            euler_angles(11,:) = [roll,heading,roll];
-            euler_angles(12,:) = [roll,pitch,roll];
-            
+            euler_angles(7,:) = [heading,pitch,roll];
+            euler_angles(8,:) = [heading,roll,pitch];
+            euler_angles(9,:) = [pitch,heading,roll];
+            euler_angles(10,:) = [pitch,roll,heading];
+            euler_angles(11,:) = [roll,heading,pitch];
+            euler_angles(12,:) = [roll,pitch,heading];
+    
             accX = str2double(extractAfter(extractBefore(line,commaIndex(2)),":"));
             accY = str2double(extractAfter(extractBefore(line,commaIndex(3)),commaIndex(2)));
             accZ = str2double(extractAfter(extractBefore(line,commaIndex(4)),commaIndex(3)));
