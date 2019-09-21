@@ -1,4 +1,7 @@
 rotationFuncFolder = 'Twelve_OcB_RotationFunctions';
+
+addpath Twelve_OcB_RotationFunctions;
+
 inputDataFile = 'AODATA00_TimeConvert_Sorted.txt';
     if ~exist(rotationFuncFolder,'dir') || ~exist(inputDataFile,'file')
         error("some of the inputs don't exist");
@@ -57,10 +60,12 @@ inputDataFile = 'AODATA00_TimeConvert_Sorted.txt';
         pmagO = [0, 0 , 0];
         gravO = [0, 0 , 0];
         j = 0;
-    
-        line = fgetl(inputFID);
+        for k = 1:40000
+            line = fgetl(inputFID);
+            j = j+1;
+        end
         %line_eul = fgetl(inputFID_eul);
-        while ischar(line)
+        while ischar(line) && j < 60000
             j = j + 1;
             commaIndex = strfind(line,",");
             
@@ -73,18 +78,18 @@ inputDataFile = 'AODATA00_TimeConvert_Sorted.txt';
             pitch = ((2*pi())/360)*pitch;
             roll = ((2*pi())/360)*roll;
             
-            euler_angles(1,:) = [heading,pitch,roll];
-            euler_angles(2,:) = [heading,roll,pitch];
-            euler_angles(3,:) = [pitch,heading,roll];
-            euler_angles(4,:) = [pitch,roll,heading];
-            euler_angles(5,:) = [roll,heading,pitch];
-            euler_angles(6,:) = [roll,pitch,heading];
-            euler_angles(7,:) = [heading,pitch,roll];
-            euler_angles(8,:) = [heading,roll,pitch];
-            euler_angles(9,:) = [pitch,heading,roll];
-            euler_angles(10,:) = [pitch,roll,heading];
-            euler_angles(11,:) = [roll,heading,pitch];
-            euler_angles(12,:) = [roll,pitch,heading];
+            euler_angles(1,:) = [heading,roll,pitch];
+            euler_angles(2,:) = [heading,pitch,roll];
+            euler_angles(3,:) = [pitch,roll,heading];
+            euler_angles(4,:) = [pitch,heading,roll];
+            euler_angles(5,:) = [roll,pitch,heading];
+            euler_angles(6,:) = [roll,heading,pitch];
+            euler_angles(7,:) = [heading,roll,pitch];
+            euler_angles(8,:) = [heading,pitch,roll];
+            euler_angles(9,:) = [pitch,roll,heading];
+            euler_angles(10,:) = [pitch,heading,roll];
+            euler_angles(11,:) = [roll,pitch,heading];
+            euler_angles(12,:) = [roll,heading,roll];
     
             accX = str2double(extractAfter(extractBefore(line,commaIndex(2)),":"));
             accY = str2double(extractAfter(extractBefore(line,commaIndex(3)),commaIndex(2)));
@@ -131,8 +136,8 @@ inputDataFile = 'AODATA00_TimeConvert_Sorted.txt';
         fclose(outputFID_mag);
         fclose(outputFID_grav);
         subplot(3,4,i);
-        %scatter3(gravO(:,1),gravO(:,2),gravO(:,3),'.')
-        scatter3(pmagO(:,1),pmagO(:,2),pmagO(:,3),'.')
+        scatter3(gravO(:,1),gravO(:,2),gravO(:,3),'.')
+        %scatter3(pmagO(:,1),pmagO(:,2),pmagO(:,3),'.')
         title(rotation_sequence(i,:))
         xlabel('X');
         ylabel('Y');
