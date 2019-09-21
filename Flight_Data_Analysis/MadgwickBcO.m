@@ -36,7 +36,7 @@ function MadgwickBcO(inputFile)
         eulX = str2double(extractAfter(extractBefore(line,commaIndex(11)),commaIndex(10)));
         eulY = str2double(extractAfter(extractBefore(line,commaIndex(12)),commaIndex(11)));
         eulZ = str2double(extractAfter(extractBefore(line,commaIndex(13)),commaIndex(12)));
-        if eulY < 0.1 && eulZ < 0.1
+        if abs(eulY) < 0.1 && abs(eulZ) < 0.1
             if minStateFound < 1
                 minIndTime = time;
             end
