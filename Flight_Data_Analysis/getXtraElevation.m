@@ -1,4 +1,4 @@
-function getXtraElevation(FileName)
+function [avgElev] = getXtraElevation(FileName)
     if exist(FileName)
         if ~exist('CALIB')
             mkdir CALIB;

@@ -46,11 +46,11 @@ fprintf('Starting Rotation Matrix Build for sequence ')
 
 %create the builder matrix for the rotation array
 rotationMatrixBuild = sym(eye(3));
-for(i = 1:length(rotationSequence))
+for(i = 0:length(rotationSequence)-1)
     fprintf(', ')
-    newElementalRotationMatrix = elementalRotationMatrix(rotationSequence(i),eulerAngles(i),3);
+    newElementalRotationMatrix = elementalRotationMatrix(rotationSequence(length(rotationSequence)-i),eulerAngles(i+1),3);
     rotationMatrixBuild = simplify(rotationMatrixBuild * newElementalRotationMatrix);
-    fprintf('%c',rotationSequence(i))
+    fprintf('%c',length(rotationSequence)-i)
 end
 fprintf('\n')
 
