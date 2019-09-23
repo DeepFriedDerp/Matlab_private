@@ -82,24 +82,24 @@ function filterRawData(inputFile,cutoffFreq)
      gyroFilt = filtfilt(filterDef, gyroRaw);
      magFilt = filtfilt(filterDef, magRaw);
      
-     subplot(2,3,1);
-     plot(accRaw)
-     title("accel Raw");
-     subplot(2,3,2);
-     plot(accFilt)
-     title("accel filtered");
-     subplot(2,3,3);
-     plot(gyroRaw)
-     title("gyro Raw");
-     subplot(2,3,4);
-     plot(gyroFilt)
-     title("gyro filtered");
-     subplot(2,3,5);
-     plot(magRaw)
-     title("mag Raw");
-     subplot(2,3,6);
-     plot(magFilt)
-     title("mag filtered");
+%      subplot(2,3,1);
+%      plot(accRaw)
+%      title("accel Raw");
+%      subplot(2,3,2);
+%      plot(accFilt)
+%      title("accel filtered");
+%      subplot(2,3,3);
+%      plot(gyroRaw)
+%      title("gyro Raw");
+%      subplot(2,3,4);
+%      plot(gyroFilt)
+%      title("gyro filtered");
+%      subplot(2,3,5);
+%      plot(magRaw)
+%      title("mag Raw");
+%      subplot(2,3,6);
+%      plot(magFilt)
+%      title("mag filtered");
      
      accRaw = string(accRaw);
      gyroRaw = string(gyroRaw);

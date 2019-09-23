@@ -150,7 +150,7 @@ function MadgwickBcO(inputFile)
 
 
         %print the original line of data
-        fprintf("%s",line);
+        fprintf("%.3f:",timeNew);
         %tack on the 9 elements of the BcO matrix after the dataSet
         for j = 1:3
             for k = 1:3
