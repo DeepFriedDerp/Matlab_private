@@ -25,15 +25,16 @@ function otherWindSpeedExtract(InputFile,calibfile)
     while ischar(line)
         j = j+1;
         line = fgetl(inputFID);
-        if ischar(line)
+        if ischar(line) && size(strfind(line,"--"),2) < 2
             commaIndex = strfind(line,",");
-            commonTime = extractBefore(line,commaIndex(1,1));
-            binNum = str2double(extractAfter(extractBefore(line,"--"),commaIndex(1,size(commaIndex,2))));
-            velocityNum = pitotCurveFit(binNum);
-            fprintf(outputFID,"%s,%.3f\n",commonTime,velocityNum);
+            if size(commaIndex,2) < length(line)
+                commonTime = extractBefore(line,commaIndex(1,1));
+                binNum = str2double(extractAfter(extractBefore(line,"--"),commaIndex(1,size(commaIndex,2))));
+                velocityNum = pitotCurveFit(binNum);
+                fprintf(outputFID,"%s,%.3f\n",commonTime,velocityNum);
+            end
         end
-     end
-     
+    end
      fclose(inputFID);
      fclose(outputFID);
 end

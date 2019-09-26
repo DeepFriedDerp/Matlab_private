@@ -1,19 +1,20 @@
 %% GENERATE THE FILE STRUCTURE
 clear;
+clc;
 
 fprintf("%s - ",string(datetime(now,'ConvertFrom','datenum')));
 fprintf("script staring now\n");
 
-parentFolder = 'TestFlight_Aug30_19';
-folderLevel1 = ['Gondola1' 'Gondola2' 'Gondola3' 'Sail1' 'Sail2' 'Sail3' 'XTRA_GND_STN'];
-OtherFile = ['AODATA00' 'AODATA01' 'AODATA02'];
-gpsFile = ['GPSLOG00' 'GPSLOG01' 'GPSLOG02'];
+parentFolder = "TestFlight_Aug30_19";
+folderLevel1 = ["Gondola1" "Gondola2" "Gondola3" "Sail1" "Sail2" "Sail3" "XTRA_GND_STN"];
+OtherFile = ["AODATA00" "AODATA01" "AODATA02"];
+gpsFile = ["GPSLOG00" "GPSLOG01" "GPSLOG02"];
 
-gondola_pitotCal = './CALDATA/PITOT/G_UNIT/curveFitFunc.mat';
-sail_pitotCal = './CALDATA/PITOT/S_UNIT/curveFitFunc.mat';
+gondola_pitotCal = "./CALDATA/PITOT/G_UNIT/curveFitFunc.mat";
+sail_pitotCal = "./CALDATA/PITOT/S_UNIT/curveFitFunc.mat";
 
-xtraGndBaseName_Other = append(parentFolder,folderLevel1(7),OtherFile(3));
-xtraGndBaseName_GPS = append(parentFolder,folderLevel1(7),gpsFile(3));
+xtraGndBaseName_Other = append("./",parentFolder,"/",folderLevel1(7),"/",OtherFile(3));
+xtraGndBaseName_GPS = append("./",parentFolder,"/",folderLevel1(7),"/",gpsFile(3));
 
 baseNames_Other(1,:) = append("./",parentFolder,"/",folderLevel1(1),"/",OtherFile(1));
 baseNames_Other(2,:) = append("./",parentFolder,"/",folderLevel1(2),"/",OtherFile(1));
@@ -189,7 +190,7 @@ for i = 1 : size(baseNames_GPS,1)
     filename_Other = append(baseNames_Other(i,:),"_relativeAltElev.txt");
     fprintf("%s - ",string(datetime(now,'ConvertFrom','datenum')));
     fprintf("%s gps3Vector starting now...\n",filename_GPS);
-    gps3VectorPos(filename_GPS,filename_Other);
+    gps3VectorPos(filename_GPS,filename_Other); 
 end
 
 fprintf("%s - ",string(datetime(now,'ConvertFrom','datenum')));

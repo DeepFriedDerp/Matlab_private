@@ -1,22 +1,26 @@
 function convertTime(InputFile)
-    if exist(InputFile)
-        if contains(InputFile,'.TXT')
-            input_substring = extractBefore(InputFile,'.TXT');
-        else
-            input_substring = extractBefore(InputFile,'.txt');
-        end
-        if contains(input_substring,"./")
-            filepath = extractAfter(input_substring,'./');
-            OutputFile = append("./GENERATED_DATA/",filepath,"_TimeConvert.txt");
-        else
-            OutputFile = append(input_substring,"_TimeConvert.txt");
-        end
-        
-        inputFID = fopen(InputFile,'r');
-        outputFID = fopen(OutputFile,'w');
-    else
+    if ~exist(InputFile)
         error("that input filename/path does not exist")
     end
+    
+    if ~exist("GENERATED_DATA")
+        mkdir GENERATED_DATA;
+    end
+    
+    if contains(InputFile,'.TXT')
+        input_substring = extractBefore(InputFile,'.TXT');
+    else
+        input_substring = extractBefore(InputFile,'.txt');
+    end
+    if contains(input_substring,"./")
+        filepath = extractAfter(input_substring,'./');
+        OutputFile = append("./GENERATED_DATA/",filepath,"_TimeConvert.txt");
+    else
+        OutputFile = append(input_substring,"_TimeConvert.txt");
+    end
+        
+    inputFID = fopen(InputFile,'r');
+    outputFID = fopen(OutputFile,'w');
 
     line = fgetl(inputFID);
     line = '11';
@@ -68,25 +72,27 @@ function convertTime(InputFile)
                 utc_front = (extractBefore(utc_time,"."));
                 utc_back = (extractAfter(utc_time,"."));
                 missingDigits = 6 - size(utc_front,2);
-                hours = str2double(extractBefore(utc_front, (3 - missingDigits)));
-                minutes = str2double(extractAfter(extractBefore(utc_front,(5 - missingDigits)),(2 - missingDigits)));
-                seconds = str2double(extractAfter(utc_front,(4 - missingDigits)));
-                milliSeconds = str2double(utc_back);
-                if GPS == 0
-                    milliSeconds = milliSeconds + str2double(utc_add);
+                if (2 - missingDigits) > 0
+                    hours = str2double(extractBefore(utc_front, (3 - missingDigits)));
+                    minutes = str2double(extractAfter(extractBefore(utc_front,(5 - missingDigits)),(2 - missingDigits)));
+                    seconds = str2double(extractAfter(utc_front,(4 - missingDigits)));
+                    milliSeconds = str2double(utc_back);
+                    if GPS == 0
+                        milliSeconds = milliSeconds + str2double(utc_add);
+                    end
+
+                    commonTime = milliSeconds / 1000;
+                    commonTime = commonTime + seconds;
+                    commonTime = commonTime + (minutes * 60);
+                    commonTime = commonTime + (hours * 3600);
+
+                    newline = append(string(commonTime),",",leftovers);
+                    if GPS
+                        newline = append(gpsType,",",newline);
+                    end
+
+                    fprintf(outputFID,"%s\n",convertStringsToChars(newline));
                 end
-
-                commonTime = milliSeconds / 1000;
-                commonTime = commonTime + seconds;
-                commonTime = commonTime + (minutes * 60);
-                commonTime = commonTime + (hours * 3600);
-
-                newline = append(string(commonTime),",",leftovers);
-                if GPS
-                    newline = append(gpsType,",",newline);
-                end
-
-                fprintf(outputFID,"%s\n",newline);
             end
         end
     end   

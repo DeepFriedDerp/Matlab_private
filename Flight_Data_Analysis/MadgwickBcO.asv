@@ -178,34 +178,34 @@ function MadgwickBcO(inputFile)
             %     
             %     rotVectHolder = [(rotatedAcc(i,:));(rotatedGyro(i,:));(rotatedMag(i,:));(rotatedGrav(i,:))];
 
-                if abs(acos(dot([1 0 0],transpose((transpose(BcO)*projMagHat_B))))) < ((15/360)*(2*pi())) && abs(acos(dot([0 0 1],transpose((transpose(BcO)*gravHat_B))))) < ((15/360)*(2*pi()))
+                if abs(acos(dot([1 0 0],transpose((transpose(BcO)*projMagHat_B))))) < ((5/360)*(2*pi()))
                     %print the original time
                     fprintf(outputFID1,"%.3f:",timeNew);
                     %tack on the 9 elements of the BcO matrix after the dataSet
                     for j = 1:3
                         for k = 1:3
                             if k == 3 && j == 3
-                                fprintf(outputFID1,"%f\n",BcO(j,k));
+                                fprintf(outputFID,"%f\n",BcO(j,k));
                             elseif k == 3
-                                fprintf(outputFID1,"%f:",BcO(j,k));
+                                fprintf(outputFID,"%f:",BcO(j,k));
                             else
-                                fprintf(outputFID1,"%f,",BcO(j,k));
+                                fprintf(outputFID,"%f,",BcO(j,k));
                             end
                         end
                     end
                 end
                 
                 %print the original time
-                fprintf(outputFID2,"%.3f:",timeNew);
+                fprintf(outputFID,"%.3f:",timeNew);
                 %tack on the 9 elements of the BcO_MagGrav matrix after the dataSet
                 for j = 1:3
                     for k = 1:3
                         if k == 3 && j == 3
-                            fprintf(outputFID2,"%f\n",BcO_MagGrav(j,k));
+                            fprintf(outputFID,"%f\n",BcO_MagGrav(j,k));
                         elseif k == 3
-                            fprintf(outputFID2,"%f:",BcO_MagGrav(j,k));
+                            fprintf(outputFID,"%f:",BcO_MagGrav(j,k));
                         else
-                            fprintf(outputFID2,"%f,",BcO_MagGrav(j,k));
+                            fprintf(outputFID,"%f,",BcO_MagGrav(j,k));
                         end
                     end
                 end

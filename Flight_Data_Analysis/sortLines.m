@@ -46,7 +46,7 @@ function sortLines(InputFile)
     for i = 1:size(sortedLineIndex,2)
         lineToWrite = sortedLineIndex(1,i);
         line = fullDataLines(1,lineToWrite);
-        fprintf(outputFID,"%s\n",line);
+        fprintf(outputFID,"%s\n",convertStringsToChars(line));
     end
     
     fclose(inputFID);
