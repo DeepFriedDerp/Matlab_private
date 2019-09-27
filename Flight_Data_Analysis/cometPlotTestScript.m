@@ -1,9 +1,9 @@
 clear all;
 
-filenameSail = "./GENERATED_DATA/TestFlight_Aug30_19/Sail1/GPSLOG00_TimeConvert_Sorted_GPS3VectPos.txt";
-filenameGond = "./GENERATED_DATA/TestFlight_Aug30_19/Gondola1/GPSLOG00_TimeConvert_Sorted_GPS3VectPos.txt";
-filenameSailMagw = "./GENERATED_DATA/TestFlight_Aug30_19/Sail1/AODATA00_TimeConvert_Sorted_magGravMatrix.txt";
-filenameGondMagw = "./GENERATED_DATA/TestFlight_Aug30_19/Gondola1/AODATA00_TimeConvert_Sorted_magGravMatrix.txt";
+filenameSail = "./GENERATED_DATA/TestFlight_Aug30_19/Sail3/GPSLOG00_TimeConvert_Sorted_GPS3VectPos.txt";
+filenameGond = "./GENERATED_DATA/TestFlight_Aug30_19/Gondola3/GPSLOG01_TimeConvert_Sorted_GPS3VectPos.txt";
+filenameSailMagw = "./GENERATED_DATA/TestFlight_Aug30_19/Sail3/AODATA00_TimeConvert_Sorted_magGravMatrix.txt";
+filenameGondMagw = "./GENERATED_DATA/TestFlight_Aug30_19/Gondola3/AODATA01_TimeConvert_Sorted_magGravMatrix.txt";
 
 inputFIDSail = fopen(filenameSail,'r');
 inputFIDGond = fopen(filenameGond,'r');
@@ -34,7 +34,7 @@ while ischar(lineSail) || ischar(lineGond) || ischar(lineSailMagw) || ischar(lin
     
     commaIndex = strfind(lineGond,",");
     if (size(commaIndex,2) > 2)
-        commonTime = str2double(extractBefore(lineSail,commaIndex(1)));
+        commonTime = str2double(extractBefore(lineGond,commaIndex(1)));
         x = str2double(extractAfter(extractBefore(lineGond,commaIndex(2)),commaIndex(1)));
         y = str2double(extractAfter(extractBefore(lineGond,commaIndex(3)),commaIndex(2)));
         z = str2double(extractAfter(lineGond,commaIndex(3)));
@@ -113,6 +113,7 @@ while ischar(lineSail) || ischar(lineGond) || ischar(lineSailMagw) || ischar(lin
     lineGondMagw = fgetl(inputFIDGondMagw);
 end
 %%
+clear mov;
 GondTime_lo = postionGond(1,1);
 GondTime_hi = postionGond(j,1);
 SailTime_lo = postionSail(1,1);
@@ -121,14 +122,14 @@ GondMagwTime_lo = gondmagwTime(1,:);
 GondMagwTime_hi = gondmagwTime(b,:);
 SailMagwTime_lo = sailmagwTime(1,:);
 SailMagwTime_hi = sailmagwTime(a,:);
-TimeStartVid = 57000;
-TimeEndVid = 57329;
+TimeStartVid = 67230;
+TimeEndVid = 67670;
 ylim_lo = min([min(postionGond(:,2)),min(postionSail(:,2))]);
 ylim_hi = max([max(postionGond(:,2)),max(postionSail(:,2))]);
-% xlim_lo = -78.6630;
-% xlim_hi = -78.6613;
-xlim_lo = min([min(postionGond(:,3)),min(postionSail(:,3))]);
-xlim_hi = max([max(postionGond(:,3)),max(postionSail(:,3))]);
+xlim_lo = -78.6630;
+xlim_hi = -78.6613;
+% xlim_lo = min([min(postionGond(:,3)),min(postionSail(:,3))]);
+% xlim_hi = max([max(postionGond(:,3)),max(postionSail(:,3))]);
 zlim_lo = min([min(postionGond(:,4)),min(postionSail(:,4))]);
 zlim_hi = max([max(postionGond(:,4)),max(postionSail(:,4))]);
 
@@ -136,12 +137,22 @@ basisScale_x = (xlim_hi - xlim_lo) / 10;
 basisScale_y = (ylim_hi - ylim_lo) / 10;
 basisScale_z = (zlim_hi - zlim_lo) / 10;
 
-l = 17000;
-m = 17000;
+ylim_lo = ylim_lo - basisScale_y;
+ylim_hi = ylim_hi + basisScale_y;
+xlim_lo = xlim_lo - basisScale_x;
+xlim_hi = xlim_hi + basisScale_x;
+zlim_lo = zlim_lo - basisScale_z;
+zlim_hi = zlim_hi + basisScale_z;
+
+l = 1;
+m = 1;
 n = 1;
 p = 1;
 frame = 0;
+fig1 = figure;
 
+% fig1.PaperPositionMode = 'manual';
+% fig1.PaperPosition = fig1.Position;
 for k = TimeStartVid:0.2:TimeEndVid
     frame = frame + 1;
     while postionSail(l,1) < k
@@ -207,13 +218,17 @@ for k = TimeStartVid:0.2:TimeEndVid
 %     SailBasisY_O = transpose(SailOcB*(SailBasisY_B));
 %     SailBasisZ_O = transpose(SailOcB*(SailBasisZ_B));
 
-    GondBasisX_O = transpose(GondOcB*(GondBasisX_B));
-    GondBasisY_O = transpose(GondOcB*(GondBasisY_B));
-    GondBasisZ_O = transpose(GondOcB*(GondBasisZ_B));
+    GondBasisX_O = transpose(GondBcO*(GondBasisX_B));
+    GondBasisY_O = transpose(GondBcO*(GondBasisY_B));
+    GondBasisZ_O = transpose(GondBcO*(GondBasisZ_B));
     
     SailBasisX_O = transpose(SailBcO*(SailBasisX_B));
     SailBasisY_O = transpose(SailBcO*(SailBasisY_B));
     SailBasisZ_O = transpose(SailBcO*(SailBasisZ_B));
+    
+    basisScale_x = basisScale_x * 20;
+    basisScale_y = basisScale_y * 20;
+    basisScale_z = basisScale_z * 20;
     
     GondBasisX_O_Scaled = [(basisScale_x*GondBasisX_O(1)) (basisScale_y*GondBasisX_O(2)) (basisScale_z*GondBasisX_O(3))];
     GondBasisY_O_Scaled = [(basisScale_x*GondBasisY_O(1)) (basisScale_y*GondBasisY_O(2)) (basisScale_z*GondBasisY_O(3))];
@@ -222,6 +237,10 @@ for k = TimeStartVid:0.2:TimeEndVid
     SailBasisX_O_Scaled = [(basisScale_x*SailBasisX_O(1)) (basisScale_y*SailBasisX_O(2)) (basisScale_z*SailBasisX_O(3))];
     SailBasisY_O_Scaled = [(basisScale_x*SailBasisY_O(1)) (basisScale_y*SailBasisY_O(2)) (basisScale_z*SailBasisY_O(3))];
     SailBasisZ_O_Scaled = [(basisScale_x*SailBasisZ_O(1)) (basisScale_y*SailBasisZ_O(2)) (basisScale_z*SailBasisZ_O(3))];
+    
+    basisScale_x = basisScale_x / 20;
+    basisScale_y = basisScale_y / 20;
+    basisScale_z = basisScale_z / 20;
     
     GondolaPos = [postionGond(m,3) postionGond(m,2) postionGond(m,4)];
     SailPos = [postionSail(l,3) postionSail(l,2) postionSail(l,4)];
@@ -234,15 +253,23 @@ for k = TimeStartVid:0.2:TimeEndVid
     SailVectY = [SailPos;SailPos + SailBasisY_O_Scaled];
     SailVectZ = [SailPos;SailPos + SailBasisZ_O_Scaled];
     
+    GondElev_Ring = [xlim_hi,ylim_lo,GondolaPos(3) ; xlim_hi,ylim_hi,GondolaPos(3) ; xlim_lo,ylim_hi,GondolaPos(3)];
+    GondLat_Ring = [GondolaPos(1),ylim_lo,zlim_lo ; GondolaPos(1),ylim_hi,zlim_lo ; GondolaPos(1),ylim_hi,zlim_hi];
+    GondLong_Ring = [xlim_lo,GondolaPos(2),zlim_lo ; xlim_hi,GondolaPos(2),zlim_lo ; xlim_hi,GondolaPos(2),zlim_hi];
+    
+    SailElev_Ring = [xlim_hi,ylim_lo,SailPos(3) ; xlim_hi,ylim_hi,SailPos(3) ; xlim_lo,ylim_hi,SailPos(3)];
+    SailLat_Ring = [SailPos(1),ylim_lo,zlim_lo ; SailPos(1),ylim_hi,zlim_lo ; SailPos(1),ylim_hi,zlim_hi];
+    SailLong_Ring = [xlim_lo,SailPos(2),zlim_lo ; xlim_hi,SailPos(2),zlim_lo ; xlim_hi,SailPos(2),zlim_hi];
     
     l = l - 1;
     m = m - 1;
     
+    figure(fig1);
     plot3(postionSail(l-20:l+2,3), postionSail(l-20:l+2,2), postionSail(l-20:l+2,4),'-m');
     %drawnow;
     hold on;
     
-    titlestring = append("Flight2 : ",string(k - TimeStartVid)," sec");
+    titlestring = append("Flight6 : ",string(k - TimeStartVid)," sec");
     title(titlestring)
     xlim([xlim_lo xlim_hi]);
     ylim([ylim_lo ylim_hi]);
@@ -264,6 +291,10 @@ for k = TimeStartVid:0.2:TimeEndVid
     %drawnow;
     scatter3(postionGond(m,3), postionGond(m,2), postionGond(m,4),'xk');
     %drawnow;
+    plot3(GondLat_Ring(:,1),GondLat_Ring(:,2),GondLat_Ring(:,3),'-c');
+    plot3(GondLong_Ring(:,1),GondLong_Ring(:,2),GondLong_Ring(:,3),'-c');
+    plot3(GondElev_Ring(:,1),GondElev_Ring(:,2),GondElev_Ring(:,3),'-c');
+    
     
     plot3(SailVectX(:,1),SailVectX(:,2),SailVectX(:,3),'-r');
     %drawnow;
@@ -271,16 +302,20 @@ for k = TimeStartVid:0.2:TimeEndVid
     %drawnow;
     plot3(SailVectZ(:,1),SailVectZ(:,2),SailVectZ(:,3),'-b');
     %drawnow;
-    scatter3(postionSail(l,3), postionSail(l,2), postionSail(l,4),'xk');
+    scatter3(postionSail(l,3), postionSail(l,2), postionSail(l,4),'ok');
+    plot3(SailLat_Ring(:,1),SailLat_Ring(:,2),SailLat_Ring(:,3),'-m');
+    plot3(SailLong_Ring(:,1),SailLong_Ring(:,2),SailLong_Ring(:,3),'-m');
+    plot3(SailElev_Ring(:,1),SailElev_Ring(:,2),SailElev_Ring(:,3),'-m');
+    
     drawnow;
     
     
-    
-    mov(frame) = getframe(gcf);
+    mov(frame) = getframe(fig1);
+    %clf(fig1)
     hold off;
 end
 
-video = VideoWriter('Flight2_video.avi','Motion JPEG AVI');
+video = VideoWriter('Flight6_video.avi');
 video.FrameRate = 5;
 %video.Quality = 10;
 open(video);
