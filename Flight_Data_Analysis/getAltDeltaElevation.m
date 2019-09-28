@@ -79,9 +79,9 @@ function getAltDeltaElevation(inputFile,xtraGndFile)
     fclose(outputFID);
     
     hold on;
-    plot(workingDataInput(:,4))
-    plot(workingDataInput(:,2))
-    plot(workingDataInput(:,3))
+%     plot(workingDataInput(:,4))
+%     plot(workingDataInput(:,2))
+%     plot(workingDataInput(:,3))
 end
     
    

@@ -26,30 +26,37 @@ function gps3VectorPos(InputFile,OtherElevFile)
             i = i+1;
             
             if ischar(inputLine) && contains(inputLine,'GGA')
-                j = j + 1;
+                
+                
                 commaIndex = strfind(inputLine,",");
-                commonTime = str2double(extractAfter(extractBefore(inputLine,commaIndex(1,2)),"GGA,"));
-                latString = extractAfter(extractBefore(inputLine,commaIndex(1,4)),commaIndex(1,2));
-                lonString = extractAfter(extractBefore(inputLine,commaIndex(1,6)),commaIndex(1,4));
-                elev = str2double(extractAfter(extractBefore(inputLine,commaIndex(1,10)),commaIndex(1,9)));
-                
-                latDeg = extractBefore(latString,3);
-                latMinute = extractAfter(extractBefore(latString,","),2);
-                lonDeg = extractBefore(lonString,4);
-                lonMinute = extractAfter(extractBefore(lonString,","),3);
-                latNum = str2double(latDeg) + (str2double(latMinute)/60);
-                lonNum =  str2double(lonDeg) + (str2double(lonMinute)/60);
+                if size(commaIndex,2) > 9 
+                    commonTime = str2double(extractAfter(extractBefore(inputLine,commaIndex(1,2)),"GGA,"));
+                    latString = extractAfter(extractBefore(inputLine,commaIndex(1,4)),commaIndex(1,2));
+                    lonString = extractAfter(extractBefore(inputLine,commaIndex(1,6)),commaIndex(1,4));
+                    elev = str2double(extractAfter(extractBefore(inputLine,commaIndex(1,10)),commaIndex(1,9)));
 
-                if contains(latString,"E")
-                    latNum = (-1)*latNum;
-                end
-                if contains(lonString,'W')
-                    lonNum = (-1)*lonNum;
-                end
-                
-                workingSetInput(j,:) = [commonTime latNum lonNum elev];
+                    if contains(latString,',') && contains(lonString,',') && length(latString) > 8 && length(lonString) > 8 && ~contains(latString,'A') && ~contains(lonString,'A') && ~contains(lonString,'N')
+                        j = j + 1;
+                        latDeg = extractBefore(latString,3);
+                        latMinute = extractAfter(extractBefore(latString,","),2);
+                        lonDeg = extractBefore(lonString,4);
+                        lonMinute = extractAfter(extractBefore(lonString,","),3);
+                        latNum = str2double(latDeg) + (str2double(latMinute)/60);
+                        lonNum =  str2double(lonDeg) + (str2double(lonMinute)/60);
 
-                %fprintf(outputFID,"%s,%.6f,%.6f,%s\n",commonTime,latNum,lonNum,elevString);
+                        if contains(latString,"E")
+                            latNum = (-1)*latNum;
+                        end
+                        if contains(lonString,'W')
+                            lonNum = (-1)*lonNum;
+                        end
+
+                        workingSetInput(j,:) = [commonTime latNum lonNum elev];
+                    end
+
+                    %fprintf(outputFID,"%s,%.6f,%.6f,%s\n",commonTime,latNum,lonNum,elevString);
+            
+                end
             end
             
             commonTime = str2double(extractBefore(ElevLine,','));

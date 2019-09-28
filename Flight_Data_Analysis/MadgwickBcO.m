@@ -10,7 +10,8 @@ function MadgwickBcO(inputFile)
         filename = extractBefore(inputFile,'.txt');
     end
     %construct output filename
-    outputFile = append(filename,"_MadgwickMatrix.txt");
+    outputFile1 = append(filename,"_MadgwickMatrix.txt");
+    outputFile2 = append(filename,"_magGravMatrix.txt");
 
     %add some needed paths
     addpath quaternion_library;
@@ -26,25 +27,33 @@ function MadgwickBcO(inputFile)
     minInd = 0;
     minIndTime = 0;
     i = 0;
+    j = 0;
     %search through the inputfile's euler angle sets and look for places where
     %the roll and pitch angles are super shallow, and log the place in the file
     %where that occurs
     while ischar(line)
-        i = i+1;
+        j = j+1;
+        checkIndex = strfind(line,'--');
         commaIndex = strfind(line,",");
-        time = str2double(extractBefore(line,commaIndex(1)));
-        eulX = str2double(extractAfter(extractBefore(line,commaIndex(11)),commaIndex(10)));
-        eulY = str2double(extractAfter(extractBefore(line,commaIndex(12)),commaIndex(11)));
-        eulZ = str2double(extractAfter(extractBefore(line,commaIndex(13)),commaIndex(12)));
-        if abs(eulY) < 0.1 && abs(eulZ) < 0.1
-            if minStateFound < 1
-                minIndTime = time;
+        if size(checkIndex,2) < 2 && size(commaIndex,2) > 13
+            
+            time = str2double(extractBefore(line,commaIndex(1)));
+            eulX = str2double(extractAfter(extractBefore(line,commaIndex(11)),commaIndex(10)));
+            eulY = str2double(extractAfter(extractBefore(line,commaIndex(12)),commaIndex(11)));
+            eulZ = str2double(extractAfter(extractBefore(line,commaIndex(13)),commaIndex(12)));
+            if abs(eulY) < 0.1 && abs(eulZ) < 0.1
+                if minStateFound < 1
+                    minIndTime = time;
+                end
+                minStateFound = 2;
+                minInd = [minInd,j];
             end
-            minStateFound = 2;
-            minInd = [minInd,i];
+            
+            if ~isnan(time) && ~isnan(eulX) && ~isnan(eulY) && ~isnan(eulZ)
+                i = i+1;
+                eul(i,:) = [eulX,eulY,eulZ];
+            end
         end
-
-        eul(i,:) = [eulX,eulY,eulZ];
         line = fgetl(inputFID);
     end
     fclose(inputFID); % reset the inputFile scan point
@@ -68,8 +77,10 @@ function MadgwickBcO(inputFile)
     %the inputfile lines until you get to the index where the initial
     %orientation quaternion is set.
     inputFID = fopen(inputFile,'r');
-    outputFID = fopen(outputFile,'w');
-    for i = i:minInd(2)
+    outputFID1 = fopen(outputFile1,'w');
+    outputFID2 = fopen(outputFile2,'w');
+    
+    for i = 1:minInd(2)
         fgetl(inputFID);
     end
     %setup some initial variables
@@ -109,61 +120,98 @@ function MadgwickBcO(inputFile)
         %generate an index vector of where the commas are in the line, and
         %extract the relevant data between the commas, then convert them into
         %numbers. 
+        checkIndex = strfind(line,"--");
         commaIndex = strfind(line,",");
-        timeNew = str2double(extractBefore(line,commaIndex(1)));
+        if size(checkIndex,2) < 2 && size(commaIndex,2) > 13
+            timeNew = str2double(extractBefore(line,commaIndex(1)));
 
-        accX = str2double(extractAfter(extractBefore(line,commaIndex(2)),":"));
-        accY = str2double(extractAfter(extractBefore(line,commaIndex(3)),commaIndex(2)));
-        accZ = str2double(extractAfter(extractBefore(line,commaIndex(4)),commaIndex(3)));
+            accX = str2double(extractAfter(extractBefore(line,commaIndex(2)),":"));
+            accY = str2double(extractAfter(extractBefore(line,commaIndex(3)),commaIndex(2)));
+            accZ = str2double(extractAfter(extractBefore(line,commaIndex(4)),commaIndex(3)));
 
-        gyroX = str2double(extractAfter(extractBefore(line,commaIndex(5)),commaIndex(4)));
-        gyroY = str2double(extractAfter(extractBefore(line,commaIndex(6)),commaIndex(5)));
-        gyroZ = str2double(extractAfter(extractBefore(line,commaIndex(7)),commaIndex(6)));
+            gyroX = str2double(extractAfter(extractBefore(line,commaIndex(5)),commaIndex(4)));
+            gyroY = str2double(extractAfter(extractBefore(line,commaIndex(6)),commaIndex(5)));
+            gyroZ = str2double(extractAfter(extractBefore(line,commaIndex(7)),commaIndex(6)));
 
-        magX = str2double(extractAfter(extractBefore(line,commaIndex(8)),commaIndex(7)));
-        magY = str2double(extractAfter(extractBefore(line,commaIndex(9)),commaIndex(8)));
-        magZ = str2double(extractAfter(extractBefore(line,commaIndex(10)),commaIndex(9)));
-        
-        %assemble the individual points into vectors
-        acc_B = [accX;accY;accZ];
-        gyro_B = [gyroX;gyroY;gyroZ];
-        mag_B = [magX;magY;magZ];
+            magX = str2double(extractAfter(extractBefore(line,commaIndex(8)),commaIndex(7)));
+            magY = str2double(extractAfter(extractBefore(line,commaIndex(9)),commaIndex(8)));
+            magZ = str2double(extractAfter(extractBefore(line,commaIndex(10)),commaIndex(9)));
+            
+            gravX = str2double(extractAfter(extractBefore(line,commaIndex(14)),commaIndex(13)));
+            gravY = str2double(extractAfter(extractBefore(line,commaIndex(15)),commaIndex(14)));
+            gravZ = str2double(extractAfter(extractBefore(line,commaIndex(16)),commaIndex(15)));
+            
+            if ~isnan(timeNew) && ~isnan(accX) && ~isnan(accY) && ~isnan(accZ) && ~isnan(gyroX) && ~isnan(gyroY) && ~isnan(gyroZ) && ~isnan(magX) && ~isnan(magY) && ~isnan(magZ)
+                %assemble the individual points into vectors
+                acc_B = [accX;accY;accZ];
+                gyro_B = [gyroX;gyroY;gyroZ];
+                mag_B = [magX;magY;magZ];
+                grav_B = [gravX;gravY;gravZ];
 
-        %determine deltaT (dt)
-        dt = (timeNew - timeOld);
-        timeOld = timeNew;
+                %determine deltaT (dt)
+                dt = (timeNew - timeOld);
+                timeOld = timeNew;
 
-        %update the Madgwick filter object with this line's raw sensor data
-        myIMU = Update(myIMU, transpose(gyro_B), transpose(acc_B), transpose(mag_B), dt);
-        %convert the updated quaternion to a numerical rotation sequence
-        BcO = quatern2rotMat(myIMU.Quaternion);
+                %update the Madgwick filter object with this line's raw sensor data
+                myIMU = Update(myIMU, transpose(gyro_B), transpose(acc_B), transpose(mag_B), dt);
+                %convert the updated quaternion to a numerical rotation sequence
+                BcO = quatern2rotMat(myIMU.Quaternion);
+                
+                grav_magnitude = norm(grav_B);
+                mag_magnitude = norm(mag_B);
+                projMagVect_B = mag_B - (dot(mag_B,grav_B)/(grav_magnitude^2))*grav_B;
+                projMag_magnitude = norm(projMagVect_B);
+                
+                projMagHat_B = projMagVect_B/projMag_magnitude;
+                gravHat_B = grav_B/grav_magnitude;
+                
+                jO_B = cross(gravHat_B,projMagHat_B);
+                
+                BcO_MagGrav = [transpose(projMagHat_B);transpose(jO_B);transpose(gravHat_B)];
+ 
+                % stuff in green no longer needed, but I don't wanna get rid of it
+            %     OcB = transpose(BcO);
+            %     rotatedAcc(i,:) = transpose(OcB*acc_B);
+            %     rotatedGyro(i,:) = transpose(OcB*gyro_B);
+            %     rotatedMag(i,:) = transpose(OcB*mag_B);
+            %     rotatedGrav(i,:) = transpose(OcB*grav_B);
+            %     
+            %     rotVectHolder = [(rotatedAcc(i,:));(rotatedGyro(i,:));(rotatedMag(i,:));(rotatedGrav(i,:))];
 
-
-        % stuff in green no longer needed, but I don't wanna get rid of it
-    %     OcB = transpose(BcO);
-    %     rotatedAcc(i,:) = transpose(OcB*acc_B);
-    %     rotatedGyro(i,:) = transpose(OcB*gyro_B);
-    %     rotatedMag(i,:) = transpose(OcB*mag_B);
-    %     rotatedGrav(i,:) = transpose(OcB*grav_B);
-    %     
-    %     rotVectHolder = [(rotatedAcc(i,:));(rotatedGyro(i,:));(rotatedMag(i,:));(rotatedGrav(i,:))];
-
-
-        %print the original line of data
-        fprintf("%s",line);
-        %tack on the 9 elements of the BcO matrix after the dataSet
-        for j = 1:3
-            for k = 1:3
-                if k == 3 && j == 3
-                    fprintf(outputFID,"%f\n",BcO(j,k));
-                elseif k == 3
-                    fprintf(outputFID,"%f:",BcO(j,k));
-                else
-                    fprintf(outputFID,"%f,",BcO(j,k));
+                if abs(acos(dot([1 0 0],transpose((transpose(BcO)*projMagHat_B))))) < ((15/360)*(2*pi())) && abs(acos(dot([0 0 1],transpose((transpose(BcO)*gravHat_B))))) < ((15/360)*(2*pi()))
+                    %print the original time
+                    fprintf(outputFID1,"%.3f:",timeNew);
+                    %tack on the 9 elements of the BcO matrix after the dataSet
+                    for j = 1:3
+                        for k = 1:3
+                            if k == 3 && j == 3
+                                fprintf(outputFID1,"%f\n",BcO(j,k));
+                            elseif k == 3
+                                fprintf(outputFID1,"%f:",BcO(j,k));
+                            else
+                                fprintf(outputFID1,"%f,",BcO(j,k));
+                            end
+                        end
+                    end
                 end
+                
+                %print the original time
+                fprintf(outputFID2,"%.3f:",timeNew);
+                %tack on the 9 elements of the BcO_MagGrav matrix after the dataSet
+                for j = 1:3
+                    for k = 1:3
+                        if k == 3 && j == 3
+                            fprintf(outputFID2,"%f\n",BcO_MagGrav(j,k));
+                        elseif k == 3
+                            fprintf(outputFID2,"%f:",BcO_MagGrav(j,k));
+                        else
+                            fprintf(outputFID2,"%f,",BcO_MagGrav(j,k));
+                        end
+                    end
+                end
+                %grab a new line and iterate
             end
         end
-        %grab a new line and iterate
         line = fgetl(inputFID);
     end
 
@@ -199,6 +247,7 @@ function MadgwickBcO(inputFile)
 
     %close the files before exiting the function
     fclose(inputFID);
-    fclose(outputFID);
+    fclose(outputFID1);
+    fclose(outputFID2);
 end
     

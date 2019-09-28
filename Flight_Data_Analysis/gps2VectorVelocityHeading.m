@@ -28,7 +28,7 @@ function gps2VectorVelocityHeading(InputFile)
             
             velocityString = string(0.514444*str2double(velocityString));
             
-            fprintf(outputFID,"%s,%s,%s\n",commonTime,velocityString,headingString);
+            fprintf(outputFID,"%s,%s,%s\n",convertStringsToChars(commonTime),convertStringsToChars(velocityString),convertStringsToChars(headingString));
         end
     end
     fclose(inputFID);
