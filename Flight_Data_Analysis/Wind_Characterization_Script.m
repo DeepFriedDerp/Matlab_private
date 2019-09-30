@@ -61,10 +61,10 @@ fprintf("fileNames have been generated!\n");
      inputFID_OcB = fopen(baseNames_OtherOcB(i,:),'r');
      inputFID_gps = fopen(baseNames_GPS(i,:),'r');
      
-     GyroLineNum = 0;
-     WindLineNum = 0;
-     OcBLineNum = 0;
-     gpsLineNum = 0;
+     GyroLineNum(i,:) = 0;
+     WindLineNum(i,:) = 0;
+     OcBLineNum(i,:) = 0;
+     gpsLineNum(i,:) = 0;
 
      
      gyroLine = fgetl(inputFID_Gryo);
@@ -82,8 +82,8 @@ fprintf("fileNames have been generated!\n");
              gyroZ = str2double(extractAfter(gyroLine,commaInd(3)));
              
              if ~(isnan(commonTime) && isnan(gyroX) && isnan(gyroY) && isnan(gyroZ))
-                 GyroLineNum = GyroLineNum + 1;
-                 Gyro(i,GyroLineNum,:) = [commonTime gyroX gyroY gyroZ];
+                 GyroLineNum(i,:) = GyroLineNum(i,:) + 1;
+                 Gyro(i,GyroLineNum(i,:),:) = [commonTime gyroX gyroY gyroZ];
              end
          end
          gyroLine = fgetl(inputFID_Gryo);
@@ -95,8 +95,8 @@ fprintf("fileNames have been generated!\n");
                  commonTime = str2double(extractBefore(windLine,","));
                  windX = str2double(extractAfter(windLine,","));
                  if ~(isnan(commonTime) && isnan(windX))
-                     WindLineNum = WindLineNum + 1;
-                     Wind(i,WindLineNum,:) = [commonTime windX];
+                     WindLineNum(i,:) = WindLineNum(i,:) + 1;
+                     Wind(i,WindLineNum(i,:),:) = [commonTime windX];
                  end
              end
          end
@@ -129,9 +129,9 @@ fprintf("fileNames have been generated!\n");
                  OcB_33 = str2double(extractAfter(row3,commaInd3(2)));
                  
                  if ~(isnan(commonTime) && isnan(OcB_11) && isnan(OcB_12) && isnan(OcB_13) && isnan(OcB_21) && isnan(OcB_22) && isnan(OcB_23) && isnan(OcB_31) && isnan(OcB_32) && isnan(OcB_33))
-                     OcBLineNum = OcBLineNum + 1;
-                     OcBTime(i,OcBLineNum,1) = commonTime;
-                     OcB(i,OcBLineNum,:,:) = [
+                     OcBLineNum(i,:) = OcBLineNum(i,:) + 1;
+                     OcBTime(i,OcBLineNum(i,:),1) = commonTime;
+                     OcB(i,OcBLineNum(i,:),:,:) = [
                          OcB_11 OcB_12 OcB_13
                          OcB_21 OcB_22 OcB_23
                          OcB_31 OcB_32 OcB_33
@@ -150,8 +150,8 @@ fprintf("fileNames have been generated!\n");
              heading = str2double(extractAfter(gpsLine,commaInd(2)));
              
              if ~(isnan(commonTime) && isnan(velocity) && isnan(heading))
-                 gpsLineNum = gpsLineNum + 1;
-                 gpsData(i,gpsLineNum,:) = [commonTime velocity heading];
+                 gpsLineNum(i,:) = gpsLineNum(i,:) + 1;
+                 gpsData(i,gpsLineNum(i,:),:) = [commonTime velocity heading];
              end
          end
          gpsLine = fgetl(inputFID_gps);
@@ -162,4 +162,177 @@ fprintf("fileNames have been generated!\n");
      fclose(inputFID_gps);
  end
          
-%% PROCESS THE DATA?
+%% (MIGHT NEED) GET ANGULAR ACCELERATION
+for i = 1:size(baseNames_OtherGryo,1)
+    for j = 1:GyroLineNum(i,:)-1
+        time1 = Gyro(i,j,1);
+        gyro1 = Gyro(i,j,2:4);
+        
+        time2 = Gyro(i,j+1,1);
+        gyro2 = Gyro(i,j+1,2:4);
+        
+        dt = time2 - time1;
+        avgTime = mean([time1 time2]);
+        dgyro = (gyro2 - gyro1) / dt;
+        
+        dGyroDt(i,j,:) = [avgTime dgyro(1) dgyro(2) dgyro(3)];
+    end
+end
+
+%% Find Times when Gyro and Velocity are close to zero
+for i = 1:size(baseNames_OtherGryo,1)
+    %first the gyro stuff
+    j = 1;
+    k = 0;
+    while j < GyroLineNum(i,:)
+        time1 = Gyro(i,j,1);
+        gyroVect(1:3) = [Gyro(i,j,2) Gyro(i,j,3) Gyro(i,j,4)];
+        if norm([gyroVect(1) gyroVect(3)]) < sqrt(2)
+            while norm([gyroVect(1) gyroVect(3)]) < sqrt(2) && j < GyroLineNum(i,:)
+                j = j + 1;
+                gyroVect(1:3) = [Gyro(i,j,2) Gyro(i,j,3) Gyro(i,j,4)];
+            end
+            j = j - 1;
+            time2 = Gyro(i,j,1);
+            if time1 < time2
+                k = k + 1;
+                lowGyro(i,k,:) = [time1 time2];
+            end
+        end
+        j = j + 1;
+    end
+    
+    %then the velocity stuff
+    j = 1;
+    k = 0;
+    while j < gpsLineNum(i,:)
+        time1 = gpsData(i,j,1);
+        velocity = gpsData(i,j,2);
+        if velocity < 0.1
+            while velocity < 0.2 && j < gpsLineNum(i,:)
+                j = j + 1;
+                velocity = gpsData(i,j,2);
+            end
+            j = j - 1;
+            time2 = gpsData(i,j,1);
+            if time1 < time2
+                k = k + 1;
+                lowVelo(i,k,:) = [time1 time2];
+            end
+        end
+        j = j + 1;
+    end
+end
+
+%% FIND COMMON TIMES BETWEEN LOWGYRO AND LOWVELO
+for i = 1:size(baseNames_OtherGryo,1)
+    for k = 1:size(lowGyro(i,:,:),2)
+        j = 0;
+        t1 = lowGyro(i,k,1);
+        t2 = lowGyro(i,k,2);
+        for j = 1:size(lowVelo(i,:,:),2)
+            t3 = lowVelo(i,j,1);
+            t4 = lowVelo(i,j,2);
+            if t1 < t4 && t1 >= t3
+                j = j + 1;
+                if t2 <= t4
+                    lowMotion(i,j,:) = [t1 t2];
+                else
+                    lowMotion(i,j,:) = [t1 t4];
+                end
+            elseif t3 < t2 && t3 >= t1
+                j = j + 1;
+                if t4 <= t2
+                    lowMotion(i,j,:) = [t3 t4];
+                else
+                    lowMotion(i,j,:) = [t3 t2];
+                end
+            end
+        end
+    end
+end
+        
+%% PRINT THE LOWVELO, LOWGYRO, AND LOWMOTION DATASETS
+
+for i = 1:size(baseNames_OtherGryo,1)
+    subplot(2,3,i); 
+    hold on;
+    j = 1;
+    gyroPlot(i,j,:) = [Gyro(i,1,1) 0];
+    for k = 1:size(lowGyro(i,:,:),2)
+        pt1 = lowGyro(i,k,1);
+        pt2 = lowGyro(i,k,2);
+        j = j + 1;
+        gyroPlot(i,j,:) = [pt1 0];
+        j = j + 1;
+        gyroPlot(i,j,:) = [pt1 3];
+        j = j + 1;
+        gyroPlot(i,j,:) = [pt2 3];
+        j = j + 1;
+        gyroPlot(i,j,:) = [pt2 0];
+    end
+    
+    j = 1;
+    veloPlot(i,j,:) = [gpsData(i,1,1) 0];
+    for k = 1:size(lowVelo(i,:,:),2)
+        pt1 = lowVelo(i,k,1);
+        pt2 = lowVelo(i,k,2);
+        j = j + 1;
+        veloPlot(i,j,:) = [pt1 0];
+        j = j + 1;
+        veloPlot(i,j,:) = [pt1 2];
+        j = j + 1;
+        veloPlot(i,j,:) = [pt2 2];
+        j = j + 1;
+        veloPlot(i,j,:) = [pt2 0];
+    end
+    
+    j = 0;
+    for k = 1:size(lowMotion(i,:,:),2)
+        pt1 = lowMotion(i,k,1);
+        pt2 = lowMotion(i,k,2);
+        j = j + 1;
+        commonPlot(i,j,:) = [pt1 0];
+        j = j + 1;
+        commonPlot(i,j,:) = [pt1 1];
+        j = j + 1;
+        commonPlot(i,j,:) = [pt2 1];
+        j = j + 1;
+        commonPlot(i,j,:) = [pt2 0];
+    end
+    
+    plot(gyroPlot(i,:,1),gyroPlot(i,:,2))
+    plot(veloPlot(i,:,1),veloPlot(i,:,2))
+    plot(commonPlot(i,:,1),commonPlot(i,:,2))
+end
+
+%% EXTRACT THE WIND DATA FOR THE COMMON TIMES
+for i = 1:size(baseNames_OtherGryo,1)
+    j = 0;
+    subplot(2,3,i);
+    titleLine = append("Flight ",string(i));
+    title(convertStringsToChars(titleLine));
+    hold on;
+    m = 0;
+    for k = 1:size(lowMotion(i,:,:),2)
+        t1 = lowMotion(i,k,1);
+        t2 = lowMotion(i,k,2);
+        h = 1;
+        while Wind(i,h,1) < t1
+            h = h + 1;
+        end
+        startplot = m;
+        while Wind(i,h,1) < t2
+            m = m + 1;
+            lowMotionWind(i,m,:) = [Wind(i,h,1) Wind(i,h,2)];
+            h = h + 1;
+        end
+        if startplot > 0 && startplot < m
+            plot(lowMotionWind(i,startplot:m,2))
+        end
+    end
+     
+    %plot(lowMotionWind(i,:,1),lowMotionWind(i,:,2));
+end
+            
+        
