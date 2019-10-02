@@ -335,4 +335,154 @@ for i = 1:size(baseNames_OtherGryo,1)
     %plot(lowMotionWind(i,:,1),lowMotionWind(i,:,2));
 end
             
-        
+%% EXTRACT THE INDIVIDUAL FLIGHTS 
+
+fprintf("%s - ",string(datetime(now,'ConvertFrom','datenum')));
+fprintf("FLIGHT 1\n");
+
+% FLIGHT 1
+i = 1;
+while lowMotionWind(1,i,1) < Flight_Timespans(1,1)
+    i = i + 1;
+end
+j = 1;
+while lowMotionWind(4,j,1) < Flight_Timespans(1,1)
+    j = j + 1;
+end
+k = 0;
+h = 0;
+while lowMotionWind(1,i,1) < Flight_Timespans(1,2)
+    k = k + 1;
+    GondFlightWind(1,k,:) = [lowMotionWind(1,i,1) lowMotionWind(1,i,2)];
+    i = i + 1;
+end
+while lowMotionWind(4,j,1) < Flight_Timespans(1,2)
+    h = h + 1;
+    SailFlightWind(1,k,:) = [lowMotionWind(4,i,1) lowMotionWind(4,i,2)];
+    j = j + 1;
+end
+
+fprintf("%s - ",string(datetime(now,'ConvertFrom','datenum')));
+fprintf("FLIGHT 2\n");
+
+% FLIGHT 2
+while lowMotionWind(1,i,1) < Flight_Timespans(2,1)
+    i = i + 1;
+end
+while lowMotionWind(4,j,1) < Flight_Timespans(2,1)
+    j = j + 1;
+end
+k = 0;
+h = 0;
+while lowMotionWind(1,i,1) < Flight_Timespans(2,2)
+    k = k + 1;
+    GondFlightWind(2,k,:) = [lowMotionWind(1,i,1) lowMotionWind(1,i,2)];
+    i = i + 1;
+end
+while lowMotionWind(4,j,1) < Flight_Timespans(2,2)
+    k = k + 1;
+    SailFlightWind(2,k,:) = [lowMotionWind(4,i,1) lowMotionWind(4,i,2)];
+    j = j + 1;
+end
+
+fprintf("%s - ",string(datetime(now,'ConvertFrom','datenum')));
+fprintf("FLIGHT 3\n");
+
+% FLIGHT 3
+i = 1;
+while lowMotionWind(2,i,1) < Flight_Timespans(3,1)
+    i = i + 1;
+end
+j = 1;
+while lowMotionWind(5,j,1) < Flight_Timespans(3,1)
+    j = j + 1;
+end
+k = 0;
+h = 0;
+while lowMotionWind(2,i,1) < Flight_Timespans(3,2)
+    k = k + 1;
+    GondFlightWind(3,k,:) = [lowMotionWind(2,i,1) lowMotionWind(2,i,2)];
+    i = i + 1;
+end
+while lowMotionWind(5,j,1) < Flight_Timespans(3,2)
+    k = k + 1;
+    SailFlightWind(3,k,:) = [lowMotionWind(5,i,1) lowMotionWind(5,i,2)];
+    j = j + 1;
+end
+
+fprintf("%s - ",string(datetime(now,'ConvertFrom','datenum')));
+fprintf("FLIGHT 4\n");
+
+% FLIGHT 4
+while lowMotionWind(2,i,1) < Flight_Timespans(4,1)
+    i = i + 1;
+end
+while lowMotionWind(5,j,1) < Flight_Timespans(4,1)
+    j = j + 1;
+end
+k = 0;
+h = 0;
+while lowMotionWind(2,i,1) < Flight_Timespans(4,2)
+    k = k + 1;
+    GondFlightWind(4,k,:) = [lowMotionWind(2,i,1) lowMotionWind(2,i,2)];
+    i = i + 1;
+end
+while lowMotionWind(5,j,1) < Flight_Timespans(4,2)
+    k = k + 1;
+    SailFlightWind(4,k,:) = [lowMotionWind(5,i,1) lowMotionWind(5,i,2)];
+    j = j + 1;
+end
+
+fprintf("%s - ",string(datetime(now,'ConvertFrom','datenum')));
+fprintf("FLIGHT 5\n");
+
+% FLIGHT 5
+i = 1;
+while lowMotionWind(3,i,1) < Flight_Timespans(5,1)
+    i = i + 1;
+end
+j = 1;
+while lowMotionWind(6,j,1) < Flight_Timespans(5,1)
+    j = j + 1;
+end
+k = 0;
+h = 0;
+while lowMotionWind(3,i,1) < Flight_Timespans(5,2)
+    k = k + 1;
+    GondFlightWind(5,k,:) = [lowMotionWind(3,i,1) lowMotionWind(3,i,2)];
+    i = i + 1;
+end
+while lowMotionWind(6,j,1) < Flight_Timespans(5,2)
+    k = k + 1;
+    SailFlightWind(5,k,:) = [lowMotionWind(6,i,1) lowMotionWind(6,i,2)];
+    j = j + 1;
+end
+
+fprintf("%s - ",string(datetime(now,'ConvertFrom','datenum')));
+fprintf("FLIGHT 6\n");
+
+% FLIGHT 6
+while lowMotionWind(3,i,1) < Flight_Timespans(6,1)
+    i = i + 1;
+end
+while lowMotionWind(6,j,1) < Flight_Timespans(6,1)
+    j = j + 1;
+end
+k = 0;
+h = 0;
+while lowMotionWind(3,i,1) < Flight_Timespans(6,2)
+    k = k + 1;
+    GondFlightWind(6,k,:) = [lowMotionWind(3,i,1) lowMotionWind(3,i,2)];
+    i = i + 1;
+end
+while lowMotionWind(6,j,1) < Flight_Timespans(6,2)
+    k = k + 1;
+    SailFlightWind(6,k,:) = [lowMotionWind(6,i,1) lowMotionWind(6,i,2)];
+    j = j + 1;
+end
+
+%% PLOT ALL THE THINGS
+
+for i = 1:6
+    subplot(2,3,i)
+    titleLine = append("Gond Flight "
