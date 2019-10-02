@@ -1,4 +1,5 @@
 clear all;
+addpath Basic_Processing_Functions;
 
 filenameSail = "./GENERATED_DATA/TestFlight_Aug30_19/Sail3/GPSLOG00_TimeConvert_Sorted_GPS3VectPos.txt";
 filenameGond = "./GENERATED_DATA/TestFlight_Aug30_19/Gondola3/GPSLOG01_TimeConvert_Sorted_GPS3VectPos.txt";

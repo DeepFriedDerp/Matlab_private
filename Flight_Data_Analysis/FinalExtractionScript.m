@@ -2,6 +2,8 @@
 clear;
 clc;
 
+addpath Basic_Processing_Functions;
+
 fprintf("%s - ",string(datetime(now,'ConvertFrom','datenum')));
 fprintf("script staring now\n");
 
