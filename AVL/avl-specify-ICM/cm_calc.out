@@ -1,0 +1,64 @@
+% Sail CM calculation OUTPUT file
+% Created by:     agmotes165
+% Created on:     09-Oct-2019 15:19:30
+% Created using:  agmotes165-PC
+% Input file:     Classic_rev1.txt
+% 
+% Center of mass [m]: 
+Xcm = -0.4800;
+Ycm = -0.2100;
+Zcm = -0.0000;
+% 
+% Mass total [kg]: 
+mT = 1.0900;
+% 
+% Neutral point [m]: 
+xNP = -0.6093;
+% 
+% Static margin: 
+SM = 0.4715;
+% 
+% X offset [m]: 
+xoff = 0.4572;
+% 
+% Spanwise coordinate of lift [m]: 
+yL = -0.6858;
+% 
+% yLyCM ratio: 
+yLyCM = 3.2657;
+% 
+% Spanwise tether location [m]: 
+yT = 0.0000;
+% 
+% Pitch ballast mass [kg]: 
+PB = 0.0000;
+% 
+% Roll ballast mass [kg]: 
+RB = 0.0000;
+% 
+% Total ballast mass [kg]: 
+TB = 0.0000;
+% 
+% Ballast mass ratio: 
+BMR = 0.0000;
+% 
+% Dynamic pressure [Pa]: 
+q = 15.3125;
+% 
+% Wing lift coefficient at stall: 
+CL = 0.1231;
+% 
+% Rudder deflection [deg]: 
+de = -1.7601;
+% 
+% Wing angle of attack at stall [deg]: 
+alfa = 2.0000;
+% 
+% Lift [N]: 
+L = 0.7093;
+% 
+% Roll angle [deg]: 
+theta = 12.5119;
+% 
+% Guide force [N]: 
+GF = 0.6925;
