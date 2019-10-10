@@ -1,6 +1,6 @@
 % Sail CM calculation OUTPUT file
 % Created by:     agmotes165
-% Created on:     09-Oct-2019 15:19:30
+% Created on:     10-Oct-2019 14:14:19
 % Created using:  agmotes165-PC
 % Input file:     Classic_rev1.txt
 % 
@@ -13,10 +13,10 @@ Zcm = -0.0000;
 mT = 1.0900;
 % 
 % Neutral point [m]: 
-xNP = -0.6093;
+xNP = -0.6111;
 % 
 % Static margin: 
-SM = 0.4715;
+SM = 0.4778;
 % 
 % X offset [m]: 
 xoff = 0.4572;
@@ -46,19 +46,19 @@ BMR = 0.0000;
 q = 15.3125;
 % 
 % Wing lift coefficient at stall: 
-CL = 0.1231;
+CL = -0.4157;
 % 
 % Rudder deflection [deg]: 
-de = -1.7601;
+de = 6.0000;
 % 
 % Wing angle of attack at stall [deg]: 
-alfa = 2.0000;
+alfa = -6.7886;
 % 
 % Lift [N]: 
-L = 0.7093;
+L = -2.3950;
 % 
 % Roll angle [deg]: 
-theta = 12.5119;
+theta = 47.0094;
 % 
 % Guide force [N]: 
-GF = 0.6925;
+GF = 1.6331;
