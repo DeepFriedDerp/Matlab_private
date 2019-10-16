@@ -12,9 +12,24 @@ function convertStabsToMFile(stabsData,outputFolderName,paramSpaceCoords)
     outputFID = fopen(totalOutputFileName,'w');
     
     
-    fprintf(outputFID,"function [aeroForces] = %s(sailStates,airStates)\n",outputFileName);
-    fprintf(outputFID,"\tCL = (%.6f) + (%.6f)*sailStates.alpha + (%.6f)*sailStates.beta + (%.6f)*sailStates.gamma + (%.6f)*sailStates.p + (%.6f)*sailStates.q + (%.6f)*sailStates.r + (%.6f)*sailStates.de;\n",
+    fprintf(outputFID,"function [aeroForces] = %s(sailStates,airStates)\n\n",outputFileName);
+    fprintf(outputFID,"\tCL = (%.6f)*sailStates.alpha + (%.6f)*sailStates.beta + (%.6f)*sailStates.p + (%.6f)*sailStates.q + (%.6f)*sailStates.r + (%.6f)*sailStates.de;\n",(stabsData.cLa),(stabsData.cLb),(stabsData.cLp),(stabsData.cLq),(stabsData.cLr),(stabsData.cLde));
+    fprintf(outputFID,"\tCD = %.6f;\n",stabsData.cDtot);
+    fprintf(outputFID,"\tCY = (%.6f)*sailStates.alpha + (%.6f)*sailStates.beta + (%.6f)*sailStates.p + (%.6f)*sailStates.q + (%.6f)*sailStates.r + (%.6f)*sailStates.de;\n\n",(stabsData.cYa),(stabsData.cYb),(stabsData.cYp),(stabsData.cYq),(stabsData.cYr),(stabsData.cYde));
     
-    fprintf(outputFID,"\tCL = (cLo) + (cLa)*sailStates.alpha + (cLb)*sailStates.beta + (cLy)*sailStates.gamma + (cLp)*sailStates.p + (cLq)*sailStates.q + (cLr)*sailStates.r + (cLde)*sailStates.de;\n",
+    fprintf(outputFID,"\tCl = (%.6f)*sailStates.alpha + (%.6f)*sailStates.beta + (%.6f)*sailStates.p + (%.6f)*sailStates.q + (%.6f)*sailStates.r + (%.6f)*sailStates.de;\n",(stabsData.cla),(stabsData.clb),(stabsData.clp),(stabsData.clq),(stabsData.clr),(stabsData.clde));
+    fprintf(outputFID,"\tCm = (%.6f)*sailStates.alpha + (%.6f)*sailStates.beta + (%.6f)*sailStates.p + (%.6f)*sailStates.q + (%.6f)*sailStates.r + (%.6f)*sailStates.de;\n",(stabsData.cma),(stabsData.cmb),(stabsData.cmp),(stabsData.cmq),(stabsData.cmr),(stabsData.cmde));
+    fprintf(outputFID,"\tCn = (%.6f)*sailStates.alpha + (%.6f)*sailStates.beta + (%.6f)*sailStates.p + (%.6f)*sailStates.q + (%.6f)*sailStates.r + (%.6f)*sailStates.de;\n\n",(stabsData.cna),(stabsData.cnb),(stabsData.cnp),(stabsData.cnq),(stabsData.cnr),(stabsData.cnde));
     
+    fprintf(outputFID,"\tq = 0.5 * airStates.rho * (sailStates.windspeed * sailStates.windspeed);\n\n");
+    
+    fprintf(outputFID,"\taeroForces.L = CL * q * sailStates.Sref;\n");
+    fprintf(outputFID,"\taeroForces.D = CD * q * sailStates.Sref;\n");
+    fprintf(outputFID,"\taeroForces.Y = CY * q * sailStates.Sref;\n\n");
+    
+    fprintf(outputFID,"\taeroForces.l = Cl * q * sailStates.Sref * sailStates.Bref;\n");
+    fprintf(outputFID,"\taeroForces.m = Cm * q * sailStates.Sref * sailStates.Cref;\n");
+    fprintf(outputFID,"\taeroForces.n = Cn * q * sailStates.Sref * sailStates.Bref;\n\n");
+    
+    fprintf(outputFID,"end");
     

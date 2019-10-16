@@ -13,8 +13,8 @@ function [aeroForces] = getAeroForces_10_3_3_5(sailStates,airStates)
     D = CD * q * sailStates.Sref;
     Y = CY * q * sailStates.Sref;
     
-    l = Cl * q * sailStates.Sref * sailStates.b;
-    m = Cm * q * sailStates.Sref * sailStates.c;
-    n = Cn * q * sailStates.Sref * sailStates.b;
+    l = Cl * q * sailStates.Sref * sailStates.Bref;
+    m = Cm * q * sailStates.Sref * sailStates.Cref;
+    n = Cn * q * sailStates.Sref * sailStates.Bref;
     
 end

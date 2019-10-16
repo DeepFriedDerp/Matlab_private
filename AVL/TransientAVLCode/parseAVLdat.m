@@ -83,106 +83,106 @@ function [sailParams,success] = parseAVLdat(inputFile)
                             sailParams.Zref = val(j,1);
                         case 'Alpha'
                             got_em(7) = 1;
-                            sailParams.Alpha = val(j,1);
+                            sailParams.alpha = val(j,1);
                         case 'Beta'
                             got_em(8) = 1;
-                            sailParams.Beta = val(j,1);
+                            sailParams.beta = val(j,1);
                         case 'CDtot'
                             got_em(9) = 1;
-                            sailParams.CDtot = val(j,1);
+                            sailParams.cDtot = val(j,1);
                         case 'e'
                             got_em(10) = 1;
                             sailParams.e = val(j,1);
                         case 'CLa'
                             got_em(11) = 1;
-                            sailParams.CLa = val(j,1);
+                            sailParams.cLa = val(j,1);
                         case 'CLb'
                             got_em(12) = 1;
-                            sailParams.CLb = val(j,1);
+                            sailParams.cLb = val(j,1);
                         case 'CYa'
                             got_em(13) = 1;
-                            sailParams.CYa = val(j,1);
+                            sailParams.cYa = val(j,1);
                         case 'CYb'
                             got_em(14) = 1;
-                            sailParams.CYb = val(j,1);
+                            sailParams.cYb = val(j,1);
                         case 'Cla'
                             got_em(15) = 1;
-                            sailParams.Cla = val(j,1);
+                            sailParams.cla = val(j,1);
                         case 'Clb'
                             got_em(16) = 1;
-                            sailParams.Clb = val(j,1);
+                            sailParams.clb = val(j,1);
                         case 'Cma'
                             got_em(17) = 1;
-                            sailParams.Cma = val(j,1);
+                            sailParams.cma = val(j,1);
                         case 'Cmb'
                             got_em(18) = 1;
-                            sailParams.Cmb = val(j,1);
+                            sailParams.cmb = val(j,1);
                         case 'Cna'
                             got_em(19) = 1;
-                            sailParams.Cna = val(j,1);
+                            sailParams.cna = val(j,1);
                         case 'Cnb'
                             got_em(20) = 1;
-                            sailParams.Cnb = val(j,1);
+                            sailParams.cnb = val(j,1);
                         case 'CLp'
                             got_em(21) = 1;
-                            sailParams.CLp = val(j,1);
+                            sailParams.cLp = val(j,1);
                         case 'CLq'
                             got_em(22) = 1;
-                            sailParams.CLq = val(j,1);
+                            sailParams.cLq = val(j,1);
                         case 'CLr'
                             got_em(23) = 1;
-                            sailParams.CLr = val(j,1);
+                            sailParams.cLr = val(j,1);
                         case 'CYp'
                             got_em(24) = 1;
-                            sailParams.CYp = val(j,1);
+                            sailParams.cYp = val(j,1);
                         case 'CYq'
                             got_em(25) = 1;
-                            sailParams.CYq = val(j,1);
+                            sailParams.cYq = val(j,1);
                         case 'CYr'
                             got_em(26) = 1;
-                            sailParams.CYr = val(j,1);
+                            sailParams.cYr = val(j,1);
                         case 'Clp'
                             got_em(27) = 1;
-                            sailParams.Clp = val(j,1);
+                            sailParams.clp = val(j,1);
                         case 'Clq'
                             got_em(28) = 1;
-                            sailParams.Clq = val(j,1);
+                            sailParams.clq = val(j,1);
                         case 'Clr'
                             got_em(29) = 1;
-                            sailParams.Clr = val(j,1);
+                            sailParams.clr = val(j,1);
                         case 'Cmp'
                             got_em(30) = 1;
-                            sailParams.Cmp = val(j,1);
+                            sailParams.cmp = val(j,1);
                         case 'Cmq'
                             got_em(31) = 1;
-                            sailParams.Cmq = val(j,1);
+                            sailParams.cmq = val(j,1);
                         case 'Cmr'
                             got_em(32) = 1;
-                            sailParams.Cmr = val(j,1);
+                            sailParams.cmr = val(j,1);
                         case 'Cnp'
                             got_em(33) = 1;
-                            sailParams.Cnp = val(j,1);
+                            sailParams.cnp = val(j,1);
                         case 'Cnq'
                             got_em(34) = 1;
-                            sailParams.Cnq = val(j,1);
+                            sailParams.cnq = val(j,1);
                         case 'Cnr'
                             got_em(35) = 1;
-                            sailParams.Cnr = val(j,1);
+                            sailParams.cnr = val(j,1);
                         case 'CLd1'
                             got_em(36) = 1;
-                            sailParams.CLd1 = val(j,1);
+                            sailParams.cLde = val(j,1);
                         case 'CYd1'
                             got_em(37) = 1;
-                            sailParams.CYd1 = val(j,1);
+                            sailParams.cYde = val(j,1);
                         case 'Cld1'
                             got_em(38) = 1;
-                            sailParams.Cld1 = val(j,1);
+                            sailParams.clde = val(j,1);
                         case 'Cmd1'
                             got_em(39) = 1;
-                            sailParams.Cmd1 = val(j,1);
+                            sailParams.cmde = val(j,1);
                         case 'Cnd1'
                             got_em(40) = 1;
-                            sailParams.Cnd1 = val(j,1);
+                            sailParams.cnde = val(j,1);
                         case 'CDffd1'
                             got_em(41) = 1;
                             sailParams.CDffd1 = val(j,1);

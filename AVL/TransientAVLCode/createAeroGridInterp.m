@@ -23,38 +23,76 @@ function [success] = createAeroGridInterp(settings)
     n_res = settings.q_res; 
     o_res = settings.r_res;
     
-    i_step = (i_max - i_min) / i_res;
-    j_step = (j_max - j_min) / j_res;
-    k_step = (k_max - k_min) / k_res;
-    l_step = (l_max - l_min) / l_res;
-    m_step = (m_max - m_min) / m_res;
-    n_step = (n_max - n_min) / n_res;
-    o_step = (o_max - o_min) / o_res;
+    i_step = (i_max - i_min) / (i_res);
+    j_step = (j_max - j_min) / (j_res);
+    k_step = (k_max - k_min) / (k_res);
+    l_step = (l_max - l_min) / (l_res);
+    m_step = (m_max - m_min) / (m_res);
+    n_step = (n_max - n_min) / (n_res);
+    o_step = (o_max - o_min) / (o_res);
    
     xMatrix = zeros(8,i_res,j_res,k_res,l_res,m_res,n_res,o_res);
     
     success = 1;
+    runNum = 0;
+    totNum = i_res * j_res * k_res * l_res * m_res * n_res * o_res; 
+    
+    alpha = i_min;
+    beta = j_min;
+    de = k_min;
+    vel = l_min;
+    p = m_min;
+    q = n_min;
+    r = o_min;
     
     for i = 1:i_res
-        alpha = i_step * i;
+        if i < 2
+            alpha = alpha + (i_step / 2);
+        else
+            alpha = alpha + (i_step);
+        end
         
         for j = 1:j_res
-            beta = j_step * j;
+            if j < 2
+                beta = beta + (j_step / 2);
+            else
+                beta = beta + (j_step);
+            end
             
             for k = 1:k_res
-                de = k_step * k;
-                
+                if k < 2
+                    de = de + (k_step / 2);
+                else
+                    de = de + (k_step);
+                end
+
                 for l = 1:l_res
-                    vel = l_step * l;
+                    if l < 2
+                        vel = vel + (l_step / 2);
+                    else
+                        vel = vel + (l_step);
+                    end
                     
                     for m = 1:m_res
-                        p = m_step * m;
+                        if m < 2
+                            p = p + (m_step / 2);
+                        else
+                            p = p + (m_step);
+                        end
                         
                         for n = 1:n_res
-                            q = n_step * n;
+                            if n < 2
+                                q = q + (n_step / 2);
+                            else
+                                q = q + (n_step);
+                            end
                             
                             for o = 1:o_res
-                                r = o_step * o;
+                                if o < 2
+                                    r = r + (o_step / 2);
+                                else
+                                    r = r + (o_step);
+                                end
                                 
                                 done = 0;
                                 attempt = 0;
@@ -63,9 +101,11 @@ function [success] = createAeroGridInterp(settings)
                                     Gerrit_slim(settings.runfile , alpha , beta , de , vel , p , q , r);
                                     [results,done] = parseAVLdat('cm_calc.stabs');
                                     if done
-                                        convertStabsToMFile(results,sail.stabsFolder,[i,j,k,l,m,n,o]);
+                                        convertStabsToMFile(results,settings.gridFolder,[i,j,k,l,m,n,o]);
                                     end
                                 end
+                                runNum = runNum + 1;
+                                sprintf("Run : %1.0f of %1.0f complete",runNum,totNum)
                                 success = success && done;
                             end
                         end

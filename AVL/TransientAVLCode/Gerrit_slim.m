@@ -1,4 +1,4 @@
-function Gerrit_slim(filename, alpha, betaz, deltae)
+function Gerrit_slim(filename, alpha, betaz, deltae, velocity, p, q, r)
 % Script to compute the center of mass and intertia tensor of the sail
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
@@ -60,11 +60,20 @@ sail.mT = massT.mass;
 sail.alfa = alpha;
 sail.beta = betaz;
 sail.de = deltae;
+sail.vel= velocity;
+
+Cref = sail.mass1.chord;
+Bref = sail.mass1.span;
+
+sail.p = (p*Bref)/(2*velocity);
+sail.q = (q*Cref)/(2*velocity);
+sail.r = (r*Bref)/(2*velocity);
+
 [xNP, alfa, CL, q, de] = TranslateToAVL(sail);
 
 
 % print
-disp('Done! :D');
+%disp('Done! :D');
 
 end
 
@@ -192,7 +201,7 @@ runs.Cref = wing.chord;
 runs.Bref = wing.span;
 runs.g = 9.81;
 runs.rho = 1.225;
-runs.vel = 5;
+runs.vel = sail.vel;
 runs.stFlag = 1;    % Save ST file, 1 == yes, 0 == no
 runs.fsFlag = 1;    % Save fs file, 1 == yes, 0 == no
 q = 0.5*runs.rho*runs.vel*runs.vel;
@@ -202,9 +211,9 @@ runs.elecs = sail.mass4.mass;   % [kg] electronics mass
 
 % aerodynamic constraints
 const.b = sail.beta;        % beta
-const.r = 0;        % roll rate
-const.p = 0;        % pitch rate
-const.y = 0;        % yaw rate
+const.r = sail.r;        % roll rate
+const.p = sail.p;        % pitch rate
+const.y = sail.p;        % yaw rate
 const.pm = 0;       % pitching moment
 
 const.a = sail.alfa;
