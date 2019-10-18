@@ -1,0 +1,24 @@
+LOAD .\AVL_output\cm_calc.avl
+MASS .\AVL_output\cm_calc.mass
+MSET
+0
+PLOP
+g
+
+OPER
+m
+v 55.0000
+mn 0.0000
+g 9.8100
+d 1.2250
+
+a a 7.5000
+b b 30.0000
+d1 d1 75.0000
+r r 1.7768
+p p 0.2868
+y y 0.2868
+x
+st .\AVL_output\cm_calc.stabs
+
+QUIT
