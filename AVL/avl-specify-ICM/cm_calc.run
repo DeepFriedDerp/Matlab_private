@@ -1,0 +1,26 @@
+LOAD cm_calc.avl
+MASS cm_calc.mass
+MSET
+0
+PLOP
+g
+
+OPER
+m
+v 5.0000
+mn 0.0000
+g 9.8100
+d 1.2250
+
+d1 d1 6.0000
+a pm 0.0000
+b b 0.0000
+r r 0.0000
+p p 0.0000
+y y 0.0000
+x
+st cm_calc.stabs
+fs cm_calc.strip
+hm cm_calc.hinge
+
+QUIT
