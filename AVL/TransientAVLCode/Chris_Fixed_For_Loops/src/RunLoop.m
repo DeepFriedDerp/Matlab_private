@@ -16,8 +16,8 @@ function [CL, errs, xNP, de, alphaN, success] = RunLoop(design, alpha, i1, plotF
     % display info
     if plotFlag ~= 1 
         if isnan(alpha) ~= 1
-            disp(['Loop iteration: ', num2str(i1), ...
-                ', Alpha [deg]: ', num2str(alpha)]);
+%             disp(['Loop iteration: ', num2str(i1), ...
+%                 ', Alpha [deg]: ', num2str(alpha)]);
         else
             %disp(['Loop iteration: ', num2str(i1)]);
         end
@@ -41,7 +41,7 @@ function [CL, errs, xNP, de, alphaN, success] = RunLoop(design, alpha, i1, plotF
     fclose('all');
     [status, result] = dos([avlLocation,' < ', runFile]);
     
-    if ~exist(append(runName,'.stabs'),file)
+    if ~exist(append(runName,'.stabs'),'file')
         success = 0;
         return;
     end
@@ -50,11 +50,6 @@ function [CL, errs, xNP, de, alphaN, success] = RunLoop(design, alpha, i1, plotF
     de = stabDerivs.elev;
     alphaN = stabDerivs.Alpha;
     xNP = stabDerivs.Xnp;
-    
-    if ~exist(append(runName,'.strip'),file)
-        success = 0;
-        return;
-    end
     
     [Cl, ~, ~, ~, ~, yLE] = ReadStrips([runName, '.strip'], 0, design);
     fclose('all');

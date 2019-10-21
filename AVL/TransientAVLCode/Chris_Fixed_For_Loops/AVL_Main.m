@@ -1,4 +1,4 @@
-function [success] =  AVL_Main(filename, alfa1, beta, delta, p1, q1, r1)
+function [success] =  AVL_Main(filename, alfa1, beta, delta, velocity, p1, q1, r1)
 % Script to compute the center of mass and intertia tensor of the sail
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
@@ -14,6 +14,7 @@ function [success] =  AVL_Main(filename, alfa1, beta, delta, p1, q1, r1)
 % section to choose the masses to make it happen
 
 success = 1;
+addpath src;
 
 % set plot stuffs
 SetDefaults;
@@ -112,7 +113,7 @@ for j1 = 1:2
         rollmasshistory(cntr) = mass6.mass;
         pitchmasshistory(cntr) = mass5.mass;
         if cntr > cntrlimit
-            warning('Convergence not met before iteration limit.');
+            %warning('Convergence not met before iteration limit.');
             exitFlag = 1;
             % fprintf('Error of %0.4f is less than tolerance of %0.4f\n', ...
             %     abs(errSM + errYM), errtol);
@@ -171,6 +172,7 @@ for j1 = 1:2
         sail.p1 = p1;
         sail.q1 = q1;
         sail.r1 = r1;
+        sail.vel = velocity;
         [xNP, alfa, CL, q, de,successTranslate] = TranslateToAVL(sail);
         if ~successTranslate
             disp("failed to translate to AVL")
@@ -208,65 +210,65 @@ info.q = q;
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 
 
-% plot system
-clrs = [         0    0.4470    0.7410
-    0.8500    0.3250    0.0980
-    0.9290    0.6940    0.1250
-    0.4940    0.1840    0.5560
-    0.4660    0.6740    0.1880
-    0.3010    0.7450    0.9330
-    0.6350    0.0780    0.1840
-    255/255, 153/255, 255/255];
-figure
-hold on
-% wing
-xv1 = [0, 0, -mass1.chord, -mass1.chord, 0] + mass1.xle;
-yv1 = [0, mass1.yCM*2, mass1.yCM*2, 0, 0];  % assume yCM = span/2 for drawing
-% rudder
-xv2 = [0, 0, -mass2.chord, -mass2.chord, 0] + mass2.xle;
-yv2 = [0, mass2.yCM*2, mass2.yCM*2, 0, 0];
-plot(xv1, yv1, 'k-');
-plot(xv2, yv2, 'k-');
-% plot([mass5.xCM, -3.5*wing_chord - xoff - mass1.chord], [0, 0], 'k-', 'LineWidth', 1);
-plot([0, 2*mass3.xCM], [0, 0], 'k-', 'LineWidth', 1);
-p1 = plot(mass1.xCM, mass1.yCM, 's', 'DisplayName', 'Wing', 'MarkerSize', 8, 'MarkerFaceColor', clrs(1, :), 'MarkerEdgeColor', 'k');
-p2 = plot(mass2.xCM, mass2.yCM, 's', 'DisplayName', 'Rudder', 'MarkerSize', 8, 'MarkerFaceColor', clrs(2, :), 'MarkerEdgeColor', 'k');
-p3 = plot(mass3.xCM, mass3.yCM, 's', 'DisplayName', 'Boom', 'MarkerSize', 8, 'MarkerFaceColor', clrs(3, :), 'MarkerEdgeColor', 'k');
-p4 = plot(mass4.xCM, mass4.yCM, 's', 'DisplayName', 'Electroncis', 'MarkerSize', 8, 'MarkerFaceColor', clrs(4, :), 'MarkerEdgeColor', 'k');
-p5 = plot(mass5.xCM, mass5.yCM, 's', 'DisplayName', 'Pitch ballast', 'MarkerSize', 8, 'MarkerFaceColor', clrs(5, :), 'MarkerEdgeColor', 'k');
-p6 = plot(mass6.xCM, mass6.yCM, 's', 'DisplayName', 'Roll ballast', 'MarkerSize', 8, 'MarkerFaceColor', clrs(6, :), 'MarkerEdgeColor', 'k');
-p8 = plot(mass7.xCM, mass7.yCM, 's', 'DisplayName', 'Plate', 'MarkerSize', 8, 'MarkerFaceColor', clrs(8, :), 'MarkerEdgeColor', 'k');
-p7 = plot(sail.Xcm, sail.Ycm, 'o', 'MarkerSize', 8, 'DisplayName', 'Sail CM', 'MarkerFaceColor', clrs(7, :), 'MarkerEdgeColor', 'k');
-plot(mass1.xCM, mass1.yCM, 's', 'MarkerSize', 8, 'MarkerFaceColor', clrs(1, :), 'MarkerEdgeColor', 'k');
-
-% xlabel('X coordinate [m]', 'FontSize', 8);
-% ylabel('Y coordinate [m]', 'FontSize', 8);
-% grid on
-% grid minor
-set(gca, 'XDir', 'reverse'); 
-% ylim([-2., 0.5]);
-set(gca, 'YColor', 'w');
-set(gca, 'YTick', []);
-% xlim([-2, 0]);
-set(gca, 'XTick', []);
-set(gca, 'XColor', 'w');
-
-% draw sail 
-legend([p1, p2, p3, p4, p5, p6, p8, p7], 'location', 'best');
-
-% sail 
-% info
-% keyboard
-
-% send to output
-WriteOutput(sail, info);
-
-% save figures as pdfs
-h =  findobj('type','figure');
-n = length(h);
-for i1 = 1:n
-    saveas(h(n + 1 - i1), sprintf('cm_calc_fig%d', i1), 'pdf');
-end
+% % plot system
+% clrs = [         0    0.4470    0.7410
+%     0.8500    0.3250    0.0980
+%     0.9290    0.6940    0.1250
+%     0.4940    0.1840    0.5560
+%     0.4660    0.6740    0.1880
+%     0.3010    0.7450    0.9330
+%     0.6350    0.0780    0.1840
+%     255/255, 153/255, 255/255];
+% figure
+% hold on
+% % wing
+% xv1 = [0, 0, -mass1.chord, -mass1.chord, 0] + mass1.xle;
+% yv1 = [0, mass1.yCM*2, mass1.yCM*2, 0, 0];  % assume yCM = span/2 for drawing
+% % rudder
+% xv2 = [0, 0, -mass2.chord, -mass2.chord, 0] + mass2.xle;
+% yv2 = [0, mass2.yCM*2, mass2.yCM*2, 0, 0];
+% plot(xv1, yv1, 'k-');
+% plot(xv2, yv2, 'k-');
+% % plot([mass5.xCM, -3.5*wing_chord - xoff - mass1.chord], [0, 0], 'k-', 'LineWidth', 1);
+% plot([0, 2*mass3.xCM], [0, 0], 'k-', 'LineWidth', 1);
+% p1 = plot(mass1.xCM, mass1.yCM, 's', 'DisplayName', 'Wing', 'MarkerSize', 8, 'MarkerFaceColor', clrs(1, :), 'MarkerEdgeColor', 'k');
+% p2 = plot(mass2.xCM, mass2.yCM, 's', 'DisplayName', 'Rudder', 'MarkerSize', 8, 'MarkerFaceColor', clrs(2, :), 'MarkerEdgeColor', 'k');
+% p3 = plot(mass3.xCM, mass3.yCM, 's', 'DisplayName', 'Boom', 'MarkerSize', 8, 'MarkerFaceColor', clrs(3, :), 'MarkerEdgeColor', 'k');
+% p4 = plot(mass4.xCM, mass4.yCM, 's', 'DisplayName', 'Electroncis', 'MarkerSize', 8, 'MarkerFaceColor', clrs(4, :), 'MarkerEdgeColor', 'k');
+% p5 = plot(mass5.xCM, mass5.yCM, 's', 'DisplayName', 'Pitch ballast', 'MarkerSize', 8, 'MarkerFaceColor', clrs(5, :), 'MarkerEdgeColor', 'k');
+% p6 = plot(mass6.xCM, mass6.yCM, 's', 'DisplayName', 'Roll ballast', 'MarkerSize', 8, 'MarkerFaceColor', clrs(6, :), 'MarkerEdgeColor', 'k');
+% p8 = plot(mass7.xCM, mass7.yCM, 's', 'DisplayName', 'Plate', 'MarkerSize', 8, 'MarkerFaceColor', clrs(8, :), 'MarkerEdgeColor', 'k');
+% p7 = plot(sail.Xcm, sail.Ycm, 'o', 'MarkerSize', 8, 'DisplayName', 'Sail CM', 'MarkerFaceColor', clrs(7, :), 'MarkerEdgeColor', 'k');
+% plot(mass1.xCM, mass1.yCM, 's', 'MarkerSize', 8, 'MarkerFaceColor', clrs(1, :), 'MarkerEdgeColor', 'k');
+% 
+% % xlabel('X coordinate [m]', 'FontSize', 8);
+% % ylabel('Y coordinate [m]', 'FontSize', 8);
+% % grid on
+% % grid minor
+% set(gca, 'XDir', 'reverse'); 
+% % ylim([-2., 0.5]);
+% set(gca, 'YColor', 'w');
+% set(gca, 'YTick', []);
+% % xlim([-2, 0]);
+% set(gca, 'XTick', []);
+% set(gca, 'XColor', 'w');
+% 
+% % draw sail 
+% legend([p1, p2, p3, p4, p5, p6, p8, p7], 'location', 'best');
+% 
+% % sail 
+% % info
+% % keyboard
+% 
+% % send to output
+% WriteOutput(sail, info);
+% 
+% % save figures as pdfs
+% h =  findobj('type','figure');
+% n = length(h);
+% for i1 = 1:n
+%     saveas(h(n + 1 - i1), sprintf('cm_calc_fig%d', i1), 'pdf');
+% end
 
 
 
