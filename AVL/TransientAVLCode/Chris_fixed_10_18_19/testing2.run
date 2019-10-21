@@ -1,0 +1,23 @@
+LOAD testing2.avl
+PLOP
+g
+
+OPER
+m
+v 5.0000
+mn 0.0000
+g 9.8100
+d 1.2250
+
+a a 5.0000
+d1 d1 5.0000
+b b 1.0000
+r r 0.0100
+p p 0.0200
+y y 0.0300
+x
+st testing2.stabs
+fs testing2.strip
+hm testing2.hinge
+
+QUIT
