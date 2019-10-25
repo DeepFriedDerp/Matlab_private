@@ -1,0 +1,21 @@
+LOAD .\AVL_output\AVL_output.avl
+PLOP
+g
+
+OPER
+m
+v 7.7500
+mn 0.0000
+g 9.8100
+d 1.2250
+
+a a 7.5000
+d1 d1 7.5000
+b b 5.0000
+r r 0.0442
+p p 0.0274
+y y 0.0885
+x
+st .\AVL_output\AVL_output.stabs
+
+QUIT

@@ -1,0 +1,23 @@
+LOAD .\AVL_output\sail1.avl
+PLOP
+g
+
+OPER
+m
+v 6.5000
+mn 0.0000
+g 9.8100
+d 1.2250
+
+a a -10.0000
+d1 d1 -10.0000
+b b -3.3333
+r r 0.0528
+p p 0.1583
+y y 1.7585
+x
+st .\AVL_output\sail1.stabs
+fs .\AVL_output\sail1.strip
+hm .\AVL_output\sail1.hinge
+
+QUIT

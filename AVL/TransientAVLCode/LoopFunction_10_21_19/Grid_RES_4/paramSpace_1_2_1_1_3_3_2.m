@@ -1,0 +1,21 @@
+function [aeroForces] = paramSpace_1_2_1_1_3_3_2(sailStates,airStates)
+
+	CL = (4.974262)*sailStates.alpha + (0.076219)*sailStates.beta + (-2.260103)*sailStates.p + (27.696960)*sailStates.q + (0.827456)*sailStates.r + (0.008926)*sailStates.de;
+	CD = -1.467810;
+	CY = (0.184010)*sailStates.alpha + (-0.026920)*sailStates.beta + (0.524207)*sailStates.p + (1.664521)*sailStates.q + (0.104092)*sailStates.r + (0.000352)*sailStates.de;
+
+	Cl = (1.140424)*sailStates.alpha + (-0.309974)*sailStates.beta + (-1.093988)*sailStates.p + (8.101130)*sailStates.q + (1.023090)*sailStates.r + (0.000263)*sailStates.de;
+	Cm = (-15.340061)*sailStates.alpha + (-0.288436)*sailStates.beta + (9.059731)*sailStates.p + (-132.472137)*sailStates.q + (-2.640785)*sailStates.r + (-0.067452)*sailStates.de;
+	Cn = (0.307567)*sailStates.alpha + (-0.067083)*sailStates.beta + (-1.452194)*sailStates.p + (6.082970)*sailStates.q + (-0.041971)*sailStates.r + (-0.000330)*sailStates.de;
+
+	q = 0.5 * airStates.rho * (sailStates.windspeed * sailStates.windspeed);
+
+	aeroForces.L = CL * q * sailStates.Sref;
+	aeroForces.D = CD * q * sailStates.Sref;
+	aeroForces.Y = CY * q * sailStates.Sref;
+
+	aeroForces.l = Cl * q * sailStates.Sref * sailStates.Bref;
+	aeroForces.m = Cm * q * sailStates.Sref * sailStates.Cref;
+	aeroForces.n = Cn * q * sailStates.Sref * sailStates.Bref;
+
+end
