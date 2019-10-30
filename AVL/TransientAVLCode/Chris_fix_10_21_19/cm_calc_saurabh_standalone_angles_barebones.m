@@ -296,7 +296,7 @@ mass7.Icm = [mass7.Ixx, mass7.Ixy, mass7.Ixz; mass7.Ixy, mass7.Iyy, mass7.Iyz; .
 mass7.ICM = mass7.Icm + mass7.mass*mass7.dd;    % inertia tensor about sail CM
 
 ICM = mass1.ICM + mass2.ICM + mass3.ICM + mass4.ICM + ...
-    mass5.ICM + mass6.ICM + mass7.ICM;   % sail CM
+    mass5.ICM + mass6.ICM + mass7.ICM   % sail CM
 
 end
 
