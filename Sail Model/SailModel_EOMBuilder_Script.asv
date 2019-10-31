@@ -422,8 +422,12 @@ subVect = [ ...
     ];
 
     EQ_unsolved_subbed_1 = subs(EQ_unsolved,regVect,subVect);
+    alpha_subbed_1 = subs(alpha,regVect,subVect);
+    beta_subbed_1 = subs(beta,regVect,subVect);
+    PQR_subbed_1 = subs(O_omega_B_B,regVect,subVect);
+    windspeed_subbed_1 = subs(windspeed,regVect,subVect);
 
-%% now solve for state derivatives
+%% now solve for state derivatives and extra stuff 
 
 EQ_solved_unsimple_1 = solve(EQ_unsolved_subbed_1,[rBO_X_d_d,rBO_Y_d_d,rBO_Z_d_d,ph_d_d,th_d_d,ps_d_d]);
 
@@ -433,6 +437,16 @@ EQ_solve_simple_1(3) = simplify(EQ_solved_unsimple_1.rBO_Z_d_d);
 EQ_solve_simple_1(4) = simplify(EQ_solved_unsimple_1.ph_d_d);
 EQ_solve_simple_1(5) = simplify(EQ_solved_unsimple_1.th_d_d);
 EQ_solve_simple_1(6) = simplify(EQ_solved_unsimple_1EQ.ps_d_d);
+
+alpha_simple_1 = simplify(alpha_subbed_1);
+beta_simple_1 = simplify(beta_subbed_1);
+PQR_simple_1 = simplify(PQR_subbed_1);
+windspeed_simple_1 = simplify(windspeed_subbed_1);
+
+ExtraEQ_simple_1 = [ ...
+    alpha_simple_1      beta_simple_1    windspeed_simple_1 ...
+    PQR_subbed_1 ... 
+    ];
 
 %% SUB IN THE X VALUES
 % x(1) = rBO_X      x(7) = rBO_X_d     xdot(1) = x(7)       xdot(7) = EQ(1)
@@ -444,9 +458,88 @@ EQ_solve_simple_1(6) = simplify(EQ_solved_unsimple_1EQ.ps_d_d);
 
 
 
+regVect = [ ...
+    rBO_X rBO_Y rBO_Z ...
+    rBO_X_d rBO_Y_d rBO_Z_d ...
+    ph th ps ...
+    ph_d th_d ps_d ...
+    ];
+
+subVect = [ ...
+    str2sym('x(1)') str2sym('x(2)') str2sym('x(3)') ...
+    str2sym('x(7)') str2sym('x(8)') str2sym('x(9)') ...
+    str2sym('x(4)') str2sym('x(5)') str2sym('x(6)') ...
+    str2sym('x(10)') str2sym('x(11)') str2sym('x(12)') ...
+    ]; 
+
+EqVect = [ ...
+    str2sym('xdot(1)') str2sym('xdot(2)') str2sym('xdot(3)') ...
+    str2sym('xdot(4)') str2sym('xdot(5)') str2sym('xdot(6)') ...
+    str2sym('xdot(7)') str2sym('xdot(8)') str2sym('xdot(9)') ...
+    str2sym('xdot(10)') str2sym('xdot(11)') str2sym('dotx(12)') ...
+    ];
+
+ExtaEqVect = [ ...
+    alpha beta windspeed p q r ...
+    ];
+    
+
+EQ_solve_simple_1 = subs(EQ_solve_simple_1,regVect,subVect);
+ExtraEQ_simple_1 = subs(ExtraEQ_simple_1,regVect,subVect);
+
+EQ_solve_final_1 = [ ...
+    str2sym('x(7)') str2sym('x(8)') str2sym('x(9)') ...
+    str2sym('x(10)') str2sym('x(11)') str2sym('x(12)') ...
+    EQ_solve_simple_1 ...
+    ];
+    
+
+EQ_string_final_1 = append(string(transpose(EqVect))," = ",string( ...
+    transpose(EQ_solve_final_1)));
+ExtraEQ_string_final_1 = append(string(transpose(ExtaEqVect))," = ",string( ...
+    transpose(ExtraEQ_simple_1)));
+
+
+    
+
+
+
+
 %% WRITE THE M FILE
 
-% fileName = 'SailFunc.m'
-% FID = fopen(fileName,'w');
-% 
-% fprintf(FID,"[t,xdot]
+fileName = 'SailFunc.m'
+FID = fopen(fileName,'w');
+
+fprintf(FID,"function [t,xdot] = SailFunc(t,x)\n\n");
+
+for i = 1:size(ExtraEQ_string_final_1,1)
+    fprintf(FID,"%s;\n",ExtraEQ_string_final_1(i,:));
+end
+fprintf(FID,"\n");
+
+fprintf(FID,"currentConfig.alpha = alpha;\n");
+fprintf(FID,"currentConfig.beta = beta;\n");
+fprintf(FID,"currentCongif.de = de;\n");
+fprintf(FID,"currentConfig.windspeed = windspeed;\n");
+fprintf(FID,"currentConfig.p = p;\n");
+fprintf(FID,"currentConfig.q = q;\n");
+fprintf(FID,"currentConfig.r = r;\n\n");
+
+fprintf(FID,"[findAeroFlag] = checkForAeroLimits(currentConfig,aeroTriggersLast);\n\n");
+
+fprintf(FID,"if findAeroFlag\n");
+fprintf(FID,"\t[successFindAero ,aeroTriggers] = findAeroConfig( ...\n");
+fprintf(FID,"\t\tsettings,currentConfig);\n");
+fprintf(FID,"\tif successFindAero\n");
+fprintf(FID,"\t\taeroTriggersLast = aeroTriggers;\n");
+fprintf(FID,"\tend\n");
+fprintf(FID,"end\n\n");
+
+for i = 1:size(EQ_string_final_1,1)
+    fprintf(FID,"%s;\n",EQ_string_final_1(i,:));
+end
+
+fprintf(FID,"\n");
+
+fprintf(FID,"\n");
+
