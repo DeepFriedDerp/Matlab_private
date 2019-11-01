@@ -1,4 +1,4 @@
-function [success, resultCoords, theAeroTriggers] = findAeroConfig(theSettings,currentAeroConfig)
+function [success ,theAeroTriggers] = findAeroConfig(theSettings,currentAeroConfig)
     success = 1;
     
 %     try
@@ -79,8 +79,47 @@ function [success, resultCoords, theAeroTriggers] = findAeroConfig(theSettings,c
             o_found];
     else
         success = 0;
-        return;
+        resultCoords = [0 0 0 0 0 0 0];
+        
     end
+    
+    CLa = results(resultsCoords).cLa;
+    CLb = results(resultsCoords).cLb;
+    CLde = results(resultsCoords).cLde;
+    CLp = results(resultsCoords).cLp;
+    CLq = results(resultsCoords).cLq;
+    CLr = results(resultsCoords).cLr;
+
+    CDtot = results(resultsCoords).cDtot;
+
+    CYa = results(resultsCoords).cYa;
+    CYb = results(resultsCoords).cYb;
+    CYde = results(resultsCoords).cYde;
+    CYp = results(resultsCoords).cYp;
+    CYq = results(resultsCoords).cYq;
+    CYr = results(resultsCoords).cYr;
+
+    Cla = results(resultsCoords).cla;
+    Clb = results(resultsCoords).clb;
+    Clde = results(resultsCoords).clde;
+    Clp = results(resultsCoords).clp;
+    Clq = results(resultsCoords).clq;
+    Clr = results(resultsCoords).clr;
+
+    Cma = results(resultsCoords).cma;
+    Cmb = results(resultsCoords).cmb;
+    Cmde = results(resultsCoords).cmde;
+    Cmp = results(resultsCoords).cmp;
+    Cmq = results(resultsCoords).cmq;
+    Cmr = results(resultsCoords).cmr;
+
+    Cna = results(resultsCoords).cna;
+    Cnb = results(resultsCoords).cnb;
+    Cnde = results(resultsCoords).cnde;
+    Cnp = results(resultsCoords).cnp;
+    Cnq = results(resultsCoords).cnq;
+    Cnr = results(resultsCoords).cnr;
+    rCB_X = results(resultsCoords).npX;
     
 %     if ~allFound
 %         success = 0;

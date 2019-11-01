@@ -360,11 +360,11 @@ regVect = [ ...
     ];
 
 subVect = [ ...
-    rBO_X rBO_Y rBO_Z ...
-    rBO_X_d rBO_Y_d rBO_Z_d ...
-    rBO_X_d_d rBO_Y_d_d rBO_Z_d_d ...
+    str2sym('rBO_X') str2sym('rBO_Y') str2sym('rBO_Z') ...
+    str2sym('rBO_X_d') str2sym('rBO_Y_d') str2sym('rBO_Z_d') ...
+    str2sym('rBO_X_d_d') str2sym('rBO_Y_d_d') str2sym('rBO_Z_d_d') ...
     ...
-    rCB_X -.4751 0 ...
+    str2sym('rCB_X') -.4751 0 ...
     0 0 0 ...
     0 0 0 ...
     ...   
@@ -372,7 +372,7 @@ subVect = [ ...
     0 0 0 ...
     0 0 0 ...
     ...
-    vWO_X vWO_Y vWO_Z ... %except this one, its a velocity
+    str2sym('vWO_X') str2sym('vWO_Y') str2sym('vWO_Z') ... %except this one, its a velocity
     0 0 0 ...
     0 0 0 ...
     ...
@@ -382,9 +382,9 @@ subVect = [ ...
     ...
     ...
     ... % for the rotation matrices
-    ph th ps ...
-    ph_d th_d ps_d ...
-    ph_d_d th_d_d ps_d_d ...
+    str2sym('ph') str2sym('th') str2sym('ps') ...
+    str2sym('ph_d') str2sym('th_d') str2sym('ps_d') ...
+    str2sym('ph_d_d') str2sym('th_d_d') str2sym('ps_d_d') ...
     ...
     ...
     ... % for moment of inertia
@@ -410,18 +410,19 @@ subVect = [ ...
     0.4 1.4 0.3 ...
     ...
     ... % lift and moment coefficients
-    CLa CLb CLde CLp CLq CLr ...
-    CDtot ...
-    CYa CYb CYde CYp CYq CYr ...
-    Cla Clb Clde Clp Clq Clr ...
-    Cma Cmb Cmde Cmp Cmq Cmr ...
-    Cna Cnb Cnde Cnp Cnq Cnr ...
+    str2sym('CLa') str2sym('CLb') str2sym('CLde') str2sym('CLp') str2sym('CLq') str2sym('CLr') ...
+    str2sym('CDtot') ...
+    str2sym('CYa') str2sym('CYb') str2sym('CYde') str2sym('CYp') str2sym('CYq') str2sym('CYr') ...
+    str2sym('Cla') str2sym('Clb') str2sym('Clde') str2sym('Clp') str2sym('Clq') str2sym('Clr') ...
+    str2sym('Cma') str2sym('Cmb') str2sym('Cmde') str2sym('Cmp') str2sym('Cmq') str2sym('Cmr') ...
+    str2sym('Cna') str2sym('Cnb') str2sym('Cnde') str2sym('Cnp') str2sym('Cnq') str2sym('Cnr') ...
     ...
     ... % de
-    de ...
+    str2sym('de') ...
     ];
 
     EQ_unsolved_subbed_1 = subs(EQ_unsolved,regVect,subVect);
+    %%
     alpha_subbed_1 = subs(alpha,regVect,subVect);
     beta_subbed_1 = subs(beta,regVect,subVect);
     PQR_subbed_1 = subs(O_omega_B_B,regVect,subVect);
@@ -436,7 +437,8 @@ EQ_solve_simple_1(2) = simplify(EQ_solved_unsimple_1.rBO_Y_d_d);
 EQ_solve_simple_1(3) = simplify(EQ_solved_unsimple_1.rBO_Z_d_d);
 EQ_solve_simple_1(4) = simplify(EQ_solved_unsimple_1.ph_d_d);
 EQ_solve_simple_1(5) = simplify(EQ_solved_unsimple_1.th_d_d);
-EQ_solve_simple_1(6) = simplify(EQ_solved_unsimple_1EQ.ps_d_d);
+EQ_solve_simple_1(6) = simplify(EQ_solved_unsimple_1.ps_d_d);
+%%
 
 alpha_simple_1 = simplify(alpha_subbed_1);
 beta_simple_1 = simplify(beta_subbed_1);
@@ -479,8 +481,13 @@ EqVect = [ ...
     str2sym('xdot(10)') str2sym('xdot(11)') str2sym('dotx(12)') ...
     ];
 
-ExtaEqVect = [ ...
-    alpha beta windspeed p q r ...
+ExtaEqVect = [
+    "alpha"
+    "beta"
+    "windspeed"
+    "p"
+    "q"
+    "r"
     ];
     
 
@@ -496,7 +503,7 @@ EQ_solve_final_1 = [ ...
 
 EQ_string_final_1 = append(string(transpose(EqVect))," = ",string( ...
     transpose(EQ_solve_final_1)));
-ExtraEQ_string_final_1 = append(string(transpose(ExtaEqVect))," = ",string( ...
+ExtraEQ_string_final_1 = append(ExtaEqVect," = ",string( ...
     transpose(ExtraEQ_simple_1)));
 
 
@@ -507,39 +514,103 @@ ExtraEQ_string_final_1 = append(string(transpose(ExtaEqVect))," = ",string( ...
 
 %% WRITE THE M FILE
 
-fileName = 'SailFunc.m'
+fileName = 'SailFunc.m';
 FID = fopen(fileName,'w');
 
-fprintf(FID,"function [t,xdot] = SailFunc(t,x)\n\n");
+fprintf(FID,"function [t,xdot] = SailFunc(t,x,otherstuff)\n\n");
+
+fprintf(FID,"\tpersistent currentConfig aeroTriggers aeroTriggersLast settings results ...\n");
+fprintf(FID,"\t CLa CLb CLde CLp CLq CLr ...\n");
+fprintf(FID,"\tCDtot ...\n");
+fprintf(FID,"\tCYa CYb CYde CYp CYq CYr ...\n");
+fprintf(FID,"\tCla Clb Clde Clp Clq Clr ...\n");
+fprintf(FID,"\tCma Cmb Cmde Cmp Cmq Cmr ...\n");
+fprintf(FID,"\tCna Cnb Cnde Cnp Cnq Cnr ...\n");
+fprintf(FID,"\tvWO_X vWO_Y vWO_Z rCB_X de...\n;\n\n");
+
+fprintf(FID,"\tif t == 0\n");
+fprintf(FID,"\t\tsettings = otherstuff.settings;\n");
+fprintf(FID,"\t\tresults = otherstuff.results;\n");
+fprintf(FID,"\t\tde = otherstuff.de;\n");
+fprintf(FID,"\t\tvWO_X = otherstuff.vWO_X;\n");
+fprintf(FID,"\t\tvWO_Y = otherstuff.vWO_Y;\n");
+fprintf(FID,"\t\tvWO_Z = otherstuff.vWO_Z;\n");
+fprintf(FID,"\tend\n\n");
 
 for i = 1:size(ExtraEQ_string_final_1,1)
-    fprintf(FID,"%s;\n",ExtraEQ_string_final_1(i,:));
+    fprintf(FID,"\t%s;\n",ExtraEQ_string_final_1(i,:));
 end
 fprintf(FID,"\n");
 
-fprintf(FID,"currentConfig.alpha = alpha;\n");
-fprintf(FID,"currentConfig.beta = beta;\n");
-fprintf(FID,"currentCongif.de = de;\n");
-fprintf(FID,"currentConfig.windspeed = windspeed;\n");
-fprintf(FID,"currentConfig.p = p;\n");
-fprintf(FID,"currentConfig.q = q;\n");
-fprintf(FID,"currentConfig.r = r;\n\n");
 
-fprintf(FID,"[findAeroFlag] = checkForAeroLimits(currentConfig,aeroTriggersLast);\n\n");
+fprintf(FID,"\tcurrentConfig.alpha = alpha;\n");
+fprintf(FID,"\tcurrentConfig.beta = beta;\n");
+fprintf(FID,"\tcurrentConfig.de = de;\n");
+fprintf(FID,"\tcurrentConfig.windspeed = windspeed;\n");
+fprintf(FID,"\tcurrentConfig.p = p;\n");
+fprintf(FID,"\tcurrentConfig.q = q;\n");
+fprintf(FID,"\tcurrentConfig.r = r;\n\n");
 
-fprintf(FID,"if findAeroFlag\n");
-fprintf(FID,"\t[successFindAero ,aeroTriggers] = findAeroConfig( ...\n");
-fprintf(FID,"\t\tsettings,currentConfig);\n");
-fprintf(FID,"\tif successFindAero\n");
-fprintf(FID,"\t\taeroTriggersLast = aeroTriggers;\n");
-fprintf(FID,"\tend\n");
-fprintf(FID,"end\n\n");
+fprintf(FID,"\tif t == 0\n");
+fprintf(FID,"\t\tfindAeroFlag = 1;\n");
+fprintf(FID,"\telse\n");
+fprintf(FID,"\t\t[findAeroFlag] = checkForAeroLimits(currentConfig,aeroTriggersLast);\n");
+fprintf(FID,"\tend\n\n");
+
+fprintf(FID,"\tif findAeroFlag\n");
+fprintf(FID,"\t\t[successFindAero, resultsCoords ,aeroTriggers] = findAeroConfig( ...\n");
+fprintf(FID,"\t\t\tsettings,currentConfig);\n");
+fprintf(FID,"\t\tif successFindAero\n");
+fprintf(FID,"\t\t\taeroTriggersLast = aeroTriggers;\n\n");
+
+CLa = results(resultsCoords).cLa;
+            CLb = results(resultsCoords).cLb;
+            CLde = results(resultsCoords).cLde;
+            CLp = results(resultsCoords).cLp;
+            CLq = results(resultsCoords).cLq;
+            CLr = results(resultsCoords).cLr;
+            
+            CDtot = results(resultsCoords).cDtot;
+            
+            CYa = results(resultsCoords).cYa;
+            CYb = results(resultsCoords).cYb;
+            CYde = results(resultsCoords).cYde;
+            CYp = results(resultsCoords).cYp;
+            CYq = results(resultsCoords).cYq;
+            CYr = results(resultsCoords).cYr;
+            
+            Cla = results(resultsCoords).cla;
+            Clb = results(resultsCoords).clb;
+            Clde = results(resultsCoords).clde;
+            Clp = results(resultsCoords).clp;
+            Clq = results(resultsCoords).clq;
+            Clr = results(resultsCoords).clr;
+            
+            Cma = results(resultsCoords).cma;
+            Cmb = results(resultsCoords).cmb;
+            Cmde = results(resultsCoords).cmde;
+            Cmp = results(resultsCoords).cmp;
+            Cmq = results(resultsCoords).cmq;
+            Cmr = results(resultsCoords).cmr;
+            
+            Cna = results(resultsCoords).cna;
+            Cnb = results(resultsCoords).cnb;
+            Cnde = results(resultsCoords).cnde;
+            Cnp = results(resultsCoords).cnp;
+            Cnq = results(resultsCoords).cnq;
+            Cnr = results(resultsCoords).cnr;
+            rCB_X = results(resultsCoords).npX;
+            
+fprintf(FID,"\t\tend\n");
+fprintf(FID,"\tend\n\n");
 
 for i = 1:size(EQ_string_final_1,1)
-    fprintf(FID,"%s;\n",EQ_string_final_1(i,:));
+    fprintf(FID,"\t%s;\n",EQ_string_final_1(i,:));
 end
 
 fprintf(FID,"\n");
 
-fprintf(FID,"\n");
+fprintf(FID,"\txdot=xdot';\n\n");
+
+fprintf(FID,"end\n\n\n");
 

@@ -49,5 +49,5 @@ otherstuff.vWO_Z = vWO_Z;
 % else
 %     error("can't initialize aeroTriggers")
 % end
-clear t;
-[t,y] = ode45(SailFunc(t,x,otherstuff),[0 1],x_0);
+
+[t,y] = ode45(@(t,x),SailFunc(t,,[0 1],x_0);

@@ -28,6 +28,7 @@ syms rBO_x(t) rBO_y(t) rBO_z(t) ... % some position vectors
     m_x(t) m_z(t) ...
     n_x(t) n_y(t) ...
     Fg_x(t) Fg_y(t) ...
+    Tx Ty Tz ...
     ...
     ... % some general constants
     k_tether(t) lo_tether(t) mT(t) g(t) rho(t)...
@@ -41,8 +42,11 @@ syms rBO_x(t) rBO_y(t) rBO_z(t) ... % some position vectors
     cma(t) cmb(t) cmde(t) cmp(t) cmq(t) cmr(t) ...
     cna(t) cnb(t) cnde(t) cnp(t) cnq(t) cnr(t) ...
     ...
+    CL CD CY Cl Cm Cn...
+    ...
     ... % de
     de ...
+    alpha beta windspeed...
     ;
 
 rBO_B = [rBO_x(t) rBO_y(t) rBO_z(t)];
@@ -152,46 +156,46 @@ jB_proj_O_v_WB_B = O_v_WB_B - (O_v_WB_B * [0; 1; 0]);
 kB_proj_O_v_WB_B = O_v_WB_B - (O_v_WB_B * [0; 0; 1]);
 
 % *********************** alpha AND beta AND windspeed ********************
-alpha = ( ...
+alpha_eq = ( ...
     acos( ...
     (jB_proj_O_v_WB_B * [1; 0; 0]) ...
     ) ...
     );
 
-beta = ( ...
+beta_eq = ( ...
     acos( ...
     (kB_proj_O_v_WB_B * [1; 0; 0]) ...
     ) ...
     );
 
-windspeed = (norm(O_v_WB_B));
+windspeed_EQ = (norm(O_v_WB_B));
 % *************************************************************************
 
 %% DERIVE EXPRESSIONS FOR AERO FORCE/MOMENT COEFFICIENTS
 
-CL = ( ...
+CL_eq = ( ...
     (cLa(t)* alpha) + (cLb(t) * beta) + (cLde(t) * de) + (cLp(t) * O_omega_B_B(1)) ...
     + (cLq(t) * O_omega_B_B(2)) + (cLr(t) * O_omega_B_B(3)) ...
     );
 
-CD = cDtot(t);
+CD_eq = cDtot(t);
 
-CY = ( ...
+CY_eq = ( ...
     (cYa(t) * alpha) + (cYb(t) * beta) + (cYde(t) * de) + (cYp(t) * O_omega_B_B(1)) ...
     + (cYq(t) * O_omega_B_B(2)) + (cYr(t) * O_omega_B_B(3)) ...
     );
 
-Cl = ( ...
+Cl_eq = ( ...
     (cla(t)* alpha) + (clb(t) * beta) + (clde(t) * de) + (clp(t) * O_omega_B_B(1)) ...
     + (clq(t) * O_omega_B_B(2)) + (clr(t) * O_omega_B_B(3)) ...
     );
 
-Cm = ( ...
+Cm_eq = ( ...
     (cma(t) * alpha) + (cmb(t) * beta) + (cmde(t) * de) + (cmp(t) * O_omega_B_B(1)) ...
     + (cmq(t) * O_omega_B_B(2)) + (cmr(t) * O_omega_B_B(3)) ...
     );
 
-Cn = ( ...
+Cn_eq = ( ...
     (cna(t) * alpha) + (cnb(t) * beta) + (cnde(t) * de) + (cnp(t) * O_omega_B_B(1)) ...
     + (cnq(t) * O_omega_B_B(2)) + (cnr(t) * O_omega_B_B(3)) ...
     );
@@ -245,7 +249,9 @@ sigmoidFnc = exp(1000000*dl_tether) / (1 + exp(1000000*dl_tether));
 
 normT = (sigmoidFnc(t) * (k_tether(t) * dl_tether(t)));
 
-T = (normT * (rGP_B / norm(rGP_B)));
+T_eq = (normT * (rGP_B / norm(rGP_B)));
+
+T = [Tx Ty Tz];
 
 tau_T = (cross(T , rPB_B));
 
@@ -423,10 +429,17 @@ subVect = [ ...
 
     EQ_unsolved_subbed_1 = subs(EQ_unsolved,regVect,subVect);
     %%
-    alpha_subbed_1 = subs(alpha,regVect,subVect);
-    beta_subbed_1 = subs(beta,regVect,subVect);
+    alpha_subbed_1 = subs(alpha_eq,regVect,subVect);
+    beta_subbed_1 = subs(beta_eq,regVect,subVect);
     PQR_subbed_1 = subs(O_omega_B_B,regVect,subVect);
-    windspeed_subbed_1 = subs(windspeed,regVect,subVect);
+    windspeed_subbed_1 = subs(windspeed_EQ,regVect,subVect);
+    T_subbed_1 = subs(T_eq,regVect,subVect);
+    CL_subbed_1 = subs(CL_eq,regVect,subVect);
+    CD_subbed_1 = subs(CD_eq,regVect,subVect);
+    CY_subbed_1 = subs(CY_eq,regVect,subVect);
+    Cl_subbed_1 = subs(Cl_eq,regVect,subVect);
+    Cm_subbed_1 = subs(Cm_eq,regVect,subVect);
+    Cn_subbed_1 = subs(Cn_eq,regVect,subVect);
 
 %% now solve for state derivatives and extra stuff 
 
@@ -444,10 +457,19 @@ alpha_simple_1 = simplify(alpha_subbed_1);
 beta_simple_1 = simplify(beta_subbed_1);
 PQR_simple_1 = simplify(PQR_subbed_1);
 windspeed_simple_1 = simplify(windspeed_subbed_1);
+T_simple_1 = simplify(T_subbed_1);
+CL_simple_1 = simplify(CL_subbed_1);
+CD_simple_1 = simplify(CD_subbed_1);
+CY_simple_1 = simplify(CY_subbed_1);
+Cl_simple_1 = simplify(Cl_subbed_1);
+Cm_simple_1 = simplify(Cm_subbed_1);
+Cn_simple_1 = simplify(Cn_subbed_1);
 
 ExtraEQ_simple_1 = [ ...
-    alpha_simple_1      beta_simple_1    windspeed_simple_1 ...
-    PQR_subbed_1 ... 
+    alpha_simple_1      beta_simple_1   windspeed_simple_1 ...
+    PQR_simple_1        T_simple_1...
+    CL_simple_1         CD_simple_1     CY_simple_1 ...
+    Cl_simple_1         Cm_simple_1     Cn_simple_1 ...
     ];
 
 %% SUB IN THE X VALUES
@@ -488,6 +510,15 @@ ExtaEqVect = [
     "p"
     "q"
     "r"
+    "Tx"
+    "Ty"
+    "Tz"
+    "CL"
+    "CD"
+    "CY"
+    "Cl"
+    "Cm"
+    "Cn"
     ];
     
 
@@ -537,7 +568,7 @@ fprintf(FID,"\t\tvWO_Y = otherstuff.vWO_Y;\n");
 fprintf(FID,"\t\tvWO_Z = otherstuff.vWO_Z;\n");
 fprintf(FID,"\tend\n\n");
 
-for i = 1:size(ExtraEQ_string_final_1,1)
+for i = 1:9
     fprintf(FID,"\t%s;\n",ExtraEQ_string_final_1(i,:));
 end
 fprintf(FID,"\n");
@@ -604,6 +635,11 @@ fprintf(FID,"\t\t\trCB_X = results(resultsCoords).npX;\n");
 fprintf(FID,"\t\tend\n");
 fprintf(FID,"\tend\n\n");
 
+for i = 10:size(ExtraEQ_string_final_1,1)
+    fprintf(FID,"\t%s;\n",ExtraEQ_string_final_1(i,:));
+end
+fprintf(FID,"\n");
+
 for i = 1:size(EQ_string_final_1,1)
     fprintf(FID,"\t%s;\n",EQ_string_final_1(i,:));
 end
@@ -614,3 +650,4 @@ fprintf(FID,"\n");
 
 fprintf(FID,"end\n\n\n");
 
+save sailModelCurrent.mat;

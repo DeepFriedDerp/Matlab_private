@@ -1,4 +1,4 @@
-function [aeroFlag] = checkForAeroLimits(sailStates,triggers)
+function [aeroFlag] = checkForAeroLimits(sailStates,theTriggers)
 
     aeroFlag = 0;
     
@@ -10,21 +10,21 @@ function [aeroFlag] = checkForAeroLimits(sailStates,triggers)
     q1 = sailStates.q;
     r1 = sailStates.r;
     
-    alphaMax = triggers.alpha_max;
-    betaMax = triggers.beta_max;
-    deMax = triggers.de_max;
-    velMax = triggers.vel_max;
-    pMax = triggers.p_max;
-    qMax = triggers.q_max;
-    rMax = triggers.r_max;
+    alphaMax = theTriggers.alpha_max;
+    betaMax = theTriggers.beta_max;
+    deMax = theTriggers.de_max;
+    velMax = theTriggers.vel_max;
+    pMax = theTriggers.p_max;
+    qMax = theTriggers.q_max;
+    rMax = theTriggers.r_max;
     
-    alphaMin = triggers.alpha_min;
-    betaMin = triggers.beta_min;
-    deMin = triggers.de_min;
-    velMin = triggers.vel_min;
-    pMin = triggers.p_min;
-    qMin = triggers.q_min;
-    rMin = triggers.r_min;
+    alphaMin = theTriggers.alpha_min;
+    betaMin = theTriggers.beta_min;
+    deMin = theTriggers.de_min;
+    velMin = theTriggers.vel_min;
+    pMin = theTriggers.p_min;
+    qMin = theTriggers.q_min;
+    rMin = theTriggers.r_min;
     
     alphaFlag = outsideBoundsCheck(alpha1,alphaMin,alphaMax);
     betaFlag = outsideBoundsCheck(beta1,betaMin,betaMax);
