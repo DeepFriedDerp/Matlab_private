@@ -72,13 +72,28 @@ function [success, resultCoords, theAeroTriggers] = findAeroConfig(theSettings,c
     o_found = findTheValue(r,o_min,o_max,o_step,o_res);
     
     allFound = i_found && j_found && k_found && l_found && m_found && ...
-        n_found && o_found;
+        n_found && o_found && 1;
     
     if allFound
         resultCoords = [i_found j_found k_found l_found m_found n_found ...
             o_found];
     else
         success = 0;
+        resultCoords = [0 0 0 0 0 0 0];
+        theAeroTriggers.alpha_max = 0;
+        theAeroTriggers.beta_max = 0;
+        theAeroTriggers.de_max = 0;
+        theAeroTriggers.vel_max = 0;
+        theAeroTriggers.p_max = 0;
+        theAeroTriggers.q_max = 0;
+        theAeroTriggers.r_max = 0;
+        theAeroTriggers.alpha_min = 0;
+        theAeroTriggers.beta_min = 0;
+        theAeroTriggers.de_min = 0;
+        theAeroTriggers.vel_min = 0;
+        theAeroTriggers.p_min = 0;
+        theAeroTriggers.q_min = 0;
+        theAeroTriggers.r_min = 0;
         return;
     end
     
@@ -133,7 +148,7 @@ function [foundIterLetter] = findTheValue(val,val_min,val_max,val_step,val_res)
     val_finder = val_min;
     foundFlag = 0;
 
-    while ~(foundFlag)
+    while ~(foundFlag) 
         foundIterLetter = foundIterLetter + 1;
         if foundIterLetter < 2
             val_finder = val_finder + (val_step / 2);
@@ -146,6 +161,10 @@ function [foundIterLetter] = findTheValue(val,val_min,val_max,val_step,val_res)
         
         if (val <= windowMax) && (val > windowMin)
             foundFlag = 1;
+        end
+        
+        if foundIterLetter > val_res
+            break;
         end
     end
     

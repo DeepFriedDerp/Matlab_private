@@ -559,7 +559,7 @@ fprintf(FID,"\tCma Cmb Cmde Cmp Cmq Cmr ...\n");
 fprintf(FID,"\tCna Cnb Cnde Cnp Cnq Cnr ...\n");
 fprintf(FID,"\tvWO_X vWO_Y vWO_Z rCB_X de...\n;\n\n");
 
-fprintf(FID,"\tif t == 0\n");
+fprintf(FID,"\tif isEmpty(currentConfig)\n");
 fprintf(FID,"\t\tsettings = otherstuff.settings;\n");
 fprintf(FID,"\t\tresults = otherstuff.results;\n");
 fprintf(FID,"\t\tde = otherstuff.de;\n");
@@ -574,13 +574,21 @@ end
 fprintf(FID,"\n");
 
 
-fprintf(FID,"\tcurrentConfig.alpha = alpha;\n");
-fprintf(FID,"\tcurrentConfig.beta = beta;\n");
-fprintf(FID,"\tcurrentConfig.de = de;\n");
-fprintf(FID,"\tcurrentConfig.windspeed = windspeed;\n");
-fprintf(FID,"\tcurrentConfig.p = p;\n");
-fprintf(FID,"\tcurrentConfig.q = q;\n");
-fprintf(FID,"\tcurrentConfig.r = r;\n\n");
+% fprintf(FID,"\tcurrentConfig.alpha = alpha;\n");
+% fprintf(FID,"\tcurrentConfig.beta = beta;\n");
+% fprintf(FID,"\tcurrentConfig.de = de;\n");
+% fprintf(FID,"\tcurrentConfig.windspeed = windspeed;\n");
+% fprintf(FID,"\tcurrentConfig.p = p;\n");
+% fprintf(FID,"\tcurrentConfig.q = q;\n");
+% fprintf(FID,"\tcurrentConfig.r = r;\n\n");
+
+fprintf(FID,"\tcurrentConfig.alpha = 0
+fprintf(FID,"\tcurrentConfig.beta = 0;
+fprintf(FID,"\tcurrentConfig.de = 0;
+fprintf(FID,"\tcurrentConfig.windspeed = 5;
+fprintf(FID,"\tcurrentConfig.p = 0
+fprintf(FID,"\tcurrentConfig.q = 0;
+fprintf(FID,"\tcurrentConfig.r = 0;
 
 fprintf(FID,"\tif t == 0\n");
 fprintf(FID,"\t\tfindAeroFlag = 1;\n");
@@ -630,7 +638,7 @@ fprintf(FID,"\t\t\tCnde = results(resultsCoords).cnde;\n");
 fprintf(FID,"\t\t\tCnp = results(resultsCoords).cnp;\n");
 fprintf(FID,"\t\t\tCnq = results(resultsCoords).cnq;\n");
 fprintf(FID,"\t\t\tCnr = results(resultsCoords).cnr;\n");
-fprintf(FID,"\t\t\trCB_X = results(resultsCoords).npX;\n");
+fprintf(FID,"\t\t\trCB_X = (results(resultsCoords).npX) - (results(resultsCoords).Xref);\n");
 
 fprintf(FID,"\t\tend\n");
 fprintf(FID,"\tend\n\n");
