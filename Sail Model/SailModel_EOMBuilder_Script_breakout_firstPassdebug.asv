@@ -63,9 +63,9 @@ rGO_O = [rGO_x rGO_y rGO_z];
 % n = [n_x n_y n_z];
 
 I_B = [
-    Ixx -Ixy -Ixz
-    -Ixy Iyy -Iyz
-    -Ixz -Iyz Izz
+    Ixx Ixy Ixz
+    Ixy Iyy Iyz
+    Ixz Iyz Izz
     ];
 
 
@@ -169,8 +169,6 @@ beta_eq = ( ...
     );
 
 windspeed_EQ = (norm(O_v_WB_B));
-
-%********************************
 % *************************************************************************
 
 %% Rotation for aeroForces
@@ -264,7 +262,8 @@ dl_tether = lcurrent_tether - lo_tether;
 dl_tether_eq = dl_tether;
 %sigmoidFnc = exp(1000000*dl_tether) / (1 + exp(1000000*dl_tether));
 
-normT = ((k_tether * dl_tether) + (b_tether * vcurrent_tether));
+normT = ((k_tether * dl_tether) + b_tether * vcurrent_tether));
+
 
 T_eq = (normT * (rGP_B / norm(rGP_B)));
 
@@ -353,7 +352,7 @@ regVect = [ ...
     str2sym('Fg_x') str2sym('Fg_y') ...
     ...
     ... % some general constants
-    str2sym('k_tether') str2sym('b_tether') str2sym('lo_tether') str2sym('mT') str2sym('g') str2sym('rho') ...
+    str2sym('k_tether') str2sym('lo_tether') str2sym('mT') str2sym('g') str2sym('rho') ...
     str2sym('Sref') str2sym('Bref') str2sym('Cref') ...
     ...
     ... % lift and moment coefficients
@@ -402,7 +401,7 @@ subVect = [ ...
     0 0 ...
     ...
     ... % some general constants
-    37.5 0.1 75.914856 1.0862 -9.81 1.225...
+    37.5 75.914856 1.0862 -9.81 1.225...
     0.4 1.4 0.3 ...
     ...
     ... % lift and moment coefficients
@@ -581,14 +580,6 @@ fprintf(FID,"\t\tTy = 0;\n");
 fprintf(FID,"\t\tTz = 0;\n");
 fprintf(FID,"\tend\n\n");
 
-fprintf(FID,"\tif alpha > pi()\n");
-fprintf(FID,"\t\talpha = -1*((2*pi()) - alpha);\n");
-fprintf(FID,"\tend\n\n");
-
-fprintf(FID,"\tif beta > pi()\n");
-fprintf(FID,"\t\tbeta = -1*((2*pi()) - beta);\n");
-fprintf(FID,"\tend\n\n");
-
 fprintf(FID,"\tcurrentConfig.alpha = alpha;\n");
 fprintf(FID,"\tcurrentConfig.beta = beta;\n");
 fprintf(FID,"\tcurrentConfig.de = de;\n");
@@ -670,8 +661,6 @@ fprintf(FID,"\t\t\tCLp = 0;\n");
 fprintf(FID,"\t\t\tCLq = 0;\n");
 fprintf(FID,"\t\t\tCLr = 0;\n\n");
 
-fprintf(FID,"\t\t\tCDtot = (-1.96*(abs(alpha)/(pi()/2))) - 0.025;\n\n");
-
 fprintf(FID,"\t\t\tCYa = 0;\n");
 fprintf(FID,"\t\t\tCYb = 0;\n");
 fprintf(FID,"\t\t\tCYde = 0;\n");
@@ -699,8 +688,6 @@ fprintf(FID,"\t\t\tCnde = 0;\n");
 fprintf(FID,"\t\t\tCnp = 0;\n");
 fprintf(FID,"\t\t\tCnq = 0;\n");
 fprintf(FID,"\t\t\tCnr = 0;\n\n");
-
-fprintf(FID,"\t\t\trCB_X = -0.22;\n\n");
 
 fprintf(FID,"\t\tend\n");
 fprintf(FID,"\tend\n\n");
