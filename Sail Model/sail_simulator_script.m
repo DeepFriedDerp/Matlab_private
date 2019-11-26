@@ -17,7 +17,7 @@ x10_0 = 0;  % O_phi_d, radians / second
 x11_0 = 0;  % O_theta_d, radians / second
 x12_0 = 0;  % O_psi_d, radians / second
 
-vWO_X =     -5;  % IRF windspeed X, meters / second
+vWO_X =     5;  % IRF windspeed X, meters / second
 vWO_Y =     0;  % IRF windspeed Y, meters / second
 vWO_Z =     0;  % IRF windspeed Z, meters / second
 
