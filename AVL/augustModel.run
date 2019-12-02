@@ -1,0 +1,25 @@
+load augustModel.avl
+mass augustModel.mass
+mset
+0
+PLOP
+g
+
+OPER
+m
+v 5.5000
+mn 0.0000
+g 9.8100
+d 1.2250
+
+a a 12.0000
+d1 d1 12.0000
+b b 6.6667
+r r 0.0636
+p p 0.0423
+y y 0.1273
+x
+st augustModel.stabs
+o
+
+QUIT
