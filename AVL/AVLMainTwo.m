@@ -62,6 +62,8 @@ fclose(FID);
 
 %% check for stabs and parse if its there
 
+fclose('all');
+
 if exist(stabsFile)
     success = 1;
 end
