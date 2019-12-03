@@ -125,6 +125,7 @@ function [success,resultsGrid] = create_AVL_Grid_2(settings)
                                 runNum = runNum + 1;
                                 fprintf("Run : %1.0f of %1.0f complete\n",runNum,totNum)
                                 success = success && done;
+                                fclose('all');
                             end
                         end
                     end

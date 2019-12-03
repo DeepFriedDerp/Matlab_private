@@ -218,7 +218,9 @@ function [sailParams,success] = parseAVLdat(inputFile)
             end
         end
     end
-
+    
+    fclose(inputFID);
+    
     got_em_all = 1;
     for i = 1:50
         got_em_all = (got_em_all && got_em(i));
