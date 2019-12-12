@@ -15,7 +15,7 @@ clear all;
 clc;
 
 %% INPUT SECTION
-outputFolderName = "SailDerivPack";
+outputFolderName = "SailDerivPack_1";
 simFuncName = 'SailFunc.m';
 simScriptName = 'SailSimScript.m';
 B2O_ScriptName = 'vectorConvert_BtoO';
@@ -411,6 +411,25 @@ Cn_S = ( ...
     + (cn_q * O_omega_B_Q(2)) + (cn_r * O_omega_B_Q(3)) ...
     );
 
+[other_Eqns, other_names] = addEquation_to_eqnVect(...
+    CL_S,"CL_S",other_Eqns, ...
+    other_names);
+[other_Eqns, other_names] = addEquation_to_eqnVect(...
+    CD_S,"CD_S",other_Eqns, ...
+    other_names);
+[other_Eqns, other_names] = addEquation_to_eqnVect(...
+    CY_S,"CY_S",other_Eqns, ...
+    other_names);
+[other_Eqns, other_names] = addEquation_to_eqnVect(...
+    Cl_S,"Cl_S",other_Eqns, ...
+    other_names);
+[other_Eqns, other_names] = addEquation_to_eqnVect(...
+    Cm_S,"Cm_S",other_Eqns, ...
+    other_names);
+[other_Eqns, other_names] = addEquation_to_eqnVect(...
+    Cn_S,"Cn_S",other_Eqns, ...
+    other_names);
+
 % rotate stability derivatives into wind frame
 CF_S = [CD CY CL];
 CM_S = [Cl Cm Cn];
@@ -634,8 +653,6 @@ subVect = [ ...
     beta_subbed_1 = subs(beta_eq,regVect,subVect);
     PQR_subbed_1 = subs(O_omega_B_B,regVect,subVect);
     windspeed_subbed_1 = subs(windspeed_EQ,regVect,subVect);
-    dl_tether_subbed_1 = subs(dl_tether_eq,regVect,subVect);
-    T_subbed_1 = subs(T_eq,regVect,subVect);
     CL_subbed_1 = subs(CL_S,regVect,subVect);
     CD_subbed_1 = subs(CD_S,regVect,subVect);
     CY_subbed_1 = subs(CY_S,regVect,subVect);
@@ -860,7 +877,7 @@ fprintf(FID,"\t\tif successFindAero\n");
 fprintf(FID,"\t\t\taeroTriggersLast = aeroTriggers;\n");
 fprintf(FID,"\t\t\tstallFlag = 0;\n\n");
 
-
+fprintf(FID,"%*********************************************************\n");
 fprintf(FID,"\t\t\tcL_a = results(resultsCoords).cLa;\n");
 fprintf(FID,"\t\t\tcL_b = results(resultsCoords).cLb;\n");
 fprintf(FID,"\t\t\tcL_de = results(resultsCoords).cLde;\n");
