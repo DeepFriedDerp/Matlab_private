@@ -3,20 +3,20 @@ clear all;
 %settings.runfile = 'Classic_rev1_alfa3.txt';
 %settings.gridFolder = 'Grid_RES_1';
 
-settings.alpha_max = 15;
-settings.alpha_min = -15;
-settings.alpha_res = 5;
+settings.alpha_max = 40;
+settings.alpha_min = -40;
+settings.alpha_res = 10;
 
-settings.beta_max = 10;
-settings.beta_min = -10;
-settings.beta_res = 3;
+settings.beta_max = 20;
+settings.beta_min = -20;
+settings.beta_res = 5;
 
-settings.de_max = 15;
-settings.de_min = -15;
-settings.de_res = 5;
+settings.de_max = 40;
+settings.de_min = -40;
+settings.de_res = 40;
 
-settings.vel_max = 10;
-settings.vel_min = 1;
+settings.vel_max = 15;
+settings.vel_min = 0;
 settings.vel_res = 1;
 
 settings.p_max = 1;
@@ -37,5 +37,5 @@ results = fillGridGaps(results,settings);
 
 settings.resultsGrid = results;
 
-save res7.mat
+save res9.mat
 

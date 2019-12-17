@@ -128,10 +128,15 @@ function [success,resultsGrid] = create_AVL_Grid_2(settings)
                                 fclose('all');
                             end
                         end
+                        clc;
                     end
+                    clc
                 end
+                clc
             end
+            clc
         end
+        clc;
     end
     
     tot = posXNP + negXNP;
