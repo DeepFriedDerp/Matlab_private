@@ -5,4 +5,3 @@ $ cat .gitignore
 *.log
 *.mpeg4
 AVL/augustModel.stabs
-*.mat

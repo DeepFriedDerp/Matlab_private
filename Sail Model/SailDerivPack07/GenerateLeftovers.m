@@ -204,7 +204,7 @@ function GenerateLeftovers(solutionsFolder,solutionsMatFile,resMatFile)
 		aeroForces_O(i,:) = [tderp D_O Y_O L_O];
 		aeroMoments_O(i,:) = [tderp l_O m_O n_O];
 		aeroForces_B(i,:) = [tderp D_B Y_B L_B];
-		aeroMoments_B(i,:) = [tderp l_B m_B n_B];
+		aeroMoments_O(i,:) = [tderp l_B m_B n_B];
 
 	end
 
