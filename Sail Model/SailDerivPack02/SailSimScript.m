@@ -5,7 +5,7 @@ clear all;
 de =    0;
 
 x1_0 =  0;
-x2_0 =  -76.602;
+x2_0 =  76.1;
 x3_0 =  0;
 x4_0 =  pi()/2;
 x5_0 =  0;
@@ -78,7 +78,7 @@ otherstuff.vWO_X = vWO_X;
 otherstuff.vWO_Y = vWO_Y;
 otherstuff.vWO_Z = vWO_Z;
 
-[t,x] = ode45(@SailFunc,[tspan_min tspan_max],x_0);
+[t,x] = ode23s(@SailFunc,[tspan_min tspan_max],x_0);
 
 figure
 for i = 1 : size(x,2)

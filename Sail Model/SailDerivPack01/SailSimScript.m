@@ -5,7 +5,7 @@ clear all;
 de =    0;
 
 x1_0 =  0;
-x2_0 =  -76.602;
+x2_0 =  75.8;
 x3_0 =  0;
 x4_0 =  pi()/2;
 x5_0 =  0;
@@ -22,7 +22,7 @@ vWO_Y =     0;
 vWO_Z =     0; 
 
 tspan_min = 0;
-tspan_max = 10;
+tspan_max = 30;
 
 % GO TO A UNIQUE FOLDER
 
