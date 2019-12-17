@@ -52,7 +52,7 @@ end
 
 
 function [nearestCoord] = findNearest(oldCoord,resultsOld,settings)
-    nearestCoord = [40 40 40 40 40 40];
+    nearestCoord = [50 50 50 50 50 50];
     
     i_res = settings.alpha_res;
     j_res = settings.beta_res;
@@ -108,13 +108,13 @@ function [nearestCoord] = findNearest(oldCoord,resultsOld,settings)
     
     success = 1;
     for i = 1:7
-        if nearestCoord(i) == 40
+        if nearestCoord(i) == 50
             success = 0;
         end
     end
     
     if ~success
-        error("one of the nearest coords is 40");
+        error("one of the nearest coords is 50");
     end
 end
     
