@@ -1,14 +1,24 @@
-
 % INPUT
 
 clear all;
 
+global otherstuff currentConfig aeroTriggers ...
+    aeroTriggersLast settings results ...
+    cL_a cL_b cL_de cL_p cL_q cL_r ...
+    cD_tot...
+    cY_a cY_b cY_de cY_p cY_q cY_r ...
+    cl_a cl_b cl_de cl_p cl_q cl_r ...
+    cm_a cm_b cm_de cm_p cm_q cm_r ...
+    cn_a cn_b cn_de cn_p cn_q cn_r ...
+    vWO_X vWO_Y vWO_Z de stallFlag callNum xtemp windstatesTemp...
+    ;
+
 de =    0;
 
 x1_0 =  0;
-x2_0 =  -76.2;
+x2_0 =  76.2;
 x3_0 =  0;
-x4_0 =  -pi()/2;
+x4_0 =  pi()/2;
 x5_0 =  0;
 x6_0 =  0;
 x7_0 =  0;
@@ -23,8 +33,7 @@ vWO_Y =     0;
 vWO_Z =     0; 
 
 tspan_min = 0;
-tspan_max = 1000;
-tspan_res = 100000;
+tspan_max = 10;
 
 % GO TO A UNIQUE FOLDER
 
@@ -72,7 +81,7 @@ settings.alpha_min = deg2rad(settings.alpha_min);
 settings.beta_max = deg2rad(settings.beta_max);
 settings.beta_min = deg2rad(settings.beta_min);
 
-global otherstuff
+
 otherstuff.settings = settings;
 otherstuff.results = results;
 otherstuff.de = de;
@@ -80,40 +89,9 @@ otherstuff.vWO_X = vWO_X;
 otherstuff.vWO_Y = vWO_Y;
 otherstuff.vWO_Z = vWO_Z;
 
-%% get the fixed time
+SailOutputFcn_Model([tspan_min tspan_max],x_0,'init');
 
-tstep = (tspan_max - tspan_min) / tspan_res;
-tinit(:) = tspan_min : tstep : tspan_max;
-act_res = size(tinit,2);
-
-%% set up the states &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-
-for i = 1:act_res
-    tderp = tinit(i);
-    
-    % edit the state names below based on time tderp
-    xB = 0;
-    yB = 0;
-    zB = 0;
-    
-    phi = 0;
-    theta = 0;
-    psi = pi()*sin(tderp/1000);
-    
-    vxB = 0;
-    vyB = 0;
-    vzB = 0;
-    
-    phidot = 0;
-    thetadot = 0;
-    psidot = (pi()/1000)*cos(tderp/1000);
-    % stop editing stuff here
-    
-    t(i,1) = tderp;
-    x(i,:) = [xB yB zB phi theta psi vxB vyB vzB phidot thetadot psidot];
-end
-%&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-%% Generate the leftover states
+[t,x] = ode45(@SailFunc_Model,[tspan_min tspan_max],x_0,odeset('OutputFcn',@SailOutputFcn_Model));
 
 figure
 for i = 1 : size(x,2)
@@ -122,7 +100,7 @@ for i = 1 : size(x,2)
 	title(x_names(i));
 end
 
-cd(folder_name);
+	cd(folder_name);
 save 'simResults.mat'
 cd ..
 

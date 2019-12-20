@@ -104,7 +104,7 @@ function [success,resultsGrid] = create_AVL_Grid_2(settings)
                                 
                                 done = 0;
                                 attempt = 0;
-                                while (~done) && attempt < 4
+                                while (~done) && attempt < 1
                                     attempt = attempt + 1;
                                     fprintf(" alpha = %f, beta = %f, de = %f\n vel = %f, p = %f, q = %f, q = %f, r = %f",alpha,beta,de,vel,p,q,r);
                                     avlSuccess = AVLMainTwo(alpha, beta, de, p, q, r, vel);

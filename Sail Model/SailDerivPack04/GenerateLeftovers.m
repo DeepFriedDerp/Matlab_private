@@ -36,7 +36,7 @@ function GenerateLeftovers(solutionsFolder,solutionsMatFile,resMatFile)
 		tderp = t(i);
 
 		alpha = atan2(xderp(9) + xderp(2)*xderp(10) - vWO_X*(cos(xderp(4))*sin(xderp(5)) + cos(xderp(5))*sin(xderp(4))*sin(xderp(6))) - vWO_Z*(cos(xderp(4))*cos(xderp(5)) - sin(xderp(4))*sin(xderp(5))*sin(xderp(6))) - xderp(1)*xderp(12)*sin(xderp(4)) + xderp(2)*xderp(11)*sin(xderp(6)) + vWO_Y*cos(xderp(6))*sin(xderp(4)) - xderp(1)*xderp(11)*cos(xderp(4))*cos(xderp(6)), xderp(7) - xderp(2)*(xderp(12)*cos(xderp(4)) - xderp(11)*cos(xderp(6))*sin(xderp(4))) + xderp(3)*(xderp(12)*sin(xderp(4)) + xderp(11)*cos(xderp(4))*cos(xderp(6))) - vWO_Y*sin(xderp(6)) - vWO_X*cos(xderp(5))*cos(xderp(6)) + vWO_Z*cos(xderp(6))*sin(xderp(5)));
-		beta = atan2(xderp(3)*xderp(10) - xderp(8) + vWO_X*(sin(xderp(4))*sin(xderp(5)) - cos(xderp(4))*cos(xderp(5))*sin(xderp(6))) + vWO_Z*(cos(xderp(5))*sin(xderp(4)) + cos(xderp(4))*sin(xderp(5))*sin(xderp(6))) - xderp(1)*xderp(12)*cos(xderp(4)) + xderp(3)*xderp(11)*sin(xderp(6)) + vWO_Y*cos(xderp(4))*cos(xderp(6)) + xderp(1)*xderp(11)*cos(xderp(6))*sin(xderp(4)), xderp(7) - xderp(2)*(xderp(12)*cos(xderp(4)) - xderp(11)*cos(xderp(6))*sin(xderp(4))) + xderp(3)*(xderp(12)*sin(xderp(4)) + xderp(11)*cos(xderp(4))*cos(xderp(6))) - vWO_Y*sin(xderp(6)) - vWO_X*cos(xderp(5))*cos(xderp(6)) + vWO_Z*cos(xderp(6))*sin(xderp(5)));
+		beta = -atan2(xderp(3)*xderp(10) - xderp(8) + vWO_X*(sin(xderp(4))*sin(xderp(5)) - cos(xderp(4))*cos(xderp(5))*sin(xderp(6))) + vWO_Z*(cos(xderp(5))*sin(xderp(4)) + cos(xderp(4))*sin(xderp(5))*sin(xderp(6))) - xderp(1)*xderp(12)*cos(xderp(4)) + xderp(3)*xderp(11)*sin(xderp(6)) + vWO_Y*cos(xderp(4))*cos(xderp(6)) + xderp(1)*xderp(11)*cos(xderp(6))*sin(xderp(4)), xderp(7) - xderp(2)*(xderp(12)*cos(xderp(4)) - xderp(11)*cos(xderp(6))*sin(xderp(4))) + xderp(3)*(xderp(12)*sin(xderp(4)) + xderp(11)*cos(xderp(4))*cos(xderp(6))) - vWO_Y*sin(xderp(6)) - vWO_X*cos(xderp(5))*cos(xderp(6)) + vWO_Z*cos(xderp(6))*sin(xderp(5)));
 		windspeed = (abs(xderp(3)*xderp(10) - xderp(8) + vWO_X*(sin(xderp(4))*sin(xderp(5)) - cos(xderp(4))*cos(xderp(5))*sin(xderp(6))) + vWO_Z*(cos(xderp(5))*sin(xderp(4)) + cos(xderp(4))*sin(xderp(5))*sin(xderp(6))) - xderp(1)*xderp(12)*cos(xderp(4)) + xderp(3)*xderp(11)*sin(xderp(6)) + vWO_Y*cos(xderp(4))*cos(xderp(6)) + xderp(1)*xderp(11)*cos(xderp(6))*sin(xderp(4)))^2 + abs(vWO_X*(cos(xderp(4))*sin(xderp(5)) + cos(xderp(5))*sin(xderp(4))*sin(xderp(6))) - xderp(2)*xderp(10) - xderp(9) + vWO_Z*(cos(xderp(4))*cos(xderp(5)) - sin(xderp(4))*sin(xderp(5))*sin(xderp(6))) + xderp(1)*xderp(12)*sin(xderp(4)) - xderp(2)*xderp(11)*sin(xderp(6)) - vWO_Y*cos(xderp(6))*sin(xderp(4)) + xderp(1)*xderp(11)*cos(xderp(4))*cos(xderp(6)))^2 + abs(xderp(2)*(xderp(12)*cos(xderp(4)) - xderp(11)*cos(xderp(6))*sin(xderp(4))) - xderp(7) - xderp(3)*(xderp(12)*sin(xderp(4)) + xderp(11)*cos(xderp(4))*cos(xderp(6))) + vWO_Y*sin(xderp(6)) + vWO_X*cos(xderp(5))*cos(xderp(6)) - vWO_Z*cos(xderp(6))*sin(xderp(5)))^2)^(1/2);
 		p = - xderp(10) - xderp(11)*sin(xderp(6));
 		q = xderp(12)*sin(xderp(4)) + xderp(11)*cos(xderp(4))*cos(xderp(6));
@@ -198,17 +198,7 @@ function GenerateLeftovers(solutionsFolder,solutionsMatFile,resMatFile)
 		rBQ_B(i,:) = [tderp rBQ_x_B rBQ_y_B rBQ_z_B];
 		rPB_B(i,:) = [tderp rPB_x_B rPB_y_B rPB_z_B];
 		Fg_B(i,:) = [tderp Fg_x_B Fg_y_B Fg_z_B];
-        try
-            aeroCoeffs_S(i,:) = [tderp CD_s CY_s CL_s Cl_s Cm_s Cn_s];
-        catch
-            tderp
-            CD_s
-            CY_s
-            CL_s
-            Cl_s
-            Cm_s
-            Cn_s
-            
+		aeroCoeffs_S(i,:) = [tderp CD_s CY_s CL_s Cl_s Cm_s Cn_s];
 		aeroForces_S(i,:) = [tderp D_S Y_S L_S];
 		aeroMoments_S(i,:) = [tderp l_S m_S n_S];
 		aeroForces_O(i,:) = [tderp D_O Y_O L_O];
