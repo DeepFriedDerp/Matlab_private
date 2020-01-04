@@ -3,17 +3,17 @@ clear all;
 %settings.runfile = 'Classic_rev1_alfa3.txt';
 %settings.gridFolder = 'Grid_RES_1';
 
-settings.alpha_max = 40;
-settings.alpha_min = -40;
-settings.alpha_res = 10;
+settings.alpha_max = 30;
+settings.alpha_min = -30;
+settings.alpha_res = 5;
 
 settings.beta_max = 20;
 settings.beta_min = -20;
-settings.beta_res = 5;
+settings.beta_res = 3;
 
-settings.de_max = 40;
-settings.de_min = -40;
-settings.de_res = 40;
+settings.de_max = 20;
+settings.de_min = -20;
+settings.de_res = 20;
 
 settings.vel_max = 15;
 settings.vel_min = 0;
@@ -37,5 +37,5 @@ results = fillGridGaps(results,settings);
 
 settings.resultsGrid = results;
 
-save res9.mat
+save aeroGrid.mat
 

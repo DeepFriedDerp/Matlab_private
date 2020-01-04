@@ -123,6 +123,8 @@ function [results,success] = retry_AVL_Grid_2(settings,targetCoords)
             avlSuccess = AVLMainTwo(alpha, beta, de, p, q, r, vel);
             if avlSuccess
                 [parseResults,done] = parseAVLdat('augustModel.stabs');
+            else
+                break;
             end
             if done && (z == (numTries + 1))
                 results = parseResults;

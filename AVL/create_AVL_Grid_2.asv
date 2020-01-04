@@ -111,8 +111,7 @@ function [success,resultsGrid] = create_AVL_Grid_2(settings)
                                     if avlSuccess
                                         [results,done] = parseAVLdat('augustModel.stabs');
                                     else
-                                        [results,done] = retry_AVL_Grid_2(settings,[i,j,k,l,m,n,o]);
-                                    end
+                                        [results,done] = retry_AVL_Grid_2(settings,[i,j,k,l,m,n,o]
                                     if done
                                         resultsGrid(i,j,k,l,m,n,o) = results;
 %                                         convertStabsToMFile(results,settings.gridFolder,[i,j,k,l,m,n,o]);
