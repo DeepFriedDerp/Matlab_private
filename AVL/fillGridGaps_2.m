@@ -1,4 +1,4 @@
-function [resultsNew] = fillGridGaps_2(resultsOld,settings)
+function [resultsNew,gapsFilled] = fillGridGaps_2(resultsOld,settings)
 
     i_res = settings.alpha_res;
     j_res = settings.beta_res;
@@ -8,13 +8,37 @@ function [resultsNew] = fillGridGaps_2(resultsOld,settings)
     n_res = settings.q_res; 
     o_res = settings.r_res;
     
+    gapsFilled = 0;
+    breakFlag = 0;
+
     for i = 1:i_res
+        if breakFlag > 0
+            break;
+        end
         for j = 1:j_res
+            if breakFlag > 0
+                break;
+            end
             for k = 1:k_res
+                if breakFlag > 0
+                    break;
+                end
                 for l = 1:l_res
+                    if breakFlag > 0
+                        break;
+                    end
                     for m = 1:m_res
+                        if breakFlag > 0
+                            break;
+                        end
                         for n = 1:n_res
+                            if breakFlag > 0
+                                break;
+                            end
                             for o = 1:o_res
+                                if breakFlag > 0
+                                    break;
+                                end
                                 catchFlag = 0;
                                 try 
                                     derp = resultsOld(i,j,k,l,m,n,o).cLa;
@@ -37,6 +61,13 @@ function [resultsNew] = fillGridGaps_2(resultsOld,settings)
                                     [newResults,resultsFound] = retry_AVL_Grid_2(settings,oldCoord);
                                     if resultsFound > 0
                                         resultsNew(i,j,k,l,m,n,o) = newResults;
+                                        gapsFilled = gapsFilled + 1;
+                                        
+                                        if gapsFilled > 5
+                                            save newGridFill_Current
+                                            breakFlag = 1;
+                                            break;
+                                        end
                                     end
                                 end
                             end
