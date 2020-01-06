@@ -2,7 +2,7 @@
 % see if running through in a different direction can get complimentary AVL
 % results. 
 
-function [success,resultsGrid] = create_AVL_Grid_2(settings)
+function [success,resultsGrid] = create_AVL_Grid_3(settings)
     i_max = settings.alpha_max;
     j_max = settings.beta_max;
     k_max = settings.de_max;
@@ -39,71 +39,79 @@ function [success,resultsGrid] = create_AVL_Grid_2(settings)
     runNum = 0;
     totNum = i_res * j_res * k_res * l_res * m_res * n_res * o_res; 
     
-    alpha = i_min;
-    beta = j_min;
-    de = k_min;
-    vel = l_min;
-    p = m_min;
-    q = n_min;
-    r = o_min;
-   
+%     alpha = i_min;
+%     beta = j_min;
+%     de = k_min;
+%     vel = l_min;
+%     p = m_min;
+%     q = n_min;
+%     r = o_min;
+
+    alpha = i_max;
+    beta = j_max;
+    de = k_max;
+    vel = l_max;
+    p = m_max;
+    q = n_max;
+    r = o_max;
+
     
     posXNP = 0;
     negXNP = 0;
     
-    for i = 1:i_res
+    for i = i_res:1
         if i < 2
-            alpha = alpha + (i_step / 2);
+            alpha = alpha - (i_step / 2);
         else
-            alpha = alpha + (i_step);
+            alpha = alpha - (i_step);
         end
-        beta = j_min;
+        beta = j_max;
         
-        for j = 1:j_res
+        for j = j_res:1
             if j < 2
-                beta = beta + (j_step / 2);
+                beta = beta - (j_step / 2);
             else
-                beta = beta + (j_step);
+                beta = beta - (j_step);
             end
-            de = k_min;
+            de = k_max;
             
-            for k = 1:k_res
+            for k = k_res:1
                 if k < 2
-                    de = de + (k_step / 2);
+                    de = de - (k_step / 2);
                 else
-                    de = de + (k_step);
+                    de = de - (k_step);
                 end
-                vel = l_min;
+                vel = l_max;
 
-                for l = 1:l_res
+                for l = l_res:1
                     if l < 2
-                        vel = vel + (l_step / 2);
+                        vel = vel - (l_step / 2);
                     else
-                        vel = vel + (l_step);
+                        vel = vel - (l_step);
                     end
-                    p = m_min;
+                    p = m_max;
                     
-                    for m = 1:m_res
+                    for m = m_res:1
                         if m < 2
-                            p = p + (m_step / 2);
+                            p = p - (m_step / 2);
                         else
-                            p = p + (m_step);
+                            p = p - (m_step);
                         end
-                        q = n_min;
+                        q = n_max;
                         
-                        for n = 1:n_res
+                        for n = n_res:1
                             if n < 2
-                                q = q + (n_step / 2);
+                                q = q - (n_step / 2);
                             else
-                                q = q + (n_step);
+                                q = q - (n_step);
                             end
-                            r = o_min;
+                            r = o_max;
                             
-                            for o = 1:o_res
+                            for o = o_res:1
                                 if o < 2
-                                    r = r + (o_step / 2);
+                                    r = r - (o_step / 2);
                                 else
-                                    r = r + (o_step);
+                                    r = r - (o_step);
                                 end
                                 
                                 done = 0;
