@@ -15,3 +15,5 @@ AVL/augustModel.run
 AVL/augustModel.stabs
 *.run
 *.stabs
+*.run
+*.stabs

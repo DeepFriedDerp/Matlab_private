@@ -33,9 +33,9 @@ settings.r_res = 2;
 
 [linGridSuccess,results] = create_AVL_Grid_2(settings);
 
-results = fillGridGaps(results,settings);
+%results = fillGridGaps(results,settings);
 
 settings.resultsGrid = results;
 
-save aeroGrid.mat
+save aeroGrid2.mat
 

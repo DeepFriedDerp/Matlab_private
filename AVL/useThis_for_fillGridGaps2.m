@@ -21,4 +21,4 @@ while gapsFilled > 0 && (functionCalls_fillGridGaps2 < 19000)
     [newMatrix,gapsFilled] = fillGridGaps_2(newMatrix,settings);
 end
 
-save newGridFill_final.
+save newGridFill_final
