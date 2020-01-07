@@ -59,56 +59,56 @@ function [success,resultsGrid] = create_AVL_Grid_3(settings)
     posXNP = 0;
     negXNP = 0;
     
-    for i = i_res:1
-        if i < 2
+    for i = i_res:-1:1
+        if i >= i_res
             alpha = alpha - (i_step / 2);
         else
             alpha = alpha - (i_step);
         end
         beta = j_max;
         
-        for j = j_res:1
-            if j < 2
+        for j = j_res:-1:1
+            if j >= j_res
                 beta = beta - (j_step / 2);
             else
                 beta = beta - (j_step);
             end
             de = k_max;
             
-            for k = k_res:1
-                if k < 2
+            for k = k_res:-1:1
+                if k >= k_res
                     de = de - (k_step / 2);
                 else
                     de = de - (k_step);
                 end
                 vel = l_max;
 
-                for l = l_res:1
-                    if l < 2
+                for l = l_res:-1:1
+                    if l >= l_res
                         vel = vel - (l_step / 2);
                     else
                         vel = vel - (l_step);
                     end
                     p = m_max;
                     
-                    for m = m_res:1
-                        if m < 2
+                    for m = m_res:-1:1
+                        if m >= m_res
                             p = p - (m_step / 2);
                         else
                             p = p - (m_step);
                         end
                         q = n_max;
                         
-                        for n = n_res:1
-                            if n < 2
+                        for n = n_res:-1:1
+                            if n >= n_res
                                 q = q - (n_step / 2);
                             else
                                 q = q - (n_step);
                             end
                             r = o_max;
                             
-                            for o = o_res:1
-                                if o < 2
+                            for o = o_res:-1:1
+                                if o >= o_res
                                     r = r - (o_step / 2);
                                 else
                                     r = r - (o_step);

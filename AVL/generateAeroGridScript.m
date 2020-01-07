@@ -31,11 +31,11 @@ settings.r_max = 2;
 settings.r_min = -2;
 settings.r_res = 2;
 
-[linGridSuccess,results] = create_AVL_Grid_2(settings);
+[linGridSuccess,results] = create_AVL_Grid_3(settings);
 
 %results = fillGridGaps(results,settings);
 
 settings.resultsGrid = results;
 
-save aeroGrid2.mat
+save aeroGrid2_reverse.mat
 

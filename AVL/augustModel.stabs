@@ -1,33 +1,33 @@
  ---------------------------------------------------------------
  Vortex Lattice Output -- Total Forces
 
- Configuration: TCS
+ Configuration: TCS                                                         
      # Surfaces =   2
      # Strips   = 134
      # Vortices = 938
 
-  Sref = 0.40000       Cref = 0.30000       Bref =  1.4000
+  Sref = 0.40000       Cref = 0.30000       Bref =  1.4000    
   Xref = 0.58123       Yref =-0.40236       Zref = 0.63000E-03
 
- Standard axis orientation,  X fwd, Z down
+ Standard axis orientation,  X fwd, Z down         
 
- Run case:  -unnamed-
+ Run case:  -unnamed-                              
 
-  Alpha = -24.00000     pb/2V =  -0.00471     p'b/2V =  -0.04670
-  Beta  =   0.00000     qc/2V =   0.03100
-  Mach  =     0.000     rb/2V =   0.10423     r'b/2V =   0.09330
+  Alpha = -24.00000     pb/2V =  -0.08061     p'b/2V =  -0.04670
+  Beta  = -13.33330     qc/2V =  -0.03100
+  Mach  =     0.000     rb/2V =  -0.06624     r'b/2V =  -0.09330
 
-  CXtot =   0.43965     Cltot =  -0.28427     Cl'tot =  -0.29690
-  CYtot =   0.00213     Cmtot =   0.03254
-  CZtot =   1.49094     Cntot =   0.09147     Cn'tot =  -0.03206
+  CXtot =   0.42677     Cltot =  -0.21433     Cl'tot =  -0.21364
+  CYtot =   0.04541     Cmtot =   0.97605
+  CZtot =   1.65307     Cntot =   0.04387     Cn'tot =  -0.04709
 
-  CLtot =  -1.54086
-  CDtot =   0.20478
-  CDvis =   0.02500     CDind = 0.1797797
-  CLff  =  -1.55830     CDff  = 0.1510814    | Trefftz
-  CYff  =   0.00000         e =    1.0441    | Plane
+  CLtot =  -1.68374
+  CDtot =   0.28249
+  CDvis =   0.02500     CDind = 0.2574876
+  CLff  =  -1.87889     CDff  = 0.2438670    | Trefftz
+  CYff  =   0.00000         e =    0.9404    | Plane  
 
-   ELEV            =  -9.00000
+   ELEV            = -19.00000
 
  ---------------------------------------------------------------
 
@@ -35,32 +35,32 @@
 
                              alpha                beta
                   ----------------    ----------------
- z' force CL |    CLa =   3.130981    CLb =   0.000000
- y  force CY |    CYa =  -0.051900    CYb =  -0.025000
- x' mom.  Cl'|    Cla =   0.563228    Clb =   0.206643
- y  mom.  Cm |    Cma =  -0.185282    Cmb =   0.000000
- z' mom.  Cn'|    Cna =   0.164372    Cnb =   0.092003
+ z' force CL |    CLa =   2.760193    CLb =  -0.787545
+ y  force CY |    CYa =  -0.051673    CYb =  -0.014910
+ x' mom.  Cl'|    Cla =   0.593391    Clb =   0.110165
+ y  mom.  Cm |    Cma =   0.275396    Cmb =   0.373296
+ z' mom.  Cn'|    Cna =   0.151700    Cnb =   0.082696
 
                      roll rate  p'      pitch rate  q'        yaw rate  r'
                   ----------------    ----------------    ----------------
- z' force CL |    CLp =  -1.365602    CLq =   5.176884    CLr =  -1.134708
- y  force CY |    CYp =  -0.411414    CYq =  -0.005065    CYr =  -0.183195
- x' mom.  Cl'|    Clp =  -0.596321    Clq =   0.071370    Clr =  -0.598947
- y  mom.  Cm |    Cmp =  -0.240486    Cmq = -10.010962    Cmr =  -0.393454
- z' mom.  Cn'|    Cnp =   0.162099    Cnq =   0.122362    Cnr =  -0.076658
+ z' force CL |    CLp =  -1.137788    CLq =   5.774399    CLr =  -0.871645
+ y  force CY |    CYp =  -0.417144    CYq =  -0.086602    CYr =  -0.186503
+ x' mom.  Cl'|    Clp =  -0.514656    Clq =  -0.083285    Clr =  -0.594346
+ y  mom.  Cm |    Cmp =  -0.087824    Cmq = -10.161033    Cmr =  -0.621093
+ z' mom.  Cn'|    Cnp =   0.167451    Cnq =   0.318213    Cnr =  -0.089033
 
-                  ELEV         d1
+                  ELEV         d1 
                   ----------------
- z' force CL |   CLd1 =   0.008093
- y  force CY |   CYd1 =  -0.000008
- x' mom.  Cl'|   Cld1 =  -0.000784
- y  mom.  Cm |   Cmd1 =  -0.024678
- z' mom.  Cn'|   Cnd1 =   0.000004
- Trefftz drag| CDffd1 =  -0.000578
- span eff.   |    ed1 =  -0.009254
+ z' force CL |   CLd1 =   0.009027
+ y  force CY |   CYd1 =  -0.000146
+ x' mom.  Cl'|   Cld1 =  -0.000854
+ y  mom.  Cm |   Cmd1 =  -0.025503
+ z' mom.  Cn'|   Cnd1 =   0.000298
+ Trefftz drag| CDffd1 =  -0.004317
+ span eff.   |    ed1 =   0.006588
 
 
 
- Neutral point  Xnp =   0.598983
+ Neutral point  Xnp =   0.551298
 
- Clb Cnr / Clr Cnb  =   0.287464    (  > 1 if spirally stable )
+ Clb Cnr / Clr Cnb  =   0.199560    (  > 1 if spirally stable )
