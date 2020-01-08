@@ -16,14 +16,22 @@ classdef airfoilSection
     end
     
     methods
-        function obj = airfoilSection(rBO_B,sectionSpan,initial_theta_offset)
+        function obj = airfoilSection(rBO_B,sectionSpan,sectionChord,initial_theta_offset)
             %airfoilSection Construct an instance of this class
             %   Detailed explanation goes here
-            narginchk(2,3)
+            narginchk(3,4);
+            
+            obj.quarterChord_Pt = rBO_B;
+            obj.sref = sectionSpan * sectionChord;
+            obj.bref = sectionSpan;
+            obj.cref = sectionChord;
             
             switch nargin
-                case 2
-                    obj.quarterChord_Pt = rBO_B;
+                case 3
+                    obj.theta_offset_B = 0;
+                case 4
+                    obj.theta_offset_B = initial_theta_offset;
+            end
                     
         end
         
