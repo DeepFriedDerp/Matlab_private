@@ -1,0 +1,52 @@
+! Hershey 
+! GOAL: To run hershey bar wing analysis to understand AVL controls
+!
+! AVL FRAME
+!	X downstream
+!	Y out the right wing
+!	Z up
+! Hershey wing design
+!	AR = 10
+!	Bref = 10m
+!	Cref = 1m
+!	Sref = 10m2
+!	Symmetry about XZ plane
+!	NACA 0015 airfoil
+! 	No controls
+!
+! To remember:
+!	1. When creating surfaces, must establish two wing sections, left and right. 
+!		AVL will interpolate for the wing between the two sections. 
+!		If there is a control surface, must be bound by two sections also. 
+!	2. When building surfaces, work left to right. Otherwise, your airfoils will
+!		be upside down 
+!
+Hershey
+! Mach
+0.0
+! Xsym	Ysym	Zsym
+0 0 0 
+! Sref	Cref	Bref
+10.0   1.0   10.0
+! Xref	Yref	Zref
+0.25   0.0   0.0
+! CDp
+0.025
+
+! 
+SURFACE 
+WING
+! Nchordwise	Cspace	Nspanwise	Sspace
+7 0.0 97 0.0 
+
+SECTION
+! Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
+0.00 -5.00 0.00 1.00 0.00  
+NACA
+0015
+
+!  
+!  
+SECTION
+! Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
+0.00 5.00 0.00 1.00 0.0  

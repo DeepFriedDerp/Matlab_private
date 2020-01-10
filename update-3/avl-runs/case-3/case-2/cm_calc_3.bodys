@@ -1,0 +1,63 @@
+ ---------------------------------------------------------------
+ Vortex Lattice Output -- Total Forces
+
+ Configuration: TCS                                                         
+     # Surfaces =   2
+     # Strips   = 134
+     # Vortices = 938
+
+  Sref = 0.42000       Cref = 0.30000       Bref =  1.4000    
+  Xref = 0.48000       Yref =-0.21000       Zref =  0.0000    
+
+ Standard axis orientation,  X fwd, Z down         
+
+ Run case:  -unnamed-                              
+
+  Alpha =   8.60381     pb/2V =  -0.00000     p'b/2V =  -0.00000
+  Beta  =   0.00000     qc/2V =   0.00000
+  Mach  =     0.000     rb/2V =  -0.00000     r'b/2V =  -0.00000
+
+  CXtot =   0.03179     Cltot =   0.17574     Cl'tot =   0.17673
+  CYtot =   0.00000     Cmtot =   0.00000
+  CZtot =  -0.50088     Cntot =   0.01990     Cn'tot =  -0.00661
+
+  CLtot =   0.50000
+  CDtot =   0.04350
+  CDvis =   0.02500     CDind = 0.0185048
+  CLff  =   0.50280     CDff  = 0.0224690    | Trefftz
+  CYff  =   0.00000         e =    0.7675    | Plane  
+
+   ELEV            =  -7.62612
+
+ ---------------------------------------------------------------
+
+ Geometry-axis derivatives...
+
+                    axial   vel. u     sideslip vel. v      normal  vel. w
+                  ----------------    ----------------    ----------------
+ x force CX  |    CXu =  -0.059108    CXv =   0.000000    CXw =   0.815591
+ y force CY  |    CYu =  -0.000000    CYv =  -0.025000    CYw =   0.000000
+ z force CZ  |    CZu =  -0.426688    CZv =  -0.000000    CZw =  -3.876152
+ x mom.  Cl  |    Clu =   0.175250    Clv =  -0.075408    Clw =   1.191123
+ y mom.  Cm  |    Cmu =   0.250881    Cmv =  -0.000000    Cmw =  -1.658126
+ z mom.  Cn  |    Cnu =  -0.000336    Cnv =   0.000000    Cnw =   0.268253
+
+                      roll rate  p       pitch rate  q         yaw rate  r
+                  ----------------    ----------------    ----------------
+ x force CX  |    CXp =  -0.539912    CXq =   0.816136    CXr =  -0.000409
+ y force CY  |    CYp =   0.150816    CYq =   0.000000    CYr =   0.000000
+ z force CZ  |    CZp =   2.429606    CZq =  -8.279243    CZr =  -0.352028
+ x mom.  Cl  |    Clp =  -1.144047    Clq =   1.586931    Clr =   0.199586
+ y mom.  Cm  |    Cmp =   0.548746    Cmq = -13.625957    Cmr =  -0.035510
+ z mom.  Cn  |    Cnp =  -0.269950    Cnq =   0.173026    Cnr =  -0.000126
+
+                  ELEV         d1 
+                  ----------------
+ x force CX  |   CXd1 =   0.001087
+ y force CY  |   CYd1 =   0.000000
+ z force CZ  |   CZd1 =  -0.010348
+ x mom.  Cl  |   Cld1 =   0.000322
+ y mom.  Cm  |   Cmd1 =  -0.032527
+ z mom.  Cn  |   Cnd1 =   0.000028
+
+

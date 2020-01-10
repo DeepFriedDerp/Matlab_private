@@ -1,0 +1,43 @@
+SAIL
+! Mach
+0.0
+!IYsym	IZsym	Zsym
+0	0	0
+!Sref	Cref	Bref
+5.000	1.000	5.000
+!Xref	Yref	Zref
+0.500	-4.000	0.000
+!====================================================
+SURFACE
+PANEL1
+!Nchord	Cspace	Nspan	Sspace
+12 0 40 0
+TRANSLATE
+!dX	dY	dZ
+0.000	0.000	0.000
+SECTION
+!Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
+0 0 0 1.000 0 0 0
+SECTION
+!Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
+0.000 -5.000 0 1.000 0 0 0
+!====================================================
+SURFACE
+PANEL2
+!Nchord	Cspace	Nspan	Sspace
+12 0 40 0
+TRANSLATE
+!dX	dY	dZ
+3.500	0.000	0.000
+SECTION
+!Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
+0 0 0 0.577 0 0 0
+CONTROL
+ELEVATOR 1.0 0.8 0.0 1.0 0.0 1.0
+!Cname	Cgain	Xhinge	HingVec	SgnDup
+SECTION
+!Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
+0.000 -1.732 0 0.577 0 0 0
+CONTROL
+ELEVATOR 1.0 0.8 0.0 1.0 0.0 1.0
+!Cname	Cgain	Xhinge	HingVec	SgnDup

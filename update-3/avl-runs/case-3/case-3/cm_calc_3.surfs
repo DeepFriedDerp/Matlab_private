@@ -1,0 +1,17 @@
+ ---------------------------------------------------------------
+ Surface Forces (referred to Sref,Cref,Bref about Xref,Yref,Zref)
+ Standard axis orientation,  X fwd, Z down         
+
+     Sref =  0.4200       Cref =    0.3000   Bref =    1.4000
+     Xref =      0.4800   Yref =   -0.2100   Zref =    0.0000
+
+ n      Area      CL      CD      Cm      CY      Cn      Cl     CDi     CDv
+ 1     0.370 -0.3033  0.0068  0.0442 -0.0000  0.0067 -0.1029  0.0068  0.0000   WING
+ 2     0.077  0.0911  0.0016 -0.2948  0.0000 -0.0002  0.0022  0.0016  0.0000   RUDDER
+
+ Surface Forces (referred to Ssurf, Cave about root LE on hinge axis)
+
+   n     Ssurf      Cave       cl       cd      cdv    cm_LE
+   1     0.370     0.270  -0.3443   0.0077   0.0000   0.0000  WING
+   2     0.077     0.160   0.4981   0.0085   0.0000   0.0000  RUDDER
+ ---------------------------------------------------------------
