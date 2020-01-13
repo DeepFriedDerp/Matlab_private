@@ -1,29 +1,46 @@
-function [EQNS, OcBm, OvBO_B, F] = eqnsFileInit(eqnsfile,stallfile)
- e1 = load(derivefile);
+function [EQNS, OCBm, OvBO_B,runfile,eqnsfile] = eqnsFileInit(inputFileName,fileNamesFound)
+
+global eqnsfile runfile derivefile
+
+if fileNamesFound < 1
+    eqnsfile = [];
+    runfile = [];
+
+    fid1 = fopen(inputFileName,'r');
+    newLine = fgetl(fid1);
+    while ischar(newLine)
+        eval(newLine);
+        newLine = fgetl(fid1);
+    end
+    fclose(fid1);
+end
+
+e1 = load(derivefile);
 
 % read in equations for later
 % --------------------------------------------------------
-F = griddedInterpolant([-360, 360], [1, 1]);    % default object, all ones
-if exist('stallfile', 'var') == 0
-    % warning('stallfile not named in runfile. Using F = 1 (no stall).');
-    fprintf('stallfile not named in runfile. Using F = 1 (no stall)\n');
-elseif exist(stallfile, 'file') == 2
-    e2 = load(stallfile);
-    if isfield(e2, 'F') ~= 1
-        % warning('stallfile does not have a  object F. Using F = 1 (no stall).');
-        fprintf('stallfile does not have a  object F. Using F = 1 (no stall)\n');
-        F = 1;
-    else
-        F = e2.F;
-    end
-else
-    % warning('stallfile named in runfile but does not exist. Using F = 1 (no stall).');
-    fprintf('stallfile named in runfile but does not exist. Using F = 1 (no stall)\n');
-    F = 1;
-end
+% F = griddedInterpolant([-360, 360], [1, 1]);    % default object, all ones
+% if exist('stallfile', 'var') == 0
+%     % warning('stallfile not named in runfile. Using F = 1 (no stall).');
+%     fprintf('stallfile not named in runfile. Using F = 1 (no stall)\n');
+% elseif exist(stallfile, 'file') == 2
+%     e2 = load(stallfile);
+%     if isfield(e2, 'F') ~= 1
+%         % warning('stallfile does not have a  object F. Using F = 1 (no stall).');
+%         fprintf('stallfile does not have a  object F. Using F = 1 (no stall)\n');
+%         F = 1;
+%     else
+%         F = e2.F;
+%     end
+% else
+%     % warning('stallfile named in runfile but does not exist. Using F = 1 (no stall).');
+%     fprintf('stallfile named in runfile but does not exist. Using F = 1 (no stall)\n');
+%     F = 1;
+% end
 % BCO = e1.BCA*e1.ACO;
 BCO = e1.BCO;
 OCB = transpose(BCO);
+OCBm = [];
     fid2 = fopen(eqnsfile, 'r');
     newline = fgetl(fid2);
     newline = fgetl(fid2);
@@ -44,5 +61,5 @@ OCB = transpose(BCO);
         end
     end
     fclose(fid2);
-    fclose(fid1);
+    %fclose(fid1);
 end
